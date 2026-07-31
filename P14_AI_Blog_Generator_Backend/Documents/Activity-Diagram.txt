@@ -1,0 +1,230 @@
+1. User-Authentication:
+
+                           Start
+                             │
+                             ▼
+                      Open Application
+                             │
+                             ▼
+                    Register / Login
+                             │
+                             ▼
+                  Validate Credentials
+                             │
+                  ┌──────────┴──────────┐
+                  │                           │
+                  ▼                          ▼
+          Invalid Credentials        Valid Credentials
+                  │                           │
+                  ▼                           ▼
+          Display Error Message   Generate JWT & Refresh Token
+                                              │
+                                              ▼
+                                     Save Refresh Token
+                                              │
+                                              ▼
+                                     Redirect to Dashboard
+                                              │
+                                              ▼
+                                             End
+
+
+2. Generate-Blog(Main-Workflow):
+
+                           Start
+                             │
+                             ▼
+                      Open Application
+                             │
+                             ▼
+                    Login / Register
+                             │
+                             ▼
+                  Authentication Successful
+                             │
+                             ▼
+                    Display User Dashboard
+                             │
+                             ▼
+               Enter Blog Generation Details
+      (Topic, Tone, Audience, Category , Word Count)
+                             │
+                             ▼
+                    Click Generate Blog
+                             │
+                             ▼
+                  Check Available Credits
+                             │
+                  ┌──────────┴──────────┐
+                  │                           │
+                  ▼                           ▼
+          Credits Sufficient?                 No
+                  │                           │
+                 Yes                          ▼
+                  │               Display "Insufficient Credits"
+                  │                           │
+                  ▼                           ▼
+              Call AI Provider      Display Subscription Plans
+                  │                           │
+                  ▼                           ▼
+          AI Generates Blog            Purchase Plan (Stripe)
+                  │                           │
+                  ▼                           ▼
+          Save Blog to Database            Add Credits
+                  │                           │
+                  ▼                           │
+      Create Original Blog Version            │
+                  │                          │
+                  ▼                         │
+         Deduct User Credits ◄──────────┘
+                  │
+                  ▼
+         Display Generated Blog
+                  │
+                  ▼
+         User Chooses an Action
+                  │
+ ┌──────┬────────┬────────┬────────┬──────────┬────────────┬
+ ▼       ▼          ▼          ▼          ▼             ▼               ▼
+Copy  Download     Expand     Shorten     Regenerate     Generate        Delete
+Blog    PDF         Blog        Blog         Blog          Image          Blog
+ │        │         │            │           │             │             │
+ └──────┴──────  ┴───────    ┴───────┴──────────┴────────  ─┘
+                          │
+                          ▼
+             Save New Version (if applicable)
+                          │
+                          ▼
+                  Update Blog & Version History
+                          │
+                          ▼
+                         End
+
+
+3. Purchase-Credits(Stripe):
+
+                           Start
+                             │
+                             ▼
+                 Open Subscription Plans
+                             │
+                             ▼
+                      Select a Plan
+                             │
+                             ▼
+                Proceed to Stripe Checkout
+                             │
+                  ┌──────────┴──────────┐
+                  │                     │
+                  ▼                     ▼
+            Payment Failed      Payment Successful
+                  │                     │
+                  ▼                     ▼
+        Display Error Message    Save Payment Record
+                                        │
+                                        ▼
+                                Add Purchased Credits
+                                        │
+                                        ▼
+                          Create Credit Transaction//
+                                        │
+                                        ▼
+                           Display Success Message
+                                        │
+                                        ▼
+                                       End
+
+4. Profile-Management:
+                           Start
+                             │
+                             ▼
+                      User Login
+                             │
+                             ▼
+                     Open Profile
+                             │
+                             ▼
+                    Choose an Action
+                             │
+     ┌───────────────┬────────────────┬────────────────┐
+     ▼               ▼                ▼        ▼                      ▼
+Update Profile  Upload Picture  Delete Picture  Delete Account Change Password
+     │               │                │                │
+     └───────────────┴────────────────┴────────────────┘
+                             │
+                             ▼
+                      Save Changes
+                             │
+                             ▼
+                    Display Confirmation
+                             │
+                             ▼
+                            End
+
+5. Feedback and Issue Management:
+
+                           Start
+                             │
+                             ▼
+                        User Login
+                             │
+                             ▼
+                     Open Support Page
+                             │
+                             ▼
+                     Choose an Action
+                             │
+                 ┌───────────┴───────────┐
+                 ▼                       ▼
+          Submit Feedback          Raise Issue
+                 │                       │
+                 ▼                       ▼
+        Enter Feedback Details   Enter Issue Details
+                 │                       │
+                 └───────────┬───────────┘
+                             ▼
+                     Save to Database
+                             │
+                             ▼
+                  Display Confirmation
+                             │
+                             ▼
+                            End
+
+6. Admin-Dashboard:
+
+                           Start
+                             │
+                             ▼
+                        Admin Login
+                             │
+                             ▼
+                  Validate Credentials
+                             │
+                             ▼
+                 Open Admin Dashboard
+                             │
+                             ▼
+              View Dashboard Statistics
+      (Users, Blogs, Payments, Credits, Feedback, Issues)
+                             │
+                             ▼
+                   Choose an Operation
+                             │
+ ┌─────────┬─────────┬──────────┬────────────┬───────────┬──────────┬
+ ▼           ▼             ▼             ▼               ▼              ▼             ▼
+Users       Blogs       Payments Credit Transactions//   Feedback         Issues      Deleted Users
+                                                          │               │
+                                                          ▼              ▼
+                                                    Resolve Feedback  Resolve Issues
+ 
+                                                        └───────────┬───────────┘
+                                                                    │
+                                                                    ▼
+                                                               Save Changes
+                                                                    │
+                                                                    ▼
+                                                                  Logout
+                                                                    │
+                                                                    ▼
+                                                                   End

@@ -1,0 +1,124 @@
+AI Blog Generator API List:
+
+1. Authentication APIs:
+
+Method	     Endpoint					Description
+POST	     /api/auth/register				Register a new user (token generation)
+POST	     /api/auth/login				Login user and return JWT & Refresh Token
+POST	     /api/auth/refresh-token			Generate a new JWT using Refresh Token
+POST	     /api/auth/logout				Logout user and revoke refresh token
+
+
+2. User Profile APIs:
+
+Method	     Endpoint					Description
+GET	     /api/profile				Get logged-in user's profile
+PUT	     /api/profile				Update profile details
+PUT         /api/profile/change-password               Can change his password
+POST	     /api/profile/upload-picture		Upload profile picture
+DELETE	     /api/profile				Delete user account
+DELETE       /api/profile/picture			Delete profile picture
+
+
+3. AI Blog APIs:
+
+Method	     Endpoint					Description
+POST	     /api/blogs/generate			Generate a new AI blog
+POST	     /api/blogs/{blogId}/regenerate		Regenerate an existing blog
+POST	     /api/blogs/{blogId}/expand			Expand a blog
+POST	     /api/blogs/{blogId}/shorten		Shorten a blog
+POST	     /api/blogs/{blogId}/generate-image		Generate an AI image for a blog
+
+
+4. Blog Management APIs:
+
+Method	    Endpoint					Description
+GET	    /api/blogs					Get all blogs of the logged-in user
+GET	    /api/blogs/{blogId}				Get a specific blog
+GET         /api/blogs/{blogId}/images                  Get blog Images
+GET	    /api/blogs/{blogId}/download-pdf		Download blog as PDF
+GET         /api/blogs/{blogid}/versions		Get all blog versions
+DELETE	    /api/blogs/{blogId}				Delete a blog
+DELETE      /api/blogs/images/{imageId}                 Delete blog images
+
+Note: Copy Blog does not require a backend API because copying text is handled by the frontend/browser.
+
+
+
+5. Credit APIs:
+
+Method	    Endpoint					Description
+GET	    /api/credits				Get available credits
+GET         /api/credits/pricing			Get pricing details of using AI services
+
+
+6. Subscription Plan APIs:
+
+Method	    Endpoint					Description
+GET	    /api/plans					Get all available subscription plans
+POST   	    /api/admin/plans                            Create Plan
+PUT         /api/admin/plans/{planId}                   Update Plan
+DELETE      /api/admin/plans/{planId}                   Delete Plan
+
+
+7. Payment APIs:
+
+Method	    Endpoint					Description
+POST	    /api/payments/create-payment-intent		Create a Stripe payment session/intent
+POST	    /api/payments/confirm			Confirm successful payment and add credits
+GET	    /api/payments/history			Get user's payment history
+POST        /api/payments/webhook                       I don't Know 
+GET         /api/payments/{paymentId}                   View payment details
+
+
+8. Feedback APIs:
+
+Method	    Endpoint					Description
+POST	    /api/feedback				Submit user feedback
+GET	    /api/feedback 				View feedback submitted by the logged-in user 
+GET         /api/feedback/{id}				View feedback details
+GET         /api/feedback/public			View public feedbacks from all users
+
+
+9. Issue APIs:
+
+Method	    Endpoint					Description
+POST	    /api/issues					Raise a support issue
+GET	    /api/issues					View issues raised by the logged-in user
+GET	    /api/issues/{id}				View user's issue details 
+
+
+10. Admin Dashboard APIs:
+
+Method	    Endpoint					Description
+GET	    /api/admin/dashboard			Dashboard statistics
+GET	    /api/admin/users				Get all users
+GET	    /api/admin/users/{userId}			Get user details
+GET	    /api/admin/blogs				Get all blogs
+GET	    /api/admin/blogs/{blogId}			Get blog details
+GET	    /api/admin/payments				View all payments
+GET	    /api/admin/deleted-users			View deleted user accounts
+GET	    /api/admin/feedback				View all feedback
+PUT	    /api/admin/feedback/{feedbackId}/resolve	Mark feedback as resolved
+GET	    /api/admin/issues				View all issues
+PUT	    /api/admin/issues/{issueId}/resolve		Mark issue as resolved
+GET         /api/admin/users/{userId}/payments          Get specific User's payment history
+POST   	    /api/admin/plans				Create subscription plan
+PUT         /api/admin/plans/{planId}			Update subscription plan
+DELETE      /api/admin/plans/{planId}			Delete subscription plan
+
+
+API Summary:
+Module	Number of APIs:
+
+Authentication:			4
+Profile:			6
+AI Blog:			5
+Blog Management:		5
+Credits:			2
+Subscription Plans:		1
+Payments:			3
+Feedback:			4
+Issues:				3
+Admin:				15
+Total:				48 APIs

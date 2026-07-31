@@ -1,0 +1,71 @@
+->Validation Rules:
+
+1. Authentication:
+
+1.1 Register:
+
+Username is required and must be unique.
+Email is required, must be in a valid format, and must be unique.
+Password must satisfy the application's password policy.
+
+1.2 Login:
+
+Email and Password are required.
+Credentials must be valid.
+
+2. Profile:
+
+Username is required.
+Profile picture must be a supported image format (JPG, JPEG, PNG, or WEBP) and within the maximum allowed file size.
+A reason is required when deleting an account.
+
+3. Blog Generation:
+
+Topic, Tone, Audience, Category, and Word Count are required.
+Word Count must be within the supported range.
+
+4. Feedback:
+
+Subject, Message, and Rating are required.
+Rating must be between 1 and 5.
+Public feedback is displayed only when IsPublic = true.
+
+5. Issues:
+
+Subject and Description are required.
+Users can only access issues they have created.
+
+6. Payments:
+
+Selected subscription plan must exist and be active.
+Payment is confirmed only after successful Stripe verification.
+
+7. Route Parameters:
+
+All route IDs (UserId, BlogId, FeedbackId, IssueId, etc.) must be valid and exist in the database.
+
+8. Authorization:
+
+Users can access only their own profile, blogs, payments, feedback, issues, and credit history.
+Admin-only endpoints require the Admin role.
+
+
+->BUSSINESS-RULES:
+
+| Rule                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------ |
+| Every newly registered user receives **100 free credits** upon registration.                                                         |
+| Credits must be sufficient before performing any AI operation (Generate, Regenerate, Expand, Shorten, or Generate Image).            |
+| Credits are deducted only after a successful AI operation.                                                                           |
+| Credits cannot become negative.                                                                                                      |
+| Credits purchased through subscription plans are added only after successful Stripe payment verification.                            |
+| Only active subscription plans can be purchased.                                                                                     |
+| Every Regenerate, Expand, and Shorten operation creates a new **Blog Version** while preserving previous versions.                   |
+| Users can only access, modify, or delete their own blogs.                                                                            |
+| Users can only view and update their own profile, payments, credit history, feedback, and issues.                                    |
+| Only feedback marked **IsPublic = true** is visible in the public feedback section.                                                  |
+| Deleted users cannot log in to the application.                                                                                      |
+| Refresh Tokens become invalid after logout or expiry.                                                                                |
+| Only users with the **Admin** role can access `/api/admin/*` endpoints.                                                              |
+| Administrators can access and manage all users, blogs, payments, credit transactions, feedback, issues, and deleted account records. |
+                         

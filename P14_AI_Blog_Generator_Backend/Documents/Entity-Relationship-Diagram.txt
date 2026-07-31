@@ -1,0 +1,288 @@
++------------------------------+
+|            Users             |
++------------------------------+
+ | UserId (PK)                 |
+ | UserName(unique)            |
+ | Email(unique)               |
+ | PasswordHash                |
+ | Role                        |
+ | ProfilePictureUrl           |
+ | AvailableCredits            |
+ | IsDeleted                   |
+ | CreatedAt                   |
+ | UpdatedAt                   |
++------------------------------+
+                │
+                │1
+                │
+                │*
++------------------------------+
+|       RefreshTokens          |
++------------------------------+
+ | TokenId (PK)                |
+ | UserId (FK)                 |
+ | Token                       |
+ | ExpiryDate                  |
+ | IsRevoked                   |
+ | CreatedAt                   |
++------------------------------+
+
+
+Users (1)
+   │
+   │
+   │*
++------------------------------+
+|            Blogs             |
++------------------------------+
+| BlogId (PK)                 |
+| UserId (FK)                 |
+| Title                       |
+| Prompt                      |
+| Content                     |
+| Tone                        |
+| Audience                    |
+| Category                    |
+| WordCount                   |
+| CreditsUsed                 |
+| CreatedAt                   |
+| UpdatedAt                   |
++------------------------------+
+              │
+              │1
+              │
+              │*
++------------------------------+
+|        BlogVersions          |
++------------------------------+
+| VersionId (PK)              |
+| BlogId (FK)                 |
+| Title		              |
+| VersionType                 |
+| Content                     |
+| WordCount                   |
+| CreatedAt                   |
++------------------------------+
+
+
+Blogs (1)
+   │
+   │
+   │*
++------------------------------+
+|         BlogImages           |
++------------------------------+
+| ImageId (PK)                |
+| BlogId (FK)                 |
+| Prompt                      |
+| ImageUrl                    |
+| CreditsUsed                 |
+| CreatedAt                   |
++------------------------------+
+
+
++------------------------------+
+|            Plans             |
++------------------------------+
+| PlanId (PK)                 |
+| Name                        |
+| Description                 |
+| Price                       |
+| Credits                     |
+| IsActive                    |
+| CreatedAt                   |
++------------------------------+
+               │
+               │1
+               │
+               │*
++------------------------------+
+|          Payments           |
++------------------------------+
+| PaymentId (PK)             |
+| UserId (FK)                |
+| PlanId (FK)                |
+| Amount                     |
+| CreditsPurchased           |
+| StripePaymentIntentId      |
+| PaymentStatus              |
+| PurchasedAt                |
++------------------------------+
+
+
+Users (1)
+   │
+   │
+   │*
++------------------------------+
+|         Feedbacks           |
++------------------------------+
+| FeedbackId (PK)            |
+| UserId (FK)                |
+| Subject                    |
+| Message                    |
+| Rating(1-5)                |
+| IsPublic                   |
+| Status                     |
+| AdminResponse              |
+| CreatedAt                  |
+| UpdatedAt                  |
++------------------------------+
+
+
+Users (1)
+   │
+   │
+   │*
++------------------------------+
+|           Issues            |
++------------------------------+
+| IssueId (PK)               |
+| UserId (FK)                |
+| Subject                    |
+| Description                |
+| Status                     |
+| AdminResponse              |
+| ResolvedAt                 |
+| CreatedAt                  |
+| UpdatedAt                  |
++------------------------------+
+
+
+Users (1)
+   │
+   │
+   │0..1
++------------------------------+
+|      DeletedAccounts        |
++------------------------------+
+| DeletedId (PK)             |
+| UserId (FK)                |
+| Email                      |
+| Reason                     |
+| DeletedAt                  |
++------------------------------+
+
+
+ENUMS:
+
++------------------------------+
+|         UserRole             |
++------------------------------+
+| Admin                        |
+| User                         |
++------------------------------+
+
+
++------------------------------+
+|         BlogTone             |
++------------------------------+
+| Professional                 |
+| Formal                       |
+| Casual                       |
+| Friendly                     |
+| Persuasive                   |
+| Creative                     |
+| Humorous                     |
++------------------------------+
+
+
++------------------------------+
+|       BlogAudience           |
++------------------------------+
+| Students                     |
+| Developers                   |
+| BusinessOwners               |
+| Professionals                |
+| Teachers                     |
+| Marketers                    |
+| Entrepreneurs                |
+| General                      |
++------------------------------+
+
+
++------------------------------+
+|       BlogCategory           |
++------------------------------+
+| Technology                   |
+| Business                     |
+| Finance                      |
+| Health                       |
+| Education                    |
+| Travel                       |
+| Food                         |
+| Sports                       |
+| Lifestyle                    |
+| Marketing                    |
+| Entertainment                |
+| Science                      |
++------------------------------+
+
+
++------------------------------+
+|      BlogWordCount           |
++------------------------------+
+| 300                          |
+| 500                          |
+| 1000                         |
+| 1500                         |
+| 2000                         |
++------------------------------+
+
++------------------------------+
+|      PaymentStatus           |
++------------------------------+
+| Pending                      |
+| Succeeded                    |
+| Failed                       |
++------------------------------+
+
+
++------------------------------+
+|       VersionType            |
++------------------------------+
+| Original                     |
+| Regenerated                  |
+| Expanded                     |
+| Shortened                    |
++------------------------------+
+
+
++------------------------------+
+|      FeedbackStatus          |
++------------------------------+
+| Pending                      |
+| Resolved                     |
++------------------------------+
+
+
++------------------------------+
+|        IssueStatus           |
++------------------------------+
+| Pending                      |
+| InProgress                   |
+| Resolved                     |
++------------------------------+
+
+Fluent API Relationships:
+
+User (1)
+│
+├── RefreshTokens (*)
+├── Blogs (*)
+├── Payments (*)
+├── Feedbacks (*)
+├── Issues (*)
+└── DeletedAccounts (0..1)
+
+Blog (1)
+├── BlogVersions (*)
+└── BlogImages (*)
+
+Plan (1)
+└── Payments (*)
+
+
+
+
+

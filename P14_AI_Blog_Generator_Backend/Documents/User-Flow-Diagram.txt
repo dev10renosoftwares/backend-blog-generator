@@ -1,0 +1,131 @@
+User visits website
+        │
+        ▼
+Landing Page
+        │
+        ▼
+Generate Blog Form
+(Topic, Tone, Audience, Word Count, category)
+        │
+        ▼
+User clicks Generate
+        │
+        ▼
+If not logged in
+        │
+        ├── Login
+        └── Register
+        │
+        ▼
+Backend validates user
+        │
+        ▼
+Check available credits
+        │
+        ▼
+Enough credits?
+        │
+   ┌────┴────┐
+   │         │
+  No        Yes
+   │         │
+Show Buy     ▼
+Credits   Call AI API
+             │
+             ▼
+Receive Generated Blog
+             │
+             ▼
+Save Blog in Database
+             │
+             ▼
+Deduct Credits
+             │
+             ▼
+Update Credit Balance
+             │
+             ▼
+Display Blog
+             │
+             ▼
+User Actions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                   START
+                                      │
+                                      ▼
+                             Visit Website
+                                      │
+                                      ▼
+                              Landing Page
+                                      │
+                                      ▼
+                       Login / Register Account
+                                      │
+                                      ▼
+                         Authentication Successful
+                                      │
+                                      ▼
+                         Dashboard (100 Free Credits)
+                                      │
+             ┌────────────────────────┼────────────────────────┐
+             │                        │                        │
+             ▼                        ▼                        ▼
+      Generate Blog              My Blogs                 My Profile
+             │                        │                        │
+             ▼                        ▼                        ▼
+      Enter Blog Details       View Blog History        View/Update Profile
+             │                        │                        │
+             ▼                        ▼                        ▼
+    Check Available Credits     Select a Blog         Upload Profile Picture
+             │                        │                        │
+      ┌──────┴──────┐                 ▼                        ▼
+      │             │          View Blog Details        Delete Account
+      ▼             ▼                 │                        │
+Not Enough      Sufficient            │                        ▼
+Credits          Credits              │                     Logout
+      │             │                 │
+      ▼             ▼                 │
+ Show Buy      Generate Blog          │
+ Plans              │                 │
+      │             ▼                 │
+      │      Deduct Credits           │
+      │             │                 │
+      │             ▼                 │
+      │      Display Generated Blog ◄─┘
+      │             │
+      │             ├──────────────► Copy Blog
+      │             ├──────────────► Download PDF
+      │             ├──────────────► Expand Blog
+      │             ├──────────────► Shorten Blog
+      │             ├──────────────► Regenerate Blog
+      │             ├──────────────► Generate AI Image
+      │             ├──────────────► Delete Blog
+      │            
+      │
+      ▼
+Purchase Plan (Stripe)
+      │
+      ▼
+Credits Added
+      │
+      ▼
+Return to Dashboard
+      │
+      ▼
+                 Raise Feedback / Report Issue (view my feedbacks / mu issues)
+                              │
+                              ▼
+                             END

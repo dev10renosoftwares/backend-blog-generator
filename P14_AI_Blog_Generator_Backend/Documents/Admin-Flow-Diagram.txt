@@ -1,0 +1,34 @@
+START
+   │
+   ▼
+Admin Login
+   │
+   ▼
+JWT Authentication
+   │
+   ▼
+Admin Dashboard
+   │
+   ├── View Users
+   │      │
+   │      ├── View User Details
+   │      └── View Deleted Users
+   │              │
+   │              └── View Deletion Reasons
+   │
+   ├── View All Blogs
+   │      │
+   │      └── View Blog Details
+   │
+   ├── Manage Subscription Plans (CRUD)
+   │
+   ├── View Payments
+   │
+   ├── View Feedback & Issues
+   │      │
+   │      └── Resolve Feedback/Issues
+   │
+   └── Logout
+          │
+          ▼
+         END

@@ -1,0 +1,15 @@
+2026-07-28 14:37:45.794 +05:30 [INF] User profile is available. Using 'C:\Users\RenoSoftwares\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-07-28 14:37:45.873 +05:30 [INF] Now listening on: http://localhost:5201
+2026-07-28 14:37:45.877 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-07-28 14:37:45.879 +05:30 [INF] Hosting environment: Development
+2026-07-28 14:37:45.880 +05:30 [INF] Content root path: C:\Reno_Softwares\P14_AI_Blog_Generator\P14_AI_Blog_Generator_Backend
+2026-07-28 14:38:54.287 +05:30 [INF] Application is shutting down...
+2026-07-28 14:39:00.911 +05:30 [INF] User profile is available. Using 'C:\Users\RenoSoftwares\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-07-28 14:39:00.990 +05:30 [INF] Now listening on: http://localhost:5201
+2026-07-28 14:39:00.994 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-07-28 14:39:00.996 +05:30 [INF] Hosting environment: Development
+2026-07-28 14:39:00.998 +05:30 [INF] Content root path: C:\Reno_Softwares\P14_AI_Blog_Generator\P14_AI_Blog_Generator_Backend
+2026-07-28 14:39:13.441 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/swagger/index.html - null null
+2026-07-28 14:39:13.667 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/swagger/index.html - 200 null text/html;charset=utf-8 229.7744ms
+2026-07-28 14:39:13.759 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/swagger/v1/swagger.json - null null
+2026-07-28 14:39:13.936 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 177.5388ms

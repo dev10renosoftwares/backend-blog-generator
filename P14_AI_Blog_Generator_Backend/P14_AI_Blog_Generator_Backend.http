@@ -1,0 +1,6 @@
+@P14_AI_Blog_Generator_Backend_HostAddress = http://localhost:5201
+
+GET {{P14_AI_Blog_Generator_Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

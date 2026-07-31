@@ -1,0 +1,94 @@
+                              +--------------------------------------+
+                              |       AI Blog Generator System       |
+                              |                                      |
+Guest ----------------------->| (Register)                           |
+Guest ----------------------->| (Login)                              |
+                              |                                      |
+User ------------------------>| (Generate Blog)                      |
+User ------------------------>| (Regenerate Blog)                    |
+User ------------------------>| (Expand Blog)                        |
+User ------------------------>| (Shorten Blog)                       |
+User ------------------------>| (Generate AI Image)                  |
+User ------------------------>| (View My Blogs)                      |
+User ------------------------>| (View Blog Details)                  |
+User ------------------------>| (Delete My Blog)                     |
+User ------------------------>| (Download Blog as PDF)               |
+User ------------------------>| (Copy Blog)                          |
+User ------------------------>| (View Credits)                       |
+User ------------------------>| (Buy Credit Plan)                    |
+User ------------------------>| (View Payment History)               |
+User ------------------------>| (View Profile)                       |
+User ------------------------>| (Update Profile{username/password}   |
+User ------------------------>| (Upload/delete Profile Picture)      |
+User ------------------------>| (Delete Account)                     |
+User ------------------------>| (Submit Feedback)                    |
+User ------------------------>| (Raise Issue/Query)                  |
+User ------------------------>| (Logout)                             |
+                              |                                      |
+Admin ----------------------->| (Admin Login)                        |
+Admin ----------------------->| (View Dashboard)                     |
+Admin ----------------------->| (View Users)                         |
+Admin ----------------------->| (View User Details)                  |
+Admin ----------------------->| (View All Blogs)                     |
+Admin ----------------------->| (View Blog Details)                  |
+Admin ----------------------->| (View Payments)                      |
+Admin ----------------------->| (Manage Subscription Plans)          |
+Admin ----------------------->| (View Deleted Users)                 |
+Admin ----------------------->| (View Deletion Reasons)              |
+Admin ----------------------->| (View Feedback)                      |
+Admin ----------------------->| (Resolve Feedback)                   |
+Admin ----------------------->| (View Issues/Queries)                |
+Admin ----------------------->| (Resolve Issues)                     |
+Admin ----------------------->| (Logout)                             |
+                              +--------------------------------------+
+
+
+
+
+Generate Blog
+    <<include>>
+    Check Credits
+
+Generate Blog
+    <<include>>
+    Save Blog
+
+Generate Blog
+    <<include>>
+    Deduct Credits
+
+Generate AI Image
+    <<include>>
+    Check Credits
+
+Generate AI Image
+    <<include>>
+    Deduct Credits
+
+Buy Credit Plan
+    <<include>>
+    Stripe Payment
+
+Delete Account
+    <<extend>>
+    Store Deletion Reason
+
+View Dashboard
+    <<include>>
+    View Users
+
+View Dashboard
+    <<include>>
+    View Blogs
+
+View Dashboard
+    <<include>>
+    View Payments
+
+View Dashboard
+    <<include>>
+    View Feedback
+
+View Dashboard
+    <<include>>
+    View Issues
