@@ -63,6 +63,9 @@ builder.Services.AddScoped<IProfileService, ProfileService>();
 
 builder.Services.AddScoped<IBlogService, BlogService>();
 
+builder.Services.AddScoped<ICreditService, CreditService>();
+builder.Services.AddScoped<IPlanService, PlanService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -783,3 +783,222 @@ WHERE [BlogId] = @p4;
 2026-07-31 15:11:28.637 +05:30 [INF] HTTP DELETE /api/blogs/1 responded 200 in 65.6633 ms
 2026-07-31 15:11:28.640 +05:30 [INF] Request finished HTTP/1.1 DELETE http://localhost:5201/api/blogs/1 - 200 null application/json; charset=utf-8 74.4572ms
 2026-07-31 15:31:27.269 +05:30 [INF] Application is shutting down...
+2026-07-31 16:01:56.658 +05:30 [INF] User profile is available. Using 'C:\Users\RenoSoftwares\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-07-31 16:01:56.729 +05:30 [INF] Now listening on: http://localhost:5201
+2026-07-31 16:01:56.733 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-07-31 16:01:56.734 +05:30 [INF] Hosting environment: Development
+2026-07-31 16:01:56.735 +05:30 [INF] Content root path: C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend
+2026-07-31 16:02:42.472 +05:30 [INF] Request starting HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/1 - null null
+2026-07-31 16:02:42.496 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-07-31 16:02:42.595 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:02:42.612 +05:30 [INF] Route matched with {action = "DeleteImage", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteImage(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:02:43.431 +05:30 [INF] Executed DbCommand (28ms) [Parameters=[@__imageId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[ImageId], [b].[BlogId], [b].[CreatedAt], [b].[CreditsUsed], [b].[ImageUrl], [b].[Prompt], [b0].[BlogId], [b0].[Audience], [b0].[Category], [b0].[Content], [b0].[CreatedAt], [b0].[CreditsUsed], [b0].[Prompt], [b0].[Title], [b0].[Tone], [b0].[UpdatedAt], [b0].[UserId], [b0].[WordCount]
+FROM [BlogImages] AS [b]
+INNER JOIN [Blogs] AS [b0] ON [b].[BlogId] = [b0].[BlogId]
+WHERE [b].[ImageId] = @__imageId_0
+2026-07-31 16:02:43.447 +05:30 [WRN] Image 1 not found.
+2026-07-31 16:02:43.451 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend) in 836.2884ms
+2026-07-31 16:02:43.455 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:02:43.457 +05:30 [ERR] Unhandled exception. TraceId: 0HNNETS6O5T33:00000001
+P14_AI_Blog_Generator_Backend.Exceptions.NotFoundException: Image not found.
+   at P14_AI_Blog_Generator_Backend.Services.BlogService.DeleteImageAsync(Int32 userId, Int32 imageId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Services\Blog\BlogService.cs:line 271
+   at P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage(Int32 imageId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Controllers\BlogController.cs:line 101
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at P14_AI_Blog_Generator_Backend.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Middlewares\GlobalExceptionMiddleware.cs:line 31
+2026-07-31 16:02:43.505 +05:30 [INF] HTTP DELETE /api/blogs/images/1 responded 404 in 1005.8122 ms
+2026-07-31 16:02:43.514 +05:30 [INF] Request finished HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/1 - 404 null application/json 1043.747ms
+2026-07-31 16:03:12.008 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs/1/images - null null
+2026-07-31 16:03:12.016 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:12.020 +05:30 [INF] Route matched with {action = "GetImages", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetImages(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:03:12.077 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@__blogId_0='?' (DbType = Int32), @__userId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Blogs] AS [b]
+        WHERE [b].[BlogId] = @__blogId_0 AND [b].[UserId] = @__userId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-07-31 16:03:12.084 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend) in 62.2905ms
+2026-07-31 16:03:12.086 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:12.087 +05:30 [ERR] Unhandled exception. TraceId: 0HNNETS6O5T33:00000002
+P14_AI_Blog_Generator_Backend.Exceptions.NotFoundException: Blog not found.
+   at P14_AI_Blog_Generator_Backend.Services.BlogService.GetBlogImagesAsync(Int32 userId, Int32 blogId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Services\Blog\BlogService.cs:line 137
+   at P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages(Int32 blogId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Controllers\BlogController.cs:line 65
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at P14_AI_Blog_Generator_Backend.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Middlewares\GlobalExceptionMiddleware.cs:line 31
+2026-07-31 16:03:12.092 +05:30 [INF] HTTP GET /api/blogs/1/images responded 404 in 78.1081 ms
+2026-07-31 16:03:12.095 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs/1/images - 404 null application/json 87.5707ms
+2026-07-31 16:03:30.873 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs - null null
+2026-07-31 16:03:30.879 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlogs (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:30.883 +05:30 [INF] Route matched with {action = "GetBlogs", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBlogs() on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:03:30.916 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b].[BlogId], [b].[Title], [b].[Category], [b].[WordCount], [b].[CreatedAt], COALESCE([b].[UpdatedAt], [b].[CreatedAt]) AS [UpdatedAt]
+FROM [Blogs] AS [b]
+WHERE [b].[UserId] = @__userId_0
+ORDER BY [b].[CreatedAt] DESC
+2026-07-31 16:03:30.921 +05:30 [INF] Retrieved 1 blogs for User 1.
+2026-07-31 16:03:30.925 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Collections.Generic.List`1[[P14_AI_Blog_Generator_Backend.DTOs.Blogs.BlogListDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-31 16:03:30.939 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlogs (P14_AI_Blog_Generator_Backend) in 54.4537ms
+2026-07-31 16:03:30.941 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlogs (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:30.942 +05:30 [INF] HTTP GET /api/blogs responded 200 in 65.3618 ms
+2026-07-31 16:03:30.944 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs - 200 null application/json; charset=utf-8 71.3417ms
+2026-07-31 16:03:38.782 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs/2 - null null
+2026-07-31 16:03:38.785 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlog (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:38.789 +05:30 [INF] Route matched with {action = "GetBlog", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBlog(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:03:38.799 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__blogId_0='?' (DbType = Int32), @__userId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[BlogId], [b].[Audience], [b].[Category], [b].[Content], [b].[CreatedAt], [b].[CreditsUsed], [b].[Prompt], [b].[Title], [b].[Tone], [b].[UpdatedAt], [b].[UserId], [b].[WordCount]
+FROM [Blogs] AS [b]
+WHERE [b].[BlogId] = @__blogId_0 AND [b].[UserId] = @__userId_1
+2026-07-31 16:03:38.849 +05:30 [INF] Retrieved Blog 2 for User 1.
+2026-07-31 16:03:38.851 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[P14_AI_Blog_Generator_Backend.DTOs.Blogs.BlogDetailsDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-07-31 16:03:38.855 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlog (P14_AI_Blog_Generator_Backend) in 63.7218ms
+2026-07-31 16:03:38.857 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlog (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:38.859 +05:30 [INF] HTTP GET /api/blogs/2 responded 200 in 73.6550 ms
+2026-07-31 16:03:38.861 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs/2 - 200 null application/json; charset=utf-8 78.7878ms
+2026-07-31 16:03:47.227 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs/2/versions - null null
+2026-07-31 16:03:47.231 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetVersions (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:47.236 +05:30 [INF] Route matched with {action = "GetVersions", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetVersions(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:03:47.249 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__blogId_0='?' (DbType = Int32), @__userId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Blogs] AS [b]
+        WHERE [b].[BlogId] = @__blogId_0 AND [b].[UserId] = @__userId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-07-31 16:03:47.263 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__blogId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b].[VersionId], [b].[Title], [b].[VersionType], [b].[Content], [b].[WordCount], [b].[CreatedAt]
+FROM [BlogVersions] AS [b]
+WHERE [b].[BlogId] = @__blogId_0
+ORDER BY [b].[CreatedAt] DESC
+2026-07-31 16:03:47.266 +05:30 [INF] Retrieved 1 versions for Blog 2.
+2026-07-31 16:03:47.268 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Collections.Generic.List`1[[P14_AI_Blog_Generator_Backend.DTOs.Blogs.BlogVersionDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-31 16:03:47.271 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetVersions (P14_AI_Blog_Generator_Backend) in 32.9022ms
+2026-07-31 16:03:47.273 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetVersions (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:47.274 +05:30 [INF] HTTP GET /api/blogs/2/versions responded 200 in 43.5798 ms
+2026-07-31 16:03:47.276 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs/2/versions - 200 null application/json; charset=utf-8 48.4288ms
+2026-07-31 16:03:55.701 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs/2/images - null null
+2026-07-31 16:03:55.703 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:55.705 +05:30 [INF] Route matched with {action = "GetImages", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetImages(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:03:55.710 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__blogId_0='?' (DbType = Int32), @__userId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Blogs] AS [b]
+        WHERE [b].[BlogId] = @__blogId_0 AND [b].[UserId] = @__userId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-07-31 16:03:55.718 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@__blogId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b].[ImageId], [b].[Prompt], [b].[ImageUrl], [b].[CreditsUsed], [b].[CreatedAt]
+FROM [BlogImages] AS [b]
+WHERE [b].[BlogId] = @__blogId_0
+ORDER BY [b].[CreatedAt] DESC
+2026-07-31 16:03:55.720 +05:30 [INF] Retrieved 1 images for Blog 2.
+2026-07-31 16:03:55.722 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Collections.Generic.List`1[[P14_AI_Blog_Generator_Backend.DTOs.Blogs.BlogImageDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-31 16:03:55.725 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend) in 17.8823ms
+2026-07-31 16:03:55.726 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:03:55.728 +05:30 [INF] HTTP GET /api/blogs/2/images responded 200 in 24.5829 ms
+2026-07-31 16:03:55.730 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs/2/images - 200 null application/json; charset=utf-8 29.0128ms
+2026-07-31 16:04:20.048 +05:30 [INF] Request starting HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/1 - null null
+2026-07-31 16:04:20.052 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:04:20.053 +05:30 [INF] Route matched with {action = "DeleteImage", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteImage(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:04:20.058 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__imageId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[ImageId], [b].[BlogId], [b].[CreatedAt], [b].[CreditsUsed], [b].[ImageUrl], [b].[Prompt], [b0].[BlogId], [b0].[Audience], [b0].[Category], [b0].[Content], [b0].[CreatedAt], [b0].[CreditsUsed], [b0].[Prompt], [b0].[Title], [b0].[Tone], [b0].[UpdatedAt], [b0].[UserId], [b0].[WordCount]
+FROM [BlogImages] AS [b]
+INNER JOIN [Blogs] AS [b0] ON [b].[BlogId] = [b0].[BlogId]
+WHERE [b].[ImageId] = @__imageId_0
+2026-07-31 16:04:20.060 +05:30 [WRN] Image 1 not found.
+2026-07-31 16:04:20.061 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend) in 5.9465ms
+2026-07-31 16:04:20.063 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:04:20.064 +05:30 [ERR] Unhandled exception. TraceId: 0HNNETS6O5T33:00000007
+P14_AI_Blog_Generator_Backend.Exceptions.NotFoundException: Image not found.
+   at P14_AI_Blog_Generator_Backend.Services.BlogService.DeleteImageAsync(Int32 userId, Int32 imageId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Services\Blog\BlogService.cs:line 271
+   at P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage(Int32 imageId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Controllers\BlogController.cs:line 101
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at P14_AI_Blog_Generator_Backend.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Middlewares\GlobalExceptionMiddleware.cs:line 31
+2026-07-31 16:04:20.069 +05:30 [INF] HTTP DELETE /api/blogs/images/1 responded 404 in 16.9406 ms
+2026-07-31 16:04:20.071 +05:30 [INF] Request finished HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/1 - 404 null application/json 22.3443ms
+2026-07-31 16:04:27.006 +05:30 [INF] Request starting HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/2 - null null
+2026-07-31 16:04:27.009 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:04:27.010 +05:30 [INF] Route matched with {action = "DeleteImage", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteImage(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:04:27.014 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@__imageId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[ImageId], [b].[BlogId], [b].[CreatedAt], [b].[CreditsUsed], [b].[ImageUrl], [b].[Prompt], [b0].[BlogId], [b0].[Audience], [b0].[Category], [b0].[Content], [b0].[CreatedAt], [b0].[CreditsUsed], [b0].[Prompt], [b0].[Title], [b0].[Tone], [b0].[UpdatedAt], [b0].[UserId], [b0].[WordCount]
+FROM [BlogImages] AS [b]
+INNER JOIN [Blogs] AS [b0] ON [b].[BlogId] = [b0].[BlogId]
+WHERE [b].[ImageId] = @__imageId_0
+2026-07-31 16:04:27.016 +05:30 [WRN] Image 2 not found.
+2026-07-31 16:04:27.018 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend) in 5.92ms
+2026-07-31 16:04:27.019 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:04:27.021 +05:30 [ERR] Unhandled exception. TraceId: 0HNNETS6O5T33:00000008
+P14_AI_Blog_Generator_Backend.Exceptions.NotFoundException: Image not found.
+   at P14_AI_Blog_Generator_Backend.Services.BlogService.DeleteImageAsync(Int32 userId, Int32 imageId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Services\Blog\BlogService.cs:line 271
+   at P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage(Int32 imageId) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Controllers\BlogController.cs:line 101
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at P14_AI_Blog_Generator_Backend.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Reno_Softwares\backend-blog-generator\P14_AI_Blog_Generator_Backend\Middlewares\GlobalExceptionMiddleware.cs:line 31
+2026-07-31 16:04:27.025 +05:30 [INF] HTTP DELETE /api/blogs/images/2 responded 404 in 16.4211 ms
+2026-07-31 16:04:27.027 +05:30 [INF] Request finished HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/2 - 404 null application/json 20.95ms
+2026-07-31 16:05:48.804 +05:30 [INF] Request starting HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/3 - null null
+2026-07-31 16:05:48.807 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:05:48.808 +05:30 [INF] Route matched with {action = "DeleteImage", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteImage(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-07-31 16:05:48.812 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@__imageId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[ImageId], [b].[BlogId], [b].[CreatedAt], [b].[CreditsUsed], [b].[ImageUrl], [b].[Prompt], [b0].[BlogId], [b0].[Audience], [b0].[Category], [b0].[Content], [b0].[CreatedAt], [b0].[CreditsUsed], [b0].[Prompt], [b0].[Title], [b0].[Tone], [b0].[UpdatedAt], [b0].[UserId], [b0].[WordCount]
+FROM [BlogImages] AS [b]
+INNER JOIN [Blogs] AS [b0] ON [b].[BlogId] = [b0].[BlogId]
+WHERE [b].[ImageId] = @__imageId_0
+2026-07-31 16:05:48.888 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+DELETE FROM [BlogImages]
+OUTPUT 1
+WHERE [ImageId] = @p0;
+2026-07-31 16:05:48.898 +05:30 [INF] Image 3 deleted successfully.
+2026-07-31 16:05:48.899 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-07-31 16:05:48.902 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend) in 92.3245ms
+2026-07-31 16:05:48.904 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.DeleteImage (P14_AI_Blog_Generator_Backend)'
+2026-07-31 16:05:48.905 +05:30 [INF] HTTP DELETE /api/blogs/images/3 responded 200 in 97.9735 ms
+2026-07-31 16:05:48.906 +05:30 [INF] Request finished HTTP/1.1 DELETE http://localhost:5201/api/blogs/images/3 - 200 null application/json; charset=utf-8 102.2891ms

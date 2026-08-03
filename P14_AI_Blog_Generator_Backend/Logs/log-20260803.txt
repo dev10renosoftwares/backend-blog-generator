@@ -1,0 +1,258 @@
+2026-08-03 09:25:44.610 +05:30 [INF] User profile is available. Using 'C:\Users\RenoSoftwares\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-03 09:25:44.765 +05:30 [INF] Now listening on: http://localhost:5201
+2026-08-03 09:25:44.770 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-03 09:25:44.772 +05:30 [INF] Hosting environment: Development
+2026-08-03 09:25:44.773 +05:30 [INF] Content root path: C:\Reno_Softwares\A0_Reno_Projects\backend-blog-generator\P14_AI_Blog_Generator_Backend
+2026-08-03 12:10:45.526 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5201/api/auth/login - application/json 53
+2026-08-03 12:10:45.616 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-08-03 12:10:45.820 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '31-07-2026 10:35:45', Current time (UTC): '03-08-2026 06:40:45'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-08-03 12:10:45.878 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '31-07-2026 10:35:45', Current time (UTC): '03-08-2026 06:40:45'.
+2026-08-03 12:10:45.888 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.AuthController.Login (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:10:45.951 +05:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(P14_AI_Blog_Generator_Backend.DTOs.Authentication.LoginRequestDto) on controller P14_AI_Blog_Generator_Backend.Controllers.AuthController (P14_AI_Blog_Generator_Backend).
+2026-08-03 12:10:49.772 +05:30 [INF] Executed DbCommand (76ms) [Parameters=[@__request_Email_0='?' (Size = 255)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[AvailableCredits], [u].[CreatedAt], [u].[Email], [u].[IsDeleted], [u].[PasswordHash], [u].[ProfilePictureUrl], [u].[Role], [u].[UpdatedAt], [u].[UserName]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-08-03 12:10:50.426 +05:30 [INF] JWT generated for User 1
+2026-08-03 12:10:50.723 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([CreatedAt], [ExpiryDate], [Token], [UserId])
+OUTPUT INSERTED.[TokenId], INSERTED.[IsRevoked]
+VALUES (@p0, @p1, @p2, @p3);
+2026-08-03 12:10:50.779 +05:30 [INF] Refresh token saved for User 1
+2026-08-03 12:10:50.784 +05:30 [INF] User 1 logged in.
+2026-08-03 12:10:50.796 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[P14_AI_Blog_Generator_Backend.DTOs.Authentication.AuthResponseDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-08-03 12:10:50.865 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.AuthController.Login (P14_AI_Blog_Generator_Backend) in 4903.8509ms
+2026-08-03 12:10:50.869 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.AuthController.Login (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:10:50.877 +05:30 [INF] HTTP POST /api/auth/login responded 200 in 5253.7379 ms
+2026-08-03 12:10:50.897 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5201/api/auth/login - 200 null application/json; charset=utf-8 5374.9431ms
+2026-08-03 12:11:01.086 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/profile - null null
+2026-08-03 12:11:01.125 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.ProfileController.GetProfile (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:01.138 +05:30 [INF] Route matched with {action = "GetProfile", controller = "Profile"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetProfile() on controller P14_AI_Blog_Generator_Backend.Controllers.ProfileController (P14_AI_Blog_Generator_Backend).
+2026-08-03 12:11:01.286 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[AvailableCredits], [u].[CreatedAt], [u].[Email], [u].[IsDeleted], [u].[PasswordHash], [u].[ProfilePictureUrl], [u].[Role], [u].[UpdatedAt], [u].[UserName]
+FROM [Users] AS [u]
+WHERE [u].[UserId] = @__userId_0 AND [u].[IsDeleted] = CAST(0 AS bit)
+2026-08-03 12:11:01.296 +05:30 [INF] Profile retrieved for UserId 1
+2026-08-03 12:11:01.301 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[P14_AI_Blog_Generator_Backend.DTOs.Profile.UserProfileDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-08-03 12:11:01.311 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.ProfileController.GetProfile (P14_AI_Blog_Generator_Backend) in 166.6668ms
+2026-08-03 12:11:01.316 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.ProfileController.GetProfile (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:01.319 +05:30 [INF] HTTP GET /api/profile responded 200 in 215.6452 ms
+2026-08-03 12:11:01.325 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/profile - 200 null application/json; charset=utf-8 238.6288ms
+2026-08-03 12:11:15.295 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs - null null
+2026-08-03 12:11:15.312 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlogs (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:15.320 +05:30 [INF] Route matched with {action = "GetBlogs", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBlogs() on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-08-03 12:11:15.422 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b].[BlogId], [b].[Title], [b].[Category], [b].[WordCount], [b].[CreatedAt], COALESCE([b].[UpdatedAt], [b].[CreatedAt]) AS [UpdatedAt]
+FROM [Blogs] AS [b]
+WHERE [b].[UserId] = @__userId_0
+ORDER BY [b].[CreatedAt] DESC
+2026-08-03 12:11:15.432 +05:30 [INF] Retrieved 1 blogs for User 1.
+2026-08-03 12:11:15.437 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Collections.Generic.List`1[[P14_AI_Blog_Generator_Backend.DTOs.Blogs.BlogListDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-08-03 12:11:15.447 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlogs (P14_AI_Blog_Generator_Backend) in 121.0428ms
+2026-08-03 12:11:15.450 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlogs (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:15.452 +05:30 [INF] HTTP GET /api/blogs responded 200 in 144.5489 ms
+2026-08-03 12:11:15.456 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs - 200 null application/json; charset=utf-8 160.9944ms
+2026-08-03 12:11:25.087 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs/2 - null null
+2026-08-03 12:11:25.099 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlog (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:25.116 +05:30 [INF] Route matched with {action = "GetBlog", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBlog(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-08-03 12:11:25.142 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@__blogId_0='?' (DbType = Int32), @__userId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[BlogId], [b].[Audience], [b].[Category], [b].[Content], [b].[CreatedAt], [b].[CreditsUsed], [b].[Prompt], [b].[Title], [b].[Tone], [b].[UpdatedAt], [b].[UserId], [b].[WordCount]
+FROM [Blogs] AS [b]
+WHERE [b].[BlogId] = @__blogId_0 AND [b].[UserId] = @__userId_1
+2026-08-03 12:11:25.203 +05:30 [INF] Retrieved Blog 2 for User 1.
+2026-08-03 12:11:25.211 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[P14_AI_Blog_Generator_Backend.DTOs.Blogs.BlogDetailsDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-08-03 12:11:25.224 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlog (P14_AI_Blog_Generator_Backend) in 104.2713ms
+2026-08-03 12:11:25.228 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetBlog (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:25.231 +05:30 [INF] HTTP GET /api/blogs/2 responded 200 in 135.1161 ms
+2026-08-03 12:11:25.235 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs/2 - 200 null application/json; charset=utf-8 148.4675ms
+2026-08-03 12:11:32.819 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/blogs/2/images - null null
+2026-08-03 12:11:32.828 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:32.838 +05:30 [INF] Route matched with {action = "GetImages", controller = "Blogs"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetImages(Int32) on controller P14_AI_Blog_Generator_Backend.Controllers.BlogsController (P14_AI_Blog_Generator_Backend).
+2026-08-03 12:11:32.884 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@__blogId_0='?' (DbType = Int32), @__userId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Blogs] AS [b]
+        WHERE [b].[BlogId] = @__blogId_0 AND [b].[UserId] = @__userId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2026-08-03 12:11:32.910 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@__blogId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b].[ImageId], [b].[Prompt], [b].[ImageUrl], [b].[CreditsUsed], [b].[CreatedAt]
+FROM [BlogImages] AS [b]
+WHERE [b].[BlogId] = @__blogId_0
+ORDER BY [b].[CreatedAt] DESC
+2026-08-03 12:11:32.918 +05:30 [INF] Retrieved 0 images for Blog 2.
+2026-08-03 12:11:32.923 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Collections.Generic.List`1[[P14_AI_Blog_Generator_Backend.DTOs.Blogs.BlogImageDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-08-03 12:11:32.929 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend) in 86.7306ms
+2026-08-03 12:11:32.932 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.BlogsController.GetImages (P14_AI_Blog_Generator_Backend)'
+2026-08-03 12:11:32.934 +05:30 [INF] HTTP GET /api/blogs/2/images responded 200 in 106.7260 ms
+2026-08-03 12:11:32.938 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/blogs/2/images - 200 null application/json; charset=utf-8 119.325ms
+2026-08-03 12:13:06.842 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/credits - null null
+2026-08-03 12:13:06.854 +05:30 [INF] HTTP GET /api/credits responded 404 in 0.5665 ms
+2026-08-03 12:13:06.861 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/credits - 404 0 null 19.122ms
+2026-08-03 12:13:06.868 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5201/api/credits, Response status code: 404
+2026-08-03 12:14:10.833 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/credits/pricing - null null
+2026-08-03 12:14:10.844 +05:30 [INF] HTTP GET /api/credits/pricing responded 404 in 0.7479 ms
+2026-08-03 12:14:10.853 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/credits/pricing - 404 0 null 19.8918ms
+2026-08-03 12:14:10.862 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5201/api/credits/pricing, Response status code: 404
+2026-08-03 12:14:21.467 +05:30 [INF] Application is shutting down...
+2026-08-03 15:35:03.087 +05:30 [INF] User profile is available. Using 'C:\Users\RenoSoftwares\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-03 15:35:03.268 +05:30 [INF] Now listening on: http://localhost:5201
+2026-08-03 15:35:03.272 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-03 15:35:03.273 +05:30 [INF] Hosting environment: Development
+2026-08-03 15:35:03.274 +05:30 [INF] Content root path: C:\Reno_Softwares\A0_Reno_Projects\backend-blog-generator\P14_AI_Blog_Generator_Backend
+2026-08-03 15:35:42.634 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/credits - null null
+2026-08-03 15:35:42.705 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-08-03 15:35:42.877 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '03-08-2026 07:40:50', Current time (UTC): '03-08-2026 10:05:42'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-08-03 15:35:42.910 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '03-08-2026 07:40:50', Current time (UTC): '03-08-2026 10:05:42'.
+2026-08-03 15:35:42.919 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-08-03 15:35:42.936 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-08-03 15:35:42.943 +05:30 [INF] HTTP GET /api/credits responded 401 in 230.1544 ms
+2026-08-03 15:35:42.957 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/credits - 401 0 null 324.613ms
+2026-08-03 15:35:48.739 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5201/api/auth/login - application/json 53
+2026-08-03 15:35:48.760 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '03-08-2026 07:40:50', Current time (UTC): '03-08-2026 10:05:48'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-08-03 15:35:48.769 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '03-08-2026 07:40:50', Current time (UTC): '03-08-2026 10:05:48'.
+2026-08-03 15:35:48.776 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.AuthController.Login (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:35:48.832 +05:30 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(P14_AI_Blog_Generator_Backend.DTOs.Authentication.LoginRequestDto) on controller P14_AI_Blog_Generator_Backend.Controllers.AuthController (P14_AI_Blog_Generator_Backend).
+2026-08-03 15:35:51.858 +05:30 [INF] Executed DbCommand (75ms) [Parameters=[@__request_Email_0='?' (Size = 255)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[AvailableCredits], [u].[CreatedAt], [u].[Email], [u].[IsDeleted], [u].[PasswordHash], [u].[ProfilePictureUrl], [u].[Role], [u].[UpdatedAt], [u].[UserName]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__request_Email_0
+2026-08-03 15:35:52.488 +05:30 [INF] JWT generated for User 1
+2026-08-03 15:35:52.817 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [RefreshTokens] ([CreatedAt], [ExpiryDate], [Token], [UserId])
+OUTPUT INSERTED.[TokenId], INSERTED.[IsRevoked]
+VALUES (@p0, @p1, @p2, @p3);
+2026-08-03 15:35:52.868 +05:30 [INF] Refresh token saved for User 1
+2026-08-03 15:35:52.872 +05:30 [INF] User 1 logged in.
+2026-08-03 15:35:52.885 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[P14_AI_Blog_Generator_Backend.DTOs.Authentication.AuthResponseDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-08-03 15:35:52.959 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.AuthController.Login (P14_AI_Blog_Generator_Backend) in 4114.7708ms
+2026-08-03 15:35:52.964 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.AuthController.Login (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:35:52.969 +05:30 [INF] HTTP POST /api/auth/login responded 200 in 4214.3163 ms
+2026-08-03 15:35:52.986 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5201/api/auth/login - 200 null application/json; charset=utf-8 4247.4004ms
+2026-08-03 15:35:58.793 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/credits - null null
+2026-08-03 15:35:58.823 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetAvailableCredits (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:35:58.836 +05:30 [INF] Route matched with {action = "GetAvailableCredits", controller = "Credits"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAvailableCredits() on controller P14_AI_Blog_Generator_Backend.Controllers.CreditsController (P14_AI_Blog_Generator_Backend).
+2026-08-03 15:35:58.851 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetAvailableCredits (P14_AI_Blog_Generator_Backend) in 6.7833ms
+2026-08-03 15:35:58.854 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetAvailableCredits (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:35:58.859 +05:30 [ERR] Unhandled exception. TraceId: 0HNNH8R3JN76T:00000003
+System.InvalidOperationException: Unable to resolve service for type 'P14_AI_Blog_Generator_Backend.Interfaces.ICreditService' while attempting to activate 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method247(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at P14_AI_Blog_Generator_Backend.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Reno_Softwares\A0_Reno_Projects\backend-blog-generator\P14_AI_Blog_Generator_Backend\Middlewares\GlobalExceptionMiddleware.cs:line 31
+2026-08-03 15:35:58.920 +05:30 [ERR] HTTP GET /api/credits responded 500 in 117.4144 ms
+2026-08-03 15:35:58.924 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/credits - 500 null application/json 131.3234ms
+2026-08-03 15:36:17.191 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/credits/pricing - null null
+2026-08-03 15:36:17.205 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetPricing (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:36:17.218 +05:30 [INF] Route matched with {action = "GetPricing", controller = "Credits"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPricing() on controller P14_AI_Blog_Generator_Backend.Controllers.CreditsController (P14_AI_Blog_Generator_Backend).
+2026-08-03 15:36:17.224 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetPricing (P14_AI_Blog_Generator_Backend) in 0.4947ms
+2026-08-03 15:36:17.230 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetPricing (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:36:17.235 +05:30 [ERR] Unhandled exception. TraceId: 0HNNH8R3JN76T:00000004
+System.InvalidOperationException: Unable to resolve service for type 'P14_AI_Blog_Generator_Backend.Interfaces.ICreditService' while attempting to activate 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method255(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at P14_AI_Blog_Generator_Backend.Middlewares.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in C:\Reno_Softwares\A0_Reno_Projects\backend-blog-generator\P14_AI_Blog_Generator_Backend\Middlewares\GlobalExceptionMiddleware.cs:line 31
+2026-08-03 15:36:17.250 +05:30 [ERR] HTTP GET /api/credits/pricing responded 500 in 48.2963 ms
+2026-08-03 15:36:17.255 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/credits/pricing - 500 null application/json 63.2501ms
+2026-08-03 15:39:00.779 +05:30 [INF] Application is shutting down...
+2026-08-03 15:39:36.436 +05:30 [INF] User profile is available. Using 'C:\Users\RenoSoftwares\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-08-03 15:39:36.513 +05:30 [INF] Now listening on: http://localhost:5201
+2026-08-03 15:39:36.517 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-08-03 15:39:36.519 +05:30 [INF] Hosting environment: Development
+2026-08-03 15:39:36.520 +05:30 [INF] Content root path: C:\Reno_Softwares\A0_Reno_Projects\backend-blog-generator\P14_AI_Blog_Generator_Backend
+2026-08-03 15:39:42.180 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/credits/pricing - null null
+2026-08-03 15:39:42.253 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-08-03 15:39:42.417 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetPricing (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:39:42.464 +05:30 [INF] Route matched with {action = "GetPricing", controller = "Credits"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetPricing() on controller P14_AI_Blog_Generator_Backend.Controllers.CreditsController (P14_AI_Blog_Generator_Backend).
+2026-08-03 15:39:42.651 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Collections.Generic.List`1[[P14_AI_Blog_Generator_Backend.DTOs.Credit.CreditPricingResponseDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-08-03 15:39:42.751 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetPricing (P14_AI_Blog_Generator_Backend) in 274.5887ms
+2026-08-03 15:39:42.762 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetPricing (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:39:42.767 +05:30 [INF] HTTP GET /api/credits/pricing responded 200 in 506.0161 ms
+2026-08-03 15:39:42.781 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/credits/pricing - 200 null application/json; charset=utf-8 604.0809ms
+2026-08-03 15:39:51.416 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/credits - null null
+2026-08-03 15:39:51.436 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetAvailableCredits (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:39:51.448 +05:30 [INF] Route matched with {action = "GetAvailableCredits", controller = "Credits"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAvailableCredits() on controller P14_AI_Blog_Generator_Backend.Controllers.CreditsController (P14_AI_Blog_Generator_Backend).
+2026-08-03 15:39:53.577 +05:30 [INF] Executed DbCommand (79ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[AvailableCredits], [u].[CreatedAt], [u].[Email], [u].[IsDeleted], [u].[PasswordHash], [u].[ProfilePictureUrl], [u].[Role], [u].[UpdatedAt], [u].[UserName]
+FROM [Users] AS [u]
+WHERE [u].[UserId] = @__userId_0 AND [u].[IsDeleted] = CAST(0 AS bit)
+2026-08-03 15:39:53.645 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[P14_AI_Blog_Generator_Backend.DTOs.Credit.GetCreditsResponseDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-08-03 15:39:53.659 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetAvailableCredits (P14_AI_Blog_Generator_Backend) in 2202.8574ms
+2026-08-03 15:39:53.662 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.CreditsController.GetAvailableCredits (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:39:53.666 +05:30 [INF] HTTP GET /api/credits responded 200 in 2239.6083 ms
+2026-08-03 15:39:53.677 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/credits - 200 null application/json; charset=utf-8 2261.3237ms
+2026-08-03 15:41:05.715 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5201/api/plans - null null
+2026-08-03 15:41:05.739 +05:30 [INF] Executing endpoint 'P14_AI_Blog_Generator_Backend.Controllers.PlansController.GetAllPlans (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:41:05.749 +05:30 [INF] Route matched with {action = "GetAllPlans", controller = "Plans"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllPlans() on controller P14_AI_Blog_Generator_Backend.Controllers.PlansController (P14_AI_Blog_Generator_Backend).
+2026-08-03 15:41:05.909 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[PlanId], [p].[Name], [p].[Description], [p].[Price], [p].[Credits], [p].[IsActive], [p].[CreatedAt]
+FROM [Plans] AS [p]
+ORDER BY [p].[Price]
+2026-08-03 15:41:05.916 +05:30 [INF] Executing OkObjectResult, writing value of type 'P14_AI_Blog_Generator_Backend.ApiResponse.ApiResponse`1[[System.Collections.Generic.List`1[[P14_AI_Blog_Generator_Backend.DTOs.Plan.PlanResponseDto, P14_AI_Blog_Generator_Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-08-03 15:41:05.954 +05:30 [INF] Executed action P14_AI_Blog_Generator_Backend.Controllers.PlansController.GetAllPlans (P14_AI_Blog_Generator_Backend) in 197.1761ms
+2026-08-03 15:41:05.959 +05:30 [INF] Executed endpoint 'P14_AI_Blog_Generator_Backend.Controllers.PlansController.GetAllPlans (P14_AI_Blog_Generator_Backend)'
+2026-08-03 15:41:05.962 +05:30 [INF] HTTP GET /api/plans responded 200 in 230.3663 ms
+2026-08-03 15:41:05.967 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5201/api/plans - 200 null application/json; charset=utf-8 251.2413ms
+2026-08-03 15:43:31.217 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5201/api/plans - application/json 111
+2026-08-03 15:43:31.229 +05:30 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-08-03 15:43:31.233 +05:30 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-08-03 15:43:31.236 +05:30 [INF] HTTP POST /api/plans responded 403 in 10.4813 ms
+2026-08-03 15:43:31.241 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5201/api/plans - 403 0 null 24.0235ms
+2026-08-03 15:44:38.706 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5201/api/plans - application/json 133
+2026-08-03 15:44:38.719 +05:30 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2026-08-03 15:44:38.727 +05:30 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2026-08-03 15:44:38.731 +05:30 [INF] HTTP PUT /api/plans responded 405 in 13.6871 ms
+2026-08-03 15:44:38.736 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5201/api/plans - 405 0 null 29.8468ms
+2026-08-03 15:45:38.656 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5201/api/plans/1 - application/json 133
+2026-08-03 15:45:38.672 +05:30 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-08-03 15:45:38.676 +05:30 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-08-03 15:45:38.679 +05:30 [INF] HTTP PUT /api/plans/1 responded 403 in 8.7717 ms
+2026-08-03 15:45:38.685 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5201/api/plans/1 - 403 0 null 29.426ms
+2026-08-03 15:46:18.610 +05:30 [INF] Request starting HTTP/1.1 DELETE http://localhost:5201/api/plans/1 - null null
+2026-08-03 15:46:18.618 +05:30 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin)
+2026-08-03 15:46:18.620 +05:30 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-08-03 15:46:18.624 +05:30 [INF] HTTP DELETE /api/plans/1 responded 403 in 6.9700 ms
+2026-08-03 15:46:18.630 +05:30 [INF] Request finished HTTP/1.1 DELETE http://localhost:5201/api/plans/1 - 403 0 null 19.561ms
