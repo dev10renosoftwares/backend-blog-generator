@@ -1,0 +1,135 @@
+Validation Rules:
+
+1. Authentication
+
+1.1 Register
+
+Username is required and must be unique.
+Email is required, must be in a valid format, and must be unique.
+Password is required and must satisfy the application's password policy.
+
+1.2 Login
+
+Email and Password are required.
+Credentials must be valid.
+Deleted or blocked users cannot log in.
+
+1.3 Refresh Token
+
+Refresh Token is required.
+Refresh Token must be valid and not expired.
+
+2. User Profile
+
+Username is required.
+Bio, Website, Location, and Social Links must not exceed their configured limits.
+Website and social media URLs must be valid URLs.
+Profile picture must be JPG, JPEG, PNG, or WEBP.
+Profile picture must not exceed the maximum file size.
+Current password must match before changing password.
+New Password and Confirm Password must match.
+New Password must be different from the current password.
+Account deletion requires a deletion reason.
+
+3. AI Blog Generation
+
+Topic, Tone, Audience, Category, Language and Word Count are required.
+Word Count must be one of the supported values.
+Blog must exist before performing Regenerate, Expand, Shorten, Rewrite, Generate Image, Generate Summary, or Generate Tags.
+User must own the blog.
+
+4. Blog Management
+
+Blog Title cannot be empty when manually editing.
+Blog Content cannot be empty.
+Blog must exist.
+User can only edit or delete their own blogs.
+Only draft blogs can be published.
+Only published blogs can be unpublished.
+
+5. Blog Interaction
+
+Blog must exist.
+Blog must be published before Like, Comment, Save, Repost, or Report.
+Comment text cannot be empty.
+Users can edit or delete only their own comments.
+A user cannot like the same blog multiple times.
+A user cannot save the same blog multiple times.
+A user cannot repost the same blog multiple times.
+A report reason is required.
+
+6. User Follow System
+
+User cannot follow themselves.
+Duplicate follow requests are not allowed.
+User must exist before Follow or Unfollow.
+
+7. Feedback
+
+Subject, Message, and Rating are required.
+Rating must be between 1 and 5.
+Public feedback is visible only when IsPublic = true.//
+
+8. Issues
+
+Subject and Description are required.
+Users can access only their own issues.
+Resolved issues cannot be edited.
+
+9. Payments
+
+Selected subscription plan must exist.
+Subscription plan must be active.
+Payment is confirmed only after successful Stripe verification.
+Payment Intent must exist before confirmation.
+
+10. Notifications
+
+Notification must exist.
+Users can only mark their own notifications as read.
+
+11. Route Parameters
+
+All route IDs (UserId, BlogId, ImageId, VersionId, PaymentId, PlanId, FeedbackId, IssueId, CommentId, NotificationId, ReportId) must exist.
+
+12. Authorization
+
+Users can access only their own profile, blogs, drafts, payments, feedback, issues, notifications, credits, and activity.
+Only blog owners can edit, publish, unpublish, or delete blogs.
+
+Only Admin users can access /api/admin/* endpoints.
+
+
+Business Rules:
+
+Rule:
+
+Every newly registered user receives 100 free credits upon successful registration.
+Credits must be available before any AI operation is performed.
+Credits are deducted only after successful completion of an AI operation.
+Credits can never become negative.
+Credit purchase is completed only after successful Stripe payment verification.
+Only active subscription plans can be purchased.
+Every Regenerate, Expand, Shorten, Rewrite, Generate Summary, and Generate Tags operation creates a new Blog Version while preserving previous versions.
+Generated AI images are associated with the corresponding blog.
+Users can only access, edit, publish, unpublish, or delete their own blogs.
+Published blogs are visible in the public feed.
+Draft blogs are visible only to their owner.
+Only published blogs can receive Likes, Comments, Saves, Reposts, Views, and Reports.
+A user can like a blog only once but may unlike it later.
+A user can save a blog only once but may remove it later.
+A user can repost a blog only once but may remove the repost later.
+Blog view count increases only when a published blog is opened.
+Users can follow or unfollow other users but cannot follow themselves.
+Followers and Following counts are updated automatically after Follow or Unfollow actions.
+Notifications are automatically generated for Like, Comment, Follow, and Repost events.
+Only feedback marked IsPublic = true is displayed publicly.//
+Users can access only their own payments, credits, drafts, saved blogs, liked blogs, feedback, issues, notifications, and activity history.
+Deleted or blocked users cannot log in.
+Refresh Tokens become invalid after logout or expiry.
+Only users with the Admin role can access /api/admin/* endpoints.
+Administrators can manage all users, blogs, subscription plans, payments, feedback, issues, reports, and deleted accounts.
+Administrators can block or unblock users.
+Administrators can remove published blogs that violate platform policies.
+Reported blogs remain available for moderation until resolved by an administrator.
+Platform statistics displayed on the Admin Dashboard are calculated from live system data.

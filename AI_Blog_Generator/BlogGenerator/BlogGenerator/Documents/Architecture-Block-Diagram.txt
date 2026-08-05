@@ -1,0 +1,121 @@
+                                      +----------------------+
+                                      |        User          |
+                                      +----------------------+
+                                                 |
+                                          HTTPS Requests
+                                                 |
+                                                 v
+                    +--------------------------------------------------+
+                    |          Angular Frontend (Client UI)            |
+                    +--------------------------------------------------+
+                    | Login / Register                                 |
+                    | Dashboard                                        |
+                    | AI Blog Generator                                |
+                    | My Blogs                                         |
+                    | Credits & Plans                                  |
+                    | Stripe Checkout                                  |
+                    | Feedback / Issues                                |
+                    | Profile                                          |
+                    +--------------------------------------------------+
+                                                 |
+                                       REST API + JWT
+                                                 |
+                                                 v
+             +--------------------------------------------------------------+
+             |           ASP.NET Core Web API (.NET 8)                      |
+             +--------------------------------------------------------------+
+             | Controllers                                                  |
+             |--------------------------------------------------------------|
+             | AuthController                                               |
+             | ProfileController                                            |
+             | BlogController                                               |
+             | CreditController                                             |
+             | PaymentController                                            |
+             | PlanController                                               |
+             | FeedbackController                                           |
+             | IssueController                                              |
+             | AdminController                                              |
+             +--------------------------------------------------------------+
+                                                 |
+                                                 v
+             +--------------------------------------------------------------+
+             |               Business Logic Layer (Services)                |
+             +--------------------------------------------------------------+
+             | Authentication Service                                       |
+             | Profile Service                                              |
+             | Blog Service                                                 |
+             | Credit Service                                               |
+             | Payment Service                                              |
+             | Plan Service                                                 |
+             | Feedback Service                                             |
+             | Issue Service                                                |
+             | Admin Service                                                |
+             +--------------------------------------------------------------+
+                   |                 |                 |                |
+                   |                 |                 |                |
+                   v                 v                 v                v
+        +----------------+  +----------------+  +---------------+  +----------------+
+        | AI Provider    |  | Stripe API     |  | File Storage  |  | Entity Framework|
+        +----------------+  +----------------+  +---------------+  +----------------+
+        | Blog Generation|  | Payments       |  | Images        |  | EF Core ORM     |
+        | Expand         |  | Credit Purchase|  | Profile Pics  |  |                 |
+        | Shorten        |  +----------------+  +---------------+  +----------------+
+        | Regenerate     |                                               |
+        | AI Images      |                                               |
+        +----------------+                                               |
+                                                                          |
+                                                                          v
+                                                          +-----------------------------+
+                                                          |      SQL Server Database    |
+                                                          +-----------------------------+
+                                                          | Users                      |
+                                                          | RefreshTokens              |
+                                                          | Blogs                      |
+                                                          | BlogVersions               |
+                                                          | BlogImages                 |
+                                                          | Plans                      |
+                                                          | Payments                   |
+                                                          | Feedbacks                  |
+                                                          | Issues                     |
+                                                          | DeletedAccounts            |
+                                                          +-----------------------------+
+
+
+
+
+
+User
+   │
+   ▼
+Angular Frontend
+   │
+   ▼
+ASP.NET Core Web API
+   │
+   ▼
+Controllers
+   │
+   ▼
+Services
+   ├── Entity Framework Core ──► SQL Server
+   ├── AI Provider
+   ├── Stripe Payment Gateway
+   └── File/Image Storage
+
+
+
+
+
+Technologies Used:
+
+Layer				Technology
+
+Frontend			Angular
+Backend				ASP.NET Core Web API (.NET 8)
+Authentication			JWT + Refresh Token
+ORM				Entity Framework Core
+Database			SQL Server
+AI Integration			OpenAI API or Gemini API (whichever you use)
+Payment Gateway			Stripe
+File Storage			Local Storage / Cloud Storage
+API Testing			Postman

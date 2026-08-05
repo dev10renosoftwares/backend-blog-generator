@@ -1,0 +1,471 @@
+AI Blog Generator DTO Specification:
+
+1. Authentication DTOs:
+
+->RegisterRequestDto:
+
+public class RegisterRequestDto
+{
+    string UserName;
+    string Email;
+    string Password;
+}
+
+->LoginRequestDto:
+
+public class LoginRequestDto
+{
+    string Email;
+    string Password;
+}
+
+->RefreshTokenRequestDto
+
+public class RefreshTokenRequestDto
+{
+    string RefreshToken;
+}
+
+->LogoutRequestDto
+
+public class LogoutRequestDto
+{
+    string RefreshToken;
+}
+
+->AuthResponseDto
+
+public class AuthResponseDto
+{
+    int UserId;
+    string UserName;
+    string Email;
+    string Role;
+    int AvailableCredits;
+
+    string AccessToken;
+    string RefreshToken;
+    DateTime ExpiresAt;
+}
+
+2. Profile DTOs:
+
+->UserProfileDto:
+
+public class UserProfileDto
+{
+    int UserId;
+    string UserName;
+    string Email;
+    string ProfilePictureUrl;
+    int AvailableCredits;
+    string Role;
+    DateTime CreatedAt;
+}
+
+->UpdateProfileRequestDto:
+
+public class UpdateProfileRequestDto
+{
+    string UserName;
+}
+
+->UploadProfilePictureResponseDto:
+
+public class UploadProfilePictureResponseDto
+{
+    string ProfilePictureUrl;
+}
+
+->DeleteAccountRequestDto:
+
+public class DeleteAccountRequestDto
+{
+    string Reason;
+}
+
+3. AI Blog DTOs:
+
+->GenerateBlogRequestDto:
+
+public class GenerateBlogRequestDto
+{
+    string Topic;
+    string Tone;
+    string Audience;
+    string Category;
+    int WordCount;
+}
+
+->GenerateBlogResponseDto
+
+public class GenerateBlogResponseDto
+{
+    int BlogId;
+    string Title;
+    string Category;
+    string Content;
+    int WordCount;
+
+    int CreditsUsed;
+    int RemainingCredits;
+
+    DateTime CreatedAt;
+}
+
+->GenerateImageResponseDto
+
+public class GenerateImageResponseDto
+{
+    string ImageUrl;
+
+    int CreditsUsed;
+
+    int RemainingCredits;
+}
+
+4. Blog DTOs:
+
+->BlogListDto
+
+public class BlogListDto
+{
+    int BlogId;
+
+    string Title;
+    
+    string Category;
+
+    int WordCount;
+
+    DateTime CreatedAt;
+
+    DateTime UpdatedAt;
+}
+
+->BlogDetailsDto
+
+public class BlogDetailsDto
+{
+    int BlogId;
+
+    string Title;
+
+    string Prompt;
+
+    string Content;
+
+    string Tone;
+
+    string Audience;
+
+    int WordCount;
+
+    int CreditsUsed;
+
+    DateTime CreatedAt;
+
+    DateTime UpdatedAt;
+}
+
+->BlogVersionDto
+
+public class BlogVersionDto
+{
+    int VersionId;
+
+    string Title;
+
+    string VersionType;
+
+    string Content;
+
+    int WordCount;
+
+    DateTime CreatedAt;
+}
+
+5. Credits DTOs
+
+->CreditBalanceDto
+
+public class CreditBalanceDto
+{
+    int AvailableCredits;
+}
+
+->CreditTransactionDto
+
+public class CreditTransactionDto
+{
+    int TransactionId;
+
+    int CreditAmount;
+
+    string TransactionType;
+
+    string Description;
+
+    DateTime CreatedAt;
+}
+
+->CreditPricingDto
+
+public class CreditPricingDto
+{
+    int BlogGeneration;
+
+    int RegenerateBlog;
+
+    int ExpandBlog;
+
+    int ShortenBlog;
+
+    int GenerateImage;
+}
+6. Plans DTOs:
+
+->PlanDto
+
+public class PlanDto
+{
+    int PlanId;
+
+    string Name;
+
+    string Description;
+
+    decimal Price;
+
+    int Credits;
+}
+
+7. Payments DTOs
+
+->CreatePaymentRequestDto
+
+public class CreatePaymentRequestDto
+{
+    int PlanId;
+}
+
+->PaymentIntentResponseDto
+
+public class PaymentIntentResponseDto
+{
+    string ClientSecret;
+
+    string PaymentIntentId;
+}
+
+->ConfirmPaymentRequestDto
+
+public class ConfirmPaymentRequestDto
+{
+    string PaymentIntentId;
+}
+
+->PaymentHistoryDto
+
+public class PaymentHistoryDto
+{
+    int PaymentId;
+
+    string PlanName;
+
+    decimal Amount;
+
+    int CreditsPurchased;
+
+    string PaymentStatus;
+
+    DateTime PurchasedAt;
+}
+
+8. Feedback DTOs
+
+->CreateFeedbackRequestDto
+
+public class CreateFeedbackRequestDto
+{
+    string Subject;
+
+    string Message;
+
+    int Rating;
+
+    bool IsPublic;
+}
+
+->FeedbackDto
+
+public class FeedbackDto
+{
+    int FeedbackId;
+
+    string Subject;
+
+    string Message;
+
+    int Rating;
+
+    bool IsPublic;
+
+    string Status;
+
+    string AdminResponse;
+
+    DateTime CreatedAt;
+}
+
+->PublicFeedbackDto
+
+public class PublicFeedbackDto
+{
+    string UserName;
+
+    int Rating;
+
+    string Message;
+}
+
+9. Issue DTOs
+
+->CreateIssueRequestDto
+
+public class CreateIssueRequestDto
+{
+    string Subject;
+
+    string Description;
+}
+
+->IssueDto
+
+public class IssueDto
+{
+    int IssueId;
+
+    string Subject;
+
+    string Description;
+
+    string Status;
+
+    string AdminResponse;
+
+    DateTime CreatedAt;
+}
+
+10. Admin DTOs
+
+->DashboardStatisticsDto
+
+public class DashboardStatisticsDto
+{
+    int TotalUsers;
+
+    int TotalBlogs;
+
+    int TotalPayments;
+
+    int TotalCreditsPurchased;
+
+    int TotalFeedback;
+
+    int TotalIssues;
+
+    int TotalDeletedAccounts;
+}
+
+->AdminUserDto
+
+public class AdminUserDto
+{
+    int UserId;
+
+    string UserName;
+
+    string Email;
+
+    int AvailableCredits;
+
+    string Role;
+
+    DateTime CreatedAt;
+}
+
+->AdminBlogDto
+
+public class AdminBlogDto
+{
+    int BlogId;
+
+    string Title;
+
+    string UserName;
+
+    int CreditsUsed;
+
+    DateTime CreatedAt;
+}
+
+->AdminPaymentDto
+
+public class AdminPaymentDto
+{
+    int PaymentId;
+
+    string UserName;
+
+    string PlanName;
+
+    decimal Amount;
+
+    string PaymentStatus;
+
+    DateTime PurchasedAt;
+}
+
+->DeletedAccountDto
+
+public class DeletedAccountDto
+{
+    string Email;
+
+    string Reason;
+
+    DateTime DeletedAt;
+}
+
+->ResolveFeedbackRequestDto
+
+public class ResolveFeedbackRequestDto
+{
+    string AdminResponse;
+}
+
+->ResolveIssueRequestDto
+
+public class ResolveIssueRequestDto
+{
+    string AdminResponse;
+}
+
+
+
+Total DTO Count:
+
+Module	DTOs:
+
+Authentication:			5
+Profile:			4
+AI Blog:			7
+Blog Management:		3
+Credits:			3
+Plans:				1
+Payments:			4
+Feedback:			3
+Issues:				2
+Admin:				7
+Total:				39 DTOs

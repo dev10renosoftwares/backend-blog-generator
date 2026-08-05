@@ -1,0 +1,205 @@
+                              +---------------------------------------------------+
+                              |           AI Blog Generator System                |
+                              |                                                   |
+Guest ----------------------->| (Register)                                        |
+Guest ----------------------->| (Login)                                           |
+Guest ----------------------->| (Browse Public Blogs)                             |
+Guest ----------------------->| (View Blog Details)                               |
+Guest ----------------------->| (Search Blogs)                                    |
+Guest ----------------------->| (View Public User Profile)                        |
+                              |                                                   |
+User ------------------------>| (Generate AI Blog)                                |
+User ------------------------>| (Regenerate Blog)//                               |
+User ------------------------>| (Expand Blog)                                     |
+User ------------------------>| (Shorten Blog)                                    |
+User ------------------------>| (Generate AI Image)                               |
+User ------------------------>| (Rewrite Blog)                                    |
+User ------------------------>| (Translate Blog)//                                |
+User ------------------------>| (Generate SEO Tags)                               |
+User ------------------------>| (Generate Blog Summary)                           |
+                              |                                                   |
+User ------------------------>| (View My Blogs)                                   |
+User ------------------------>| (View Blog Details)                               |
+User ------------------------>| (View Blog Versions)                              |
+User ------------------------>| (View Blog Images)                                |
+User ------------------------>| (Edit Blog)                                       |
+User ------------------------>| (Delete Blog)                                     |
+User ------------------------>| (Publish Blog)                                    |
+User ------------------------>| (Unpublish Blog)                                  |
+User ------------------------>| (Download Blog as PDF)                            |
+User ------------------------>| (Copy Blog)                                       |
+                              |                                                   |
+User ------------------------>| (Like Blog)                                       |
+User ------------------------>| (Comment on Blog)                                 |
+User ------------------------>| (Edit Comment)                                    |
+User ------------------------>| (Delete Comment)                                  |
+User ------------------------>| (Save Blog)                                       |
+User ------------------------>| (Repost Blog)                                     |
+User ------------------------>| (Report Blog)                                     |
+User ------------------------>| (View Saved Blogs)                                |
+User ------------------------>| (View Liked Blogs)                                |
+                              |                                                   |
+User ------------------------>| (View Profile)                                    |
+User ------------------------>| (Update Profile)                                  |
+User ------------------------>| (Update Public Profile)                           |
+User ------------------------>| (Change Password)                                 |
+User ------------------------>| (Upload/Delete Profile Picture)                   |
+User ------------------------>| (Delete Account)                                  |
+User ------------------------>| (View Another User Profile)                       |
+User ------------------------>| (View User Blogs)                                 |
+User ------------------------>| (Follow User)                                     |
+User ------------------------>| (Unfollow User)                                   |
+User ------------------------>| (View Followers/Following)                        |
+User ------------------------>| (Search Users)                                    |
+User ------------------------>| (View Suggested Users)                            |
+User ------------------------>| (View Activity History)                           |
+User ------------------------>| (View Draft Blogs)                                |
+User ------------------------>| (View Badges)                                     |
+                              |                                                   |
+User ------------------------>| (View Credits)                                    |
+User ------------------------>| (Buy Subscription Plan)                           |
+User ------------------------>| (View Payment History)                            |
+                              |                                                   |
+User ------------------------>| (Submit Feedback)                                 |
+User ------------------------>| (View My Feedback)                                |
+User ------------------------>| (Raise Issue)                                     |
+User ------------------------>| (View My Issues)                                  |
+                              |                                                   |
+User ------------------------>| (View Notifications)                              |
+User ------------------------>| (Mark Notification Read)                          |
+User ------------------------>| (Mark All Notifications Read)                     |
+User ------------------------>| (Logout)                                          |
+                              |                                                   |
+Admin ----------------------->| (Admin Login)                                     |
+Admin ----------------------->| (View Dashboard)                                  |
+Admin ----------------------->| (Manage Users)                                    |
+Admin ----------------------->| (View User Details)                               |
+Admin ----------------------->| (Block/Unblock User)                              |
+Admin ----------------------->| (View Deleted Users)                              |
+Admin ----------------------->| (View User Payment History)                       |
+Admin ----------------------->| (Manage Blogs)                                    |
+Admin ----------------------->| (Delete Violating Blog)                           |
+Admin ----------------------->| (View Reported Blogs)                             |
+Admin ----------------------->| (Resolve Blog Reports)                            |
+Admin ----------------------->| (Manage Subscription Plans)                       |
+Admin ----------------------->| (View Payments)                                   |
+Admin ----------------------->| (View Feedback)                                   |
+Admin ----------------------->| (Resolve Feedback)                                |
+Admin ----------------------->| (View Issues)                                     |
+Admin ----------------------->| (Resolve Issues)                                  |
+Admin ----------------------->| (View Platform Statistics)                        |
+Admin ----------------------->| (Logout)                                          |
+                              +---------------------------------------------------+
+
+
+Generate AI Blog
+    <<include>>
+    Check Credits
+
+Generate AI Blog
+    <<include>>
+    Deduct Credits
+
+Generate AI Blog
+    <<include>>
+    Save Blog
+
+Regenerate Blog
+    <<include>>
+    Check Credits
+
+Regenerate Blog
+    <<include>>
+    Deduct Credits
+
+Expand Blog
+    <<include>>
+    Check Credits
+
+Expand Blog
+    <<include>>
+    Deduct Credits
+
+Shorten Blog
+    <<include>>
+    Check Credits
+
+Shorten Blog
+    <<include>>
+    Deduct Credits
+
+Generate AI Image
+    <<include>>
+    Check Credits
+
+Generate AI Image
+    <<include>>
+    Deduct Credits
+
+Rewrite Blog
+    <<include>>
+    Check Credits
+
+Generate SEO Tags
+    <<include>>
+    Check Credits
+
+Generate Blog Summary
+    <<include>>
+    Check Credits
+
+Buy Subscription Plan
+    <<include>>
+    Stripe Payment
+
+Delete Account
+    <<extend>>
+    Store Deletion Reason
+
+Publish Blog
+    <<include>>
+    Validate Blog
+
+Like Blog
+    <<include>>
+    Update Notification
+
+Comment on Blog
+    <<include>>
+    Update Notification
+
+Follow User
+    <<include>>
+    Update Notification
+
+Repost Blog
+    <<include>>
+    Update Notification
+
+Report Blog
+    <<include>>
+    Create Moderation Request
+
+View Dashboard
+    <<include>>
+    View Users
+
+View Dashboard
+    <<include>>
+    View Blogs
+
+View Dashboard
+    <<include>>
+    View Payments
+
+View Dashboard
+    <<include>>
+    View Feedback
+
+View Dashboard
+    <<include>>
+    View Issues
+
+View Dashboard
+    <<include>>
+    View Platform Statistics

@@ -1,5 +1,6 @@
 using BlogGenerator.DAL;
 using BlogGenerator.DomainModels.v1;
+using BlogGenerator.Enums;
 using BlogGenerator.Foundation.Exceptions;
 using BlogGenerator.Interfaces.Authentication;
 using BlogGenerator.ServiceModels.v1.Authentication;

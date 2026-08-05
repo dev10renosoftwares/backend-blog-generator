@@ -1,3 +1,6 @@
+
+using BlogGenerator.Enums;
+
 namespace BlogGenerator.DomainModels.v1;
 
 public class Feedback

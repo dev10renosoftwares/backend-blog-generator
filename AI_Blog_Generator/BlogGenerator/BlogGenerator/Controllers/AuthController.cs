@@ -1,7 +1,6 @@
 using BlogGenerator.Interfaces.Authentication;
-using BlogGenerator.ServiceModels.Foundation;
-using BlogGenerator.ServiceModels.v1.Authentication;
 using BlogGenerator.ServiceModels.v1.Foundation;
+using BlogGenerator.ServiceModels.v1.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

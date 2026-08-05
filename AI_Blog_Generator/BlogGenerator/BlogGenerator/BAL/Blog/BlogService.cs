@@ -3,7 +3,7 @@ using BlogGenerator.Foundation.Exceptions;
 using BlogGenerator.Interfaces.Blog;
 using BlogGenerator.ServiceModels.v1.Blog;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using QuestPDF.Fluent;
 
 namespace BlogGenerator.BAL.Blog;
 

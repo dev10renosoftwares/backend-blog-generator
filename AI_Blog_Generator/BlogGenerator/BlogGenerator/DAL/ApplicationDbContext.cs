@@ -1,4 +1,5 @@
 ﻿using BlogGenerator.DomainModels.v1;
+using BlogGenerator.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogGenerator.DAL
@@ -28,5 +29,13 @@ namespace BlogGenerator.DAL
         public DbSet<Issue> Issues => Set<Issue>();
 
         public DbSet<DeletedAccount> DeletedAccounts => Set<DeletedAccount>();
+    
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
+
     }
 }

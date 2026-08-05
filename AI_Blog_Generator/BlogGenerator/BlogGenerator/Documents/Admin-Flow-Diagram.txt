@@ -1,0 +1,65 @@
+                                    START
+                                       │
+                                       ▼
+                                 Admin Login
+                                       │
+                                       ▼
+                            JWT Authentication
+                                       │
+                                       ▼
+                               Admin Dashboard
+                                       │
+      ┌────────────────────────────────┼────────────────────────────────┐
+      │                                           │                                          │
+      ▼                                           ▼                                          ▼
+ User Management                             Blog Management                             Payment Management
+      │                                           │                                           │
+      ▼                                           ▼                                          ▼
+View All Users                               View All Blogs                              View All Payments
+      │                                           │                                           │
+      ├────────► View User Details             ├────────► View Blog Details            ├────────► View User Payment History
+      │                                           │                                           │
+      ├────────► Block User                    ├────────► Delete Blog//                 │
+      │                                           │                                           │
+      ├────────► Unblock User                  ├────────► View Reported Blogs          │
+      │                                           │             │                            │
+      ├────────► View Deleted Users            │             ▼                            │
+      │             │                             │        Resolve Reports                   │
+      │             ▼                             │                                          │
+      │      View Deletion Reasons                │                                           │
+      │                                           │                                           │
+      └────────────────────────────────┼────────────────────────────────┘
+                                       │
+                                       ▼
+                         Subscription Plan Management
+                                       │
+                                       ▼
+                   View Plans • Create • Update • Delete Plans
+                                       │
+                                       ▼
+                       Feedback & Support Management
+                                       │
+                     ┌─────────────────┴─────────────────┐
+                     │                                   │
+                     ▼                                   ▼
+             View All Feedback                 View All Issues
+                     │                                   │
+                     ▼                                   ▼
+            View Feedback Details              View Issue Details
+                     │                                   │
+                     ▼                                   ▼
+             Resolve Feedback                  Resolve Issue
+                                       │
+                                       ▼
+                           Platform Statistics & Analytics
+                                       │
+                                       ▼
+                 Dashboard Statistics (Users, Blogs, Payments,
+                 Credits, Views, Likes, Comments, Reports,
+                 Feedback, Issues, Deleted Accounts)
+                                       │
+                                       ▼
+                                   Logout
+                                       │
+                                       ▼
+                                       END

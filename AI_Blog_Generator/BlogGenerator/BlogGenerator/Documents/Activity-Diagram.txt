@@ -1,0 +1,290 @@
+                           Start
+                             │
+                             ▼
+                      Open Application
+                             │
+                             ▼
+                    Register / Login
+                             │
+                             ▼
+                  Validate Credentials
+                             │
+                  ┌──────────┴──────────┐
+                  │                     │
+                  ▼                     ▼
+          Invalid Credentials    Valid Credentials
+                  │                     │
+                  ▼                     ▼
+       Display Error Message   Generate JWT & Refresh Token
+                                        │
+                                        ▼
+                              Save Refresh Token
+                                        │
+                                        ▼
+                          Load User Profile & Credits
+                                        │
+                                        ▼
+                           Redirect to User Dashboard
+                                        │
+                                        ▼
+                                       End
+
+
+
+                              Start
+                                │
+                                ▼
+                           User Login
+                                │
+                                ▼
+                        Open Dashboard
+                                │
+                                ▼
+                 Enter Blog Generation Details
+        (Topic, Tone, Audience, Category, Word Count, Language)
+                                │
+                                ▼
+                    Click Generate Blog
+                                │
+                                ▼
+                   Check Available Credits
+                                │
+               ┌────────────────┴────────────────┐
+               │                                 │
+               ▼                                 ▼
+      Insufficient Credits         |--->    Credits Available
+               │                  |               │
+               ▼                 |                ▼
+     Display Subscription Plans  |        Call AI Provider
+               │                |                 │
+               ▼               |                  ▼
+      Purchase Subscription    |          Generate Blog
+               │               |                  │
+               ▼               |                   ▼
+      Stripe Payment Success    |        Save Blog
+               │                |                 │
+               ▼                                 ▼
+          Add Credits  ----------     Create Original Version
+               │                                 │
+               └───────────────┬─────────────────┘
+                               ▼
+                        Deduct Credits
+                               │
+                               ▼
+                   Display Generated Blog
+                               │
+                               ▼
+                    User Chooses an Action
+                               │
+┌────────┬──────────┬───────────┬──────────┬──────────┬──────────┬────────────┬────────────┬─────────────┐
+▼        ▼          ▼           ▼          ▼          ▼          ▼            ▼            ▼
+Edit   Expand    Shorten   Regenerate   Rewrite   Translate   AI Image   Generate Tags  Generate Summary
+│        │          │           │          │          │          │            │            │
+└────────┴──────────┴───────────┴──────────┴──────────┴──────────┴────────────┴────────────┘
+                               │
+                               ▼
+                    Create New Blog Version
+                               │
+                               ▼
+                     Save Version History
+                               │
+                               ▼
+                     User Chooses an Action
+                               │
+         ┌───────────────┬───────────────┬───────────────┐
+         ▼               ▼               ▼
+     Publish Blog    Save as Draft   Delete Blog
+         │               │               │
+         ▼               ▼               ▼
+ Visible in Public    Visible Only    Remove Blog
+       Feed             to Owner      Permanently
+         │
+         ▼
+   Download PDF / Copy Blog
+         │
+         ▼
+        End
+
+
+
+                           Start
+                             │
+                             ▼
+                     Open Public Feed
+                             │
+                             ▼
+         Browse Latest / Trending / Following /
+              Category / Search Results
+                             │
+                             ▼
+                  Open Published Blog
+                             │
+                             ▼
+                   Read Blog Content
+                             │
+                             ▼
+                  Choose an Interaction
+                             │
+┌─────────┬──────────┬──────────┬────────────┬─────────────┐
+▼         ▼          ▼          ▼            ▼
+Like   Comment   Save Blog   Repost     Report Blog
+│         │          │          │            │
+▼         ▼          ▼          ▼            ▼
+Save     Save     Save to    Create      Send Report
+Like    Comment   Library    Repost      for Review
+│         │          │          │            │
+└─────────┴──────────┴──────────┴────────────┘
+                             │
+                             ▼
+              Notify Blog Owner (If Applicable)
+                             │
+                             ▼
+                            End
+
+
+
+                           Start
+                             │
+                             ▼
+                          User Login
+                             │
+                             ▼
+                       Open My Profile
+                             │
+                             ▼
+                    Select an Operation
+                             │
+┌─────────┬────────────┬────────────┬────────────┬─────────────┬─────────────┬────────────┐
+▼         ▼            ▼            ▼            ▼             ▼             ▼
+Edit   Change     Upload/Delete   Saved      Draft Blogs   Activity      Payment
+Profile Password    Picture       Blogs                     History      History
+│         │            │            │            │             │             │
+▼         ▼            ▼            ▼            ▼             ▼             ▼
+Save     Save         Save      View Saved   View Drafts   View Logs   View Payments
+│
+├──────────────────────────────────────────────────────────────────────────────┐
+▼                                                                              ▼
+Search Users                                                           View Public Profile
+│                                                                              │
+▼                                                                              ▼
+Open User Profile                                                       View Published Blogs
+│                                                                              │
+▼                                                                              ▼
+Follow / Unfollow                                                      Followers / Following
+│
+▼
+Receive Updates in Following Feed
+│
+▼
+End
+
+
+
+
+                           Start
+                             │
+                             ▼
+                  Open Subscription Plans
+                             │
+                             ▼
+                       Select a Plan
+                             │
+                             ▼
+                Proceed to Stripe Checkout
+                             │
+              ┌──────────────┴──────────────┐
+              │                             │
+              ▼                             ▼
+       Payment Failed             Payment Successful
+              │                             │
+              ▼                             ▼
+   Display Failure Message        Verify Payment
+                                            │
+                                            ▼
+                                  Save Payment Record
+                                            │
+                                            ▼
+                                    Add Purchased Credits
+                                            │
+                                            ▼
+                                  Update Payment History
+                                            │
+                                            ▼
+                                           End
+
+
+                           Start
+                             │
+                             ▼
+                          User Login
+                             │
+                             ▼
+                     Open Support Center
+                             │
+                             ▼
+                     Select an Operation
+                             │
+              ┌──────────────┴──────────────┐
+              ▼                             ▼
+       Submit Feedback                Raise Issue
+              │                             │
+              ▼                             ▼
+      Enter Feedback Details      Enter Issue Details
+              │                             │
+              ▼                             ▼
+         Save Feedback               Save Issue
+              │                             │
+              └──────────────┬──────────────┘
+                             ▼
+                 View Submitted History
+                             │
+                             ▼
+          View Feedback Details / Issue Details
+                             │
+                             ▼
+                            End
+
+
+
+
+                           Start
+                             │
+                             ▼
+                         Admin Login
+                             │
+                             ▼
+                  Validate Credentials
+                             │
+                             ▼
+                    Open Admin Dashboard
+                             │
+                             ▼
+                View Dashboard Statistics
+                             │
+                             ▼
+                   Select an Administration Task
+                             │
+┌──────────┬──────────┬────────────┬────────────┬───────────┬──────────┬─────────────┬──────────────┬──────────────┐
+▼          ▼          ▼            ▼            ▼           ▼          ▼              ▼              ▼
+Users     Blogs    Payments   Subscription   Feedback    Issues   Reported Blogs  Deleted Users  Platform Analytics
+                      Plans
+│          │          │            │            │           │           │              │              │
+▼          ▼          ▼            ▼            ▼           ▼           ▼              ▼              ▼
+View     View      View       Create Plan   Resolve     Resolve    Review Reports  View Deleted   View Statistics
+Users    Blogs    Payments    Update Plan   Feedback     Issues        │              Accounts
+│          │                     Delete Plan                         ▼
+▼          ▼                                                    Remove Blog
+User Details  Blog Details                                           │
+│          │                                                         ▼
+▼          ▼                                                   Resolve Report
+Block    Delete Blog
+Unblock  (Policy Violation)
+│
+▼
+View User Payment History
+│
+▼
+Logout
+│
+▼
+End

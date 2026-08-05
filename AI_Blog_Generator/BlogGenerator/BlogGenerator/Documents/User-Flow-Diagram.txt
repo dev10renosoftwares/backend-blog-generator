@@ -1,0 +1,121 @@
+                                      START
+                                         │
+                                         ▼
+                                  Visit Website
+                                         │
+                                         ▼
+                                  Landing Page
+                                         │
+           ┌─────────────────────────────┼─────────────────────────────┐
+           │                             │                             │
+           ▼                             ▼                             ▼
+    Browse Public Feed          Search Blogs               View Trending Blogs
+           │                             │                             │
+           └───────────────┬─────────────┴─────────────┬───────────────┘
+                           │
+                           ▼
+                 View Published Blog Details
+                           │
+                           ▼
+         Read Blog • View Author • Comments • Likes
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+              ▼                         ▼
+      User Not Logged In         User Logged In
+              │                         │
+              ▼                         ▼
+       Login / Register        Like • Comment • Save
+              │                Repost • Follow Author
+              ▼                         │
+      Authentication Success            ▼
+              │                  Notification Generated
+              ▼                         │
+              └──────────────┬──────────┘
+                             ▼
+                         User Dashboard
+                             │
+ ┌───────────────────────────┼───────────────────────────────┐
+ │                           │                               │
+ ▼                           ▼                               ▼
+My Blogs                 My Profile                    Notifications
+ │                           │                               │
+ ▼                           ▼                               ▼
+Drafts / Published      View / Edit Profile         View Notifications
+ │                      Change Password             Mark as Read
+ │                      Upload/Delete Picture       Mark All Read
+ │                      Public Profile
+ │                      Followers / Following
+ │                      Saved Blogs
+ │                      Liked Blogs
+ │                      Draft Blogs
+ │                      Activity History
+ │                      Search Users
+ │                      Suggested Users
+ │
+ ▼
+Create New AI Blog
+ │
+ ▼
+Enter Topic • Category • Audience • Tone • Word Count • Language
+ │
+ ▼
+Check Available Credits
+ │
+ ┌──────────────┴───────────────┐
+ │                              │
+ ▼                              ▼
+Enough Credits?   <---|       Insufficient Credits
+ │                    |          │
+ ▼                    |          ▼
+Generate AI Blog      |   View Subscription Plans
+ │                    |          │
+ ▼                    |          ▼
+Deduct Credits         |  Purchase Plan (Stripe)
+ │                     |         │
+ ▼                    |          ▼
+Save Blog + Version   |   Payment Successful
+ │                    |          │
+ ▼                    |          ▼
+Display Generated Blog -- Credits Added
+ │                              
+ └──────────────┬───────────────┘
+                ▼
+          Blog Editor Screen
+                │
+                ├────────► Rewrite Blog
+                ├────────► Expand Blog
+                ├────────► Shorten Blog
+                ├────────► Regenerate Blog //
+                ├────────► Generate AI Image
+                ├────────► Generate Summary
+                ├────────► Generate SEO Tags
+                ├────────► Translate Blog//
+                ├────────► View AI History
+                ├────────► View All Versions
+                ├────────► Edit Blog
+                ├────────► Download PDF
+                ├────────► Copy Blog
+                ├────────► Delete Blog
+                ├────────► Publish Blog
+                └────────► Unpublish Blog
+                             │
+                             ▼
+                    Published to Public Feed
+                             │
+                             ▼
+     Other Users can View • Like • Comment • Save • Repost • Follow
+                             │
+                             ▼
+                  Notifications Sent to Author
+                             │
+                             ▼
+          Submit Feedback / Raise Support Issue
+                             │
+                 View Feedback / View Issues
+                             │
+                             ▼
+                           Logout
+                             │
+                             ▼
+                             END

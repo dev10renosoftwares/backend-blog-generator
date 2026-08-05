@@ -1,0 +1,2808 @@
+AI Blog Generator - API Contract:
+
+1. Authentication APIs:
+
+1.1 Register:
+
+Endpoint: 			POST /api/auth/register
+Authorization:			Public
+
+Request:
+{
+  "userName": "johnsmith",
+  "email": "john@example.com",
+  "password": "Password@123"
+}
+
+
+Success Response (201 Created):
+{
+  "message": "User registered successfully.",
+  "accessToken": "<jwt-token>",
+  "refreshToken": "<refresh-token>",
+  "expiresIn": 3600,
+  "user": {
+    "userId": 1,
+    "userName": "johnsmith",
+    "email": "john@example.com",
+    "role": "User",
+    "availableCredits": 100
+  }
+}
+
+
+Error Responses:
+
+
+400 Bad Request:
+
+{
+  "message": "Validation failed.",
+  "errors": {
+    "email": ["Email is already registered."]
+  }
+}
+
+
+409 Conflict
+
+{
+  "message": "Username already exists."
+}
+
+
+1.2 Login:
+
+Endpoint:			  POST /api/auth/login
+Authorization:		          Public
+
+
+Request:
+{
+  "email": "john@example.com",
+  "password": "Password@123"
+}
+
+
+Success Response (200 OK):
+{
+  "accessToken": "<jwt-token>",
+  "refreshToken": "<refresh-token>",
+  "expiresIn": 3600,
+  "user": {
+    "userId": 1,
+    "userName": "johnsmith",
+    "email": "john@example.com",
+    "role": "User",
+    "availableCredits": 95
+  }
+}
+
+
+Error Responses:
+
+401 Unauthorized:
+
+{
+  "message": "Invalid email or password."
+}
+
+
+
+1.3 Refresh Token
+
+Endpoint:			POST /api/auth/refresh-token
+Authorization:			Public
+
+Request:
+{
+  "refreshToken": "<refresh-token>"
+}
+
+
+Success Response:
+{
+  "accessToken": "<new-access-token>",
+  "refreshToken": "<new-refresh-token>",
+  "expiresIn": 3600
+}
+
+
+Error:
+{
+  "message": "Refresh token is invalid or expired."
+}
+
+
+1.4 Logout
+
+Endpoint:			POST /api/auth/logout
+Authorization:			User
+
+Request:
+{
+  "refreshToken": "<refresh-token>"
+}
+
+
+Success Response:
+{
+  "message": "Logged out successfully."
+}
+
+
+2. Profile APIs:
+
+2.1 Get Profile:
+
+Endpoint:			GET /api/profile
+Authorization:			User
+
+
+Request:			None
+
+
+Success Response:
+{
+  "userId": 1,
+  "userName": "johnsmith",
+  "email": "john@example.com",
+  "profilePictureUrl": "https://...",
+  "availableCredits": 95,
+  "role": "User",
+  "createdAt": "2026-07-21T10:30:00"
+}
+
+
+
+2.2 Update Profile:
+
+Endpoint:			PUT /api/profile
+Authorization:			User
+
+Request:
+{
+  "userName": "John Smith"
+}
+
+
+Success Response:
+{
+  "message": "Profile updated successfully."
+}
+
+
+
+2.3 Upload Profile Picture:
+
+Endpoint:			POST /api/profile/upload-picture
+Authorization:			User
+
+Request:			multipart/form-data
+
+profilePicture : 		File
+
+Success Response :
+{
+  "message": "Profile picture uploaded successfully.",
+  "profilePictureUrl": "https://..."
+}
+
+
+
+2.4 Delete Profile Picture:
+
+Endpoint:			DELETE /api/profile/picture
+Authorization:			User
+
+Success Response:
+{
+  "message": "Profile picture removed successfully."
+}
+
+2.5 Change Password
+
+Endpoint: 			PUT /api/profile/change-password
+Authorization: 		        User
+
+Request:
+
+{
+  "oldPassword": "OldPassword@123",
+  "newPassword": "NewPassword@123",
+  "confirmNewPassword": "NewPassword@123"
+}
+
+Success Response (200 OK):
+
+{
+  "message": "Password changed successfully."
+}
+
+Error Responses:
+
+400 Bad Request
+
+{
+  "message": "Old password is incorrect."
+}
+
+400 Bad Request
+
+{
+  "message": "New password and confirm password do not match."
+}
+
+400 Bad Request
+
+{
+  "message": "New password must be different from the old password."
+}
+
+401 Unauthorized
+
+{
+  "message": "Unauthorized access."
+}
+
+
+2.6 Delete Account:
+
+Endpoint:			DELETE /api/profile
+Authorization:			User
+
+
+Request:
+{
+  "reason": "No longer using the application."
+}
+
+
+Success Response
+{
+  "message": "Account deleted successfully."
+}
+
+
+2.7 View Another User's Public Profile
+
+Endpoint: 			GET /api/profile/{userId}
+Authorization:			 Public
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "userId": 12,
+  "displayName": "John Smith",
+  "userName": "johnsmith",
+  "bio": "Tech enthusiast and AI writer.",
+  "profilePictureUrl": "https://storage/profile/john.png",
+  "location": "New York",
+  "website": "https://johnsmith.dev",
+  "joinedOn": "2026-01-12T10:30:00Z"
+}
+Error Response
+{
+  "message": "User not found."
+}
+
+2.8 View Published Blogs of a User
+
+Endpoint: 			GET /api/profile/{userId}/blogs
+
+Authorization: 			Public
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "blogId": 21,
+    "title": "Introduction to AI",
+    "category": "Technology",
+    "thumbnailUrl": "https://storage/blogs/21.png",
+    "publishedAt": "2026-08-02T12:30:00Z"
+  },
+  {
+    "blogId": 25,
+    "title": "Future of Robotics",
+    "category": "Technology",
+    "thumbnailUrl": "https://storage/blogs/25.png",
+    "publishedAt": "2026-08-04T10:15:00Z"
+  }
+]
+
+2.9 Update Public Profile
+
+Endpoint:			 PUT /api/profile/public-profile
+
+Authorization: 			User
+
+Request
+{
+  "displayName": "John Smith",
+  "bio": "Backend Developer | AI Enthusiast",
+  "website": "https://johnsmith.dev",
+  "location": "New York",
+  "twitter": "https://twitter.com/johnsmith",
+  "linkedin": "https://linkedin.com/in/johnsmith"
+}
+Success Response
+{
+  "message": "Public profile updated successfully."
+}
+
+2.10 Follow User
+
+Endpoint: 		POST /api/profile/{userId}/follow
+
+Authorization: 		User
+
+Request
+
+None
+
+Success Response
+{
+  "message": "User followed successfully."
+}
+Error Response
+{
+  "message": "You are already following this user."
+}
+
+2.11 Unfollow User
+
+Endpoint: 		DELETE /api/profile/{userId}/follow
+
+Authorization:		 User
+
+Request
+
+None
+
+Success Response
+{
+  "message": "User unfollowed successfully."
+}
+
+2.12 Get My Followers
+
+Endpoint:		 GET /api/profile/followers
+
+Authorization:		 User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "userId": 5,
+    "userName": "alex",
+    "displayName": "Alex Johnson",
+    "profilePictureUrl": "https://storage/profile/alex.png"
+  },
+  {
+    "userId": 8,
+    "userName": "emma",
+    "displayName": "Emma Wilson",
+    "profilePictureUrl": "https://storage/profile/emma.png"
+  }
+]
+
+2.13 Get Users I Follow
+
+Endpoint: 		GET /api/profile/following
+
+Authorization: 		User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "userId": 15,
+    "userName": "david",
+    "displayName": "David Miller",
+    "profilePictureUrl": "https://storage/profile/david.png"
+  }
+]
+
+2.14 Get Another User's Followers
+
+Endpoint:		 GET /api/profile/{userId}/followers
+
+Authorization:		 Public
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "userId": 10,
+    "userName": "mark",
+    "displayName": "Mark Lee"
+  },
+  {
+    "userId": 11,
+    "userName": "jessica",
+    "displayName": "Jessica Brown"
+  }
+]
+2.15 Get Another User's Following
+
+Endpoint: 			GET /api/profile/{userId}/following
+
+Authorization: 			Public
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "userId": 20,
+    "userName": "michael",
+    "displayName": "Michael Scott"
+  }
+]
+
+2.16 View Saved Blogs
+
+Endpoint:		 GET /api/profile/saved-blogs
+
+Authorization:		 User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "blogId": 18,
+    "title": "Cloud Computing Basics",
+    "author": "John Smith",
+    "savedAt": "2026-08-03T14:20:00Z"
+  },
+  {
+    "blogId": 22,
+    "title": "Understanding Docker",
+    "author": "Sarah Lee",
+    "savedAt": "2026-08-04T11:00:00Z"
+  }
+]
+2.17 View Liked Blogs
+
+Endpoint:		 GET /api/profile/liked-blogs
+
+Authorization:		 User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "blogId": 11,
+    "title": "Machine Learning Basics",
+    "author": "Alex",
+    "likedAt": "2026-08-02T15:10:00Z"
+  }
+]
+
+2.18 View User Activity
+
+Endpoint: 		GET /api/profile/activity
+
+Authorization: 		User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "activityType": "Published Blog",
+    "blogTitle": "Understanding AI",
+    "activityDate": "2026-08-03T10:30:00Z"
+  },
+  {
+    "activityType": "Liked Blog",
+    "blogTitle": "Cloud Security",
+    "activityDate": "2026-08-04T09:15:00Z"
+  },
+  {
+    "activityType": "Commented",
+    "blogTitle": "Future of AI",
+    "activityDate": "2026-08-04T18:10:00Z"
+  }
+]
+
+2.19 Search Users
+
+Endpoint: 		GET /api/profile/search?query=john
+
+Authorization: 		User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "userId": 12,
+    "userName": "johnsmith",
+    "displayName": "John Smith",
+    "profilePictureUrl": "https://storage/profile/john.png"
+  },
+  {
+    "userId": 18,
+    "userName": "john_dev",
+    "displayName": "John Developer",
+    "profilePictureUrl": "https://storage/profile/johndev.png"
+  }
+]
+
+2.20 Suggested Users
+
+Endpoint: 		GET /api/profile/suggestions
+
+Authorization: 		User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "userId": 21,
+    "userName": "sarah",
+    "displayName": "Sarah Lee",
+    "mutualFollowers": 6
+  },
+  {
+    "userId": 27,
+    "userName": "alex",
+    "displayName": "Alex Johnson",
+    "mutualFollowers": 4
+  }
+]
+
+2.21 Get Draft Blogs
+
+Endpoint: 		GET /api/profile/drafts
+
+Authorization: 		User
+
+Request
+
+None
+
+Success Response
+[
+  {
+    "blogId": 34,
+    "title": "AI in Education",
+    "lastUpdated": "2026-08-04T18:00:00Z"
+  },
+  {
+    "blogId": 36,
+    "title": "Blockchain Basics",
+    "lastUpdated": "2026-08-03T10:00:00Z"
+  }
+]
+
+2.22 Get User Badges (Optional)
+
+Endpoint: 			GET /api/profile/{userId}/badges
+
+Authorization:			 Public
+
+Success Response
+[
+  {
+    "badgeId": 1,
+    "name": "Early Adopter",
+    "iconUrl": "https://storage/badges/early.png"
+  },
+  {
+    "badgeId": 2,
+    "name": "Top Writer",
+    "iconUrl": "https://storage/badges/writer.png"
+  }
+]
+
+3. AI Blog APIs:
+
+3.1 Generate Blog:
+
+Endpoint: 			POST /api/blogs/generate
+Authorization: 			User
+
+Request:
+{
+  "topic": "Artificial Intelligence",
+  "tone": "Professional",
+  "audience": "Students",
+  "category": "Technology",
+  "wordCount": 1000
+}
+
+Success Response (200 OK):
+
+{
+  "message": "Blog generated successfully.",
+  "creditsUsed": 5,
+  "remainingCredits": 95,
+  "blog": {
+    "blogId": 15,
+    "title": "Understanding Artificial Intelligence",
+    "content": "Generated AI blog content...",
+    "category":"Technology",
+    "wordCount": 1000,
+    "createdAt": "2026-07-21T10:30:00"
+  }
+}
+
+Error Responses:
+
+400 Bad Request
+
+{
+  "message": "Invalid blog generation request."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+
+3.2 Regenerate Blog:
+
+Endpoint: 			POST /api/blogs/{blogId}/regenerate
+Authorization:		        User
+
+Request:			None
+
+Success Response (200 OK):
+
+{
+  "message": "Blog regenerated successfully.",
+  "creditsUsed": 5,
+  "remainingCredits": 90,
+  "versionId": 4,
+  "content": "Regenerated blog content..."
+}
+
+Error Responses:
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+
+3.3 Expand Blog:
+
+Endpoint: 			POST /api/blogs/{blogId}/expand
+Authorization: 			User
+
+Request:			None
+
+Success Response (200 OK):
+
+{
+  "message": "Blog expanded successfully.",
+  "creditsUsed": 2,
+  "remainingCredits": 88,
+  "versionId": 5,
+  "content": "Expanded blog content..."
+}
+
+Error Responses:
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+
+3.4 Shorten Blog:
+
+Endpoint: 			POST /api/blogs/{blogId}/shorten
+Authorization:		        User
+
+Request:			None
+
+Success Response (200 OK):
+
+{
+  "message": "Blog shortened successfully.",
+  "creditsUsed": 2,
+  "remainingCredits": 86,
+  "versionId": 6,
+  "content": "Shortened blog content..."
+}
+
+Error Responses:
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+
+3.5 Generate Blog Image
+
+Endpoint: 			POST /api/blogs/{blogId}/generate-image
+Authorization:		        User
+
+Request:			None
+
+Success Response (200 OK):
+
+{
+  "message": "Image generated successfully.",
+  "creditsUsed": 10,
+  "remainingCredits": 76,
+  "imageId":12,
+  "imageUrl": "https://storage/images/blog15.png"
+}
+
+Error Responses:
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+
+3.6 Get AI History
+
+Endpoint: GET /api/blogs/{blogId}/ai-history
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+[
+  {
+    "versionId": 1,
+    "versionType": "Original",
+    "createdAt": "2026-08-01T10:30:00Z"
+  },
+  {
+    "versionId": 2,
+    "versionType": "Regenerated",
+    "createdAt": "2026-08-01T10:45:00Z"
+  },
+  {
+    "versionId": 3,
+    "versionType": "Expanded",
+    "createdAt": "2026-08-01T11:00:00Z"
+  },
+  {
+    "versionId": 4,
+    "versionType": "Shortened",
+    "createdAt": "2026-08-01T11:20:00Z"
+  }
+]
+Error Response
+{
+  "message": "Blog not found."
+}
+3.7 Rewrite Blog
+
+Endpoint: POST /api/blogs/{blogId}/rewrite
+
+Authorization: User
+
+Request
+{
+  "instructions": "Rewrite this blog in a casual tone for beginners."
+}
+Success Response (200 OK)
+{
+  "message": "Blog rewritten successfully.",
+  "creditsUsed": 5,
+  "remainingCredits": 71,
+  "versionId": 5,
+  "content": "Rewritten blog content..."
+}
+Error Responses
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+3.8 Translate Blog
+
+Endpoint: POST /api/blogs/{blogId}/translate
+
+Authorization: User
+
+Request
+{
+  "language": "Spanish"
+}
+Success Response (200 OK)
+{
+  "message": "Blog translated successfully.",
+  "creditsUsed": 5,
+  "remainingCredits": 66,
+  "versionId": 6,
+  "language": "Spanish",
+  "content": "Contenido traducido..."
+}
+Error Responses
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+3.9 Generate SEO Tags
+
+Endpoint: POST /api/blogs/{blogId}/generate-tags
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "message": "SEO tags generated successfully.",
+  "creditsUsed": 1,
+  "remainingCredits": 65,
+  "tags": [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "AI",
+    "Technology",
+    "Automation"
+  ]
+}
+Error Responses
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+3.10 Generate Blog Summary
+
+Endpoint: POST /api/blogs/{blogId}/generate-summary
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "message": "Summary generated successfully.",
+  "creditsUsed": 1,
+  "remainingCredits": 64,
+  "summary": "Artificial Intelligence is transforming industries by enabling machines to perform tasks that traditionally required human intelligence."
+}
+Error Responses
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+402 Payment Required
+
+{
+  "message": "Insufficient credits. Please purchase a subscription plan."
+}
+
+4. Blog Management APIs:
+
+4.1 Get My Blogs:
+
+Endpoint:			GET /api/blogs
+Authorization:			User
+
+Request:			None
+
+Success Response:
+[
+  {
+    "blogId": 15,
+    "title": "Understanding AI",
+    "category": "Technology",
+    "wordCount": 1000,
+    "createdAt": "2026-07-21",
+    "updatedAt": "2026-07-21"
+  },
+  {
+    "blogId": 16,
+    "title": "Machine Learning Basics",
+    "category": "Technology",
+    "wordCount": 800,
+    "createdAt": "2026-07-22",
+    "updatedAt": "2026-07-22"
+  }
+]
+
+
+4.2 Get Blog Details:
+
+Endpoint:			GET /api/blogs/{blogId}
+Authorization:			User
+
+Request:			None
+
+Success Response:
+{
+  "blogId": 15,
+  "currentVersion":"Original",
+  "title": "Understanding AI",
+  "prompt": "Explain Artificial Intelligence",
+  "content": "Blog content...",
+  "tone": "Professional",
+  "audience": "Students",
+  "category": "Technology",
+  "wordCount": 1000,
+  "creditsUsed": 5,
+  "createdAt": "2026-07-21"
+}
+
+
+
+4.3 Delete Blog:
+
+Endpoint:			DELETE /api/blogs/{blogId}
+Authorization:			User
+
+Request
+
+None
+
+Success Response
+{
+  "message": "Blog deleted successfully."
+}
+
+
+4.4 Download Blog as PDF:
+
+Endpoint:			GET /api/blogs/{blogId}/download-pdf
+Authorization:			User
+
+Request:			None
+
+Success Response:
+Content-Type: application/pdf
+
+File Download
+
+
+4.5 Get Blog Versions:
+
+Endpoint:			GET /api/blogs/{blogId}/versions
+Authorization:			User
+
+Request:			None
+
+Success Response
+[
+  {
+    "versionId": 1,
+    "versionType": "Original",
+    "createdAt": "2026-07-21"
+  },
+  {
+    "versionId": 2,
+    "versionType": "Expanded",
+    "createdAt": "2026-07-22"
+  },
+  {
+    "versionId": 3,
+    "versionType": "Regenerated",
+    "createdAt": "2026-07-23"
+  }
+]
+
+4.6 Get Blog Images
+
+Endpoint: GET /api/blogs/{blogId}/images
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+[
+  {
+    "imageId": 1,
+    "prompt": "Artificial Intelligence robot working with humans",
+    "imageUrl": "https://storage/blog-images/ai-image-1.png",
+    "createdAt": "2026-08-05T10:15:00Z"
+  },
+  {
+    "imageId": 2,
+    "prompt": "Future of AI illustration",
+    "imageUrl": "https://storage/blog-images/ai-image-2.png",
+    "createdAt": "2026-08-05T10:20:00Z"
+  }
+]
+Error Response
+{
+  "message": "Blog not found."
+}
+4.7 Delete Blog Image
+
+Endpoint: DELETE /api/blogs/images/{imageId}
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "message": "Image deleted successfully."
+}
+Error Response
+{
+  "message": "Image not found."
+}
+4.8 Publish Blog
+
+Endpoint: POST /api/blogs/{blogId}/publish
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "message": "Blog published successfully.",
+  "publishedAt": "2026-08-05T14:20:00Z"
+}
+Error Responses
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+400 Bad Request
+
+{
+  "message": "Blog is already published."
+}
+4.9 Unpublish Blog
+
+Endpoint: POST /api/blogs/{blogId}/unpublish
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "message": "Blog moved to drafts successfully."
+}
+Error Responses
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+400 Bad Request
+
+{
+  "message": "Blog is already a draft."
+}
+4.10 Update Blog
+
+Endpoint: PUT /api/blogs/{blogId}
+
+Authorization: User
+
+Request
+{
+  "title": "Understanding Artificial Intelligence",
+  "content": "Updated blog content...",
+  "category": "Technology",
+  "tags": [
+    "AI",
+    "Machine Learning",
+    "Technology"
+  ]
+}
+Success Response (200 OK)
+{
+  "message": "Blog updated successfully.",
+  "updatedAt": "2026-08-05T15:40:00Z"
+}
+Error Responses
+
+404 Not Found
+
+{
+  "message": "Blog not found."
+}
+
+400 Bad Request
+
+{
+  "message": "Invalid blog details."
+}
+4.11 Get Draft Blogs
+
+Endpoint: GET /api/blogs/drafts
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+[
+  {
+    "blogId": 15,
+    "title": "Artificial Intelligence",
+    "category": "Technology",
+    "lastUpdated": "2026-08-05T11:00:00Z"
+  },
+  {
+    "blogId": 18,
+    "title": "Machine Learning Basics",
+    "category": "Technology",
+    "lastUpdated": "2026-08-04T17:45:00Z"
+  }
+]
+4.12 Get Published Blogs
+
+Endpoint: GET /api/blogs/published
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+[
+  {
+    "blogId": 21,
+    "title": "Future of Artificial Intelligence",
+    "category": "Technology",
+    "publishedAt": "2026-08-04T09:30:00Z",
+    "views": 152,
+    "likes": 34,
+    "comments": 8
+  },
+  {
+    "blogId": 24,
+    "title": "Cloud Computing Guide",
+    "category": "Technology",
+    "publishedAt": "2026-08-02T18:10:00Z",
+    "views": 311,
+    "likes": 72,
+    "comments": 19
+  }
+]
+Error Response
+{
+  "message": "No published blogs found."
+}
+
+
+5. Credit APIs:
+
+5.1 Get Available Credits:
+
+Endpoint:			GET /api/credits
+Authorization:			User
+
+Request:			None
+
+
+Success Response (200 OK):
+{
+  "availableCredits": 76
+}
+
+
+Error Response:
+{
+  "message": "Unauthorized."
+}
+
+
+
+5.3 Get AI Credit Pricing:
+
+Endpoint:			GET /api/credits/pricing
+Authorization:			Public
+
+Request:			None
+
+{
+  "blogGeneration": 5,
+  "regenerateBlog": 5,
+  "rewriteBlog": 5,
+  "translateBlog": 5,
+  "expandBlog": 2,
+  "shortenBlog": 2,
+  "generateImage": 10,
+  "generateSummary": 1,
+  "generateTags": 1
+}
+
+
+
+6. Subscription Plan APIs:
+
+6.1 Get Subscription Plans:
+
+Endpoint:			GET /api/plans
+Authorization:			Public
+
+Request:			None
+
+Success Response:
+[
+  {
+    "planId": 1,
+    "name": "Free",
+    "price": 0,
+    "credits": 100,
+    "description": "Free credits on registration"
+  },
+  {
+    "planId": 2,
+    "name": "Standard",
+    "price": 50,
+    "credits": 100,
+    "description": "Best for beginners"
+  },
+  {
+    "planId": 3,
+    "name": "Premium",
+    "price": 199,
+    "credits": 500,
+    "description": "For heavy AI users"
+  }
+]
+
+6.2 Create Subscription Plan
+
+Endpoint: POST /api/admin/plans
+
+Authorization: Admin
+
+Request
+{
+  "name": "Enterprise",
+  "description": "Unlimited AI generation for organizations.",
+  "price": 999,
+  "credits": 5000
+}
+Success Response (201 Created)
+{
+  "message": "Subscription plan created successfully."
+}
+Error Response
+{
+  "message": "Plan already exists."
+}
+6.3 Update Subscription Plan
+
+Endpoint: PUT /api/admin/plans/{planId}
+
+Authorization: Admin
+
+Request
+{
+  "name": "Premium",
+  "description": "Updated Premium Plan",
+  "price": 249,
+  "credits": 700,
+  "isActive": true
+}
+Success Response (200 OK)
+{
+  "message": "Subscription plan updated successfully."
+}
+Error Response
+{
+  "message": "Subscription plan not found."
+}
+6.4 Delete Subscription Plan
+
+Endpoint: DELETE /api/admin/plans/{planId}
+
+Authorization: Admin
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "message": "Subscription plan deleted successfully."
+}
+Error Response
+{
+  "message": "Subscription plan not found."
+}
+
+
+7. Payment APIs:
+
+7.1 Create Stripe Payment:
+
+Endpoint:			POST /api/payments/create-payment-intent
+Authorization:			User
+
+Request:
+{
+  "planId": 2
+}
+
+Success Response:
+{
+  "clientSecret": "pi_xxxxxxxxx_secret_xxxxxxxxx",
+  "paymentIntentId": "pi_xxxxxxxxx"
+}
+
+
+
+7.2 Confirm Payment:
+
+Endpoint:			POST /api/payments/confirm
+Authorization:			User
+
+Request:
+{
+  "paymentIntentId": "pi_xxxxxxxxx"
+}
+
+
+Success Response:
+{
+  "message": "Payment successful.",
+  "creditsAdded": 100,
+  "availableCredits": 176,
+  "paymentStatus":"Succeeded"
+}
+
+
+Error Response:
+{
+  "message": "Payment verification failed."
+}
+
+
+
+7.3 Get Payment History:
+
+Endpoint:			GET /api/payments/history
+Authorization:			User
+
+Request:			None
+
+Success Response:
+[
+  {
+    "paymentId": 1,
+    "planName": "Standard",
+    "amount": 50,
+    "creditsPurchased": 100,
+    "paymentStatus": "Succeeded",
+    "purchasedAt": "2026-07-21T18:00:00"
+  },
+  {
+    "paymentId": 2,
+    "planName": "Premium",
+    "amount": 199,
+    "creditsPurchased": 500,
+    "paymentStatus": "Succeeded",
+    "purchasedAt": "2026-08-01T09:15:00"
+  }
+]
+
+7.4 Stripe Webhook
+
+Endpoint: POST /api/payments/webhook
+
+Authorization: Stripe
+
+Request
+
+Stripe automatically sends payment events.
+
+Success Response (200 OK)
+{
+  "received": true
+}
+7.5 Get Payment Details
+
+Endpoint: GET /api/payments/{paymentId}
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "paymentId": 5,
+  "planName": "Premium",
+  "amount": 199,
+  "creditsPurchased": 500,
+  "paymentStatus": "Succeeded",
+  "stripePaymentIntentId": "pi_xxxxxxxxx",
+  "purchasedAt": "2026-08-05T12:30:00Z"
+}
+Error Response
+{
+  "message": "Payment not found."
+}
+7.6 Cancel Pending Payment
+
+Endpoint: POST /api/payments/cancel
+
+Authorization: User
+
+Request
+{
+  "paymentIntentId": "pi_xxxxxxxxx"
+}
+Success Response (200 OK)
+{
+  "message": "Payment cancelled successfully."
+}
+Error Responses
+{
+  "message": "Payment is already completed."
+}
+{
+  "message": "Payment not found."
+}
+
+8. Feedback APIs:
+
+8.1 Submit Feedback:
+
+Endpoint:			POST /api/feedback
+Authorization:			User
+
+Request:
+{
+  "subject": "Excellent AI",
+  "message": "The generated blogs are very useful.",
+  "rating": 5,
+  "isPublic": true
+}
+
+
+Success Response:
+{
+  "message": "Feedback submitted successfully."
+}
+
+
+
+8.2 Get My Feedback:
+
+Endpoint:			GET /api/feedback
+Authorization:			User
+
+Request:			None
+
+Success Response:
+[
+  {
+    "feedbackId": 1,
+    "subject": "Excellent AI",
+    "rating": 5,
+    "status": "Resolved",
+    "createdAt": "2026-07-21"
+  }
+]
+
+
+
+8.3 Get Feedback Details:
+
+Endpoint:			GET /api/feedback/{feedbackId}
+Authorization:			User
+
+Request:			None
+
+Success Response:
+{
+  "feedbackId": 1,
+  "subject": "Excellent AI",
+  "message": "The generated blogs are very useful.",
+  "rating": 5,
+  "status": "Resolved",
+  "adminResponse": "Thank you for your feedback!",
+  "createdAt": "2026-07-21"
+}
+
+
+
+8.4 Get Public Feedback:
+
+Endpoint:			GET /api/feedback/public
+Authorization:			Public
+
+Request:			None
+
+Success Response:
+[
+  {
+    "userName": "John",
+    "rating": 5,
+    "message": "Amazing application."
+  },
+  {
+    "userName": "Sarah",
+    "rating": 4,
+    "message": "Very easy to use."
+  }
+]
+
+
+
+9. Issue APIs:
+
+9.1 Raise Issue:
+
+Endpoint:			POST /api/issues
+Authorization:			User
+
+Request:
+{
+  "subject": "Unable to Generate Blog",
+  "description": "Every time I click Generate Blog, an error occurs."
+}
+
+
+Success Response (201 Created):
+{
+  "message": "Issue submitted successfully."
+}
+
+
+Error Response:
+{
+  "message": "Unable to submit issue."
+}
+
+
+9.2 Get My Issues:
+
+Endpoint:			GET /api/issues
+Authorization:			User
+
+Request:			None
+
+Success Response
+[
+  {
+    "issueId": 1,
+    "subject": "Unable to Generate Blog",
+    "status": "Pending",
+    "createdAt": "2026-07-21T10:30:00"
+  },
+  {
+    "issueId": 2,
+    "subject": "Payment Failed",
+    "status": "Resolved",
+    "createdAt": "2026-07-22T09:20:00"
+  }
+]
+
+
+
+9.3 Get Issue Details:
+
+Endpoint:			GET /api/issues/{issueId}
+Authorization:			User
+
+Request:			None
+
+Success Response:
+{
+  "issueId": 2,
+  "subject": "Payment Failed",
+  "description": "Stripe payment failed after successful deduction.",
+  "status": "Resolved",
+  "adminResponse": "The payment has been verified and your credits have been added.",
+  "createdAt": "2026-07-22T09:20:00",
+  "updatedAt": "2026-07-22T10:10:00"
+}
+
+
+9.4 Update Issue
+
+Endpoint: PUT /api/issues/{issueId}
+
+Authorization: User
+
+Request
+{
+  "subject": "Unable to Generate AI Blog",
+  "description": "The issue still occurs after refreshing the page."
+}
+Success Response (200 OK)
+{
+  "message": "Issue updated successfully."
+}
+Error Responses
+{
+  "message": "Issue not found."
+}
+{
+  "message": "Resolved issues cannot be updated."
+}
+9.5 Delete Issue
+
+Endpoint: DELETE /api/issues/{issueId}
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "message": "Issue deleted successfully."
+}
+Error Response
+{
+  "message": "Issue not found."
+}
+9.6 View Issue Status
+
+Endpoint: GET /api/issues/{issueId}/status
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "issueId": 2,
+  "status": "Resolved",
+  "lastUpdated": "2026-08-06T10:00:00Z"
+}
+Error Response
+{
+  "message": "Issue not found."
+}
+
+
+10. Admin APIs:
+
+10.1 Dashboard Statistics:
+
+Endpoint:			GET /api/admin/dashboard
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+{
+  "totalUsers": 425,
+  "totalBlogs": 2687,
+  "totalPayments": 312,
+  "totalCreditsPurchased": 24500,
+  "totalFeedback": 87,
+  "totalIssues": 26,
+  "totalDeletedAccounts": 15
+}
+
+
+
+10.2 Get All Users:
+
+Endpoint:			GET /api/admin/users
+Authorization:			Admin
+
+Request:		        None
+
+Success Response
+[
+  {
+    "userId": 1,
+    "userName": "johnsmith",
+    "email": "john@example.com",
+    "availableCredits": 80,
+    "role": "User",
+    "createdAt": "2026-07-10"
+  }
+]
+
+
+
+10.3 Get User Details:
+
+Endpoint:			GET /api/admin/users/{userId}
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+{
+  "userId": 1,
+  "userName": "johnsmith",
+  "email": "john@example.com",
+  "availableCredits": 80,
+  "role": "User",
+  "blogsGenerated": 32,
+  "paymentsMade": 3,
+  "feedbackCount": 2,
+  "issueCount": 1,
+  "createdAt": "2026-07-10"
+}
+
+
+
+10.4 Get All Blogs:
+
+Endpoint:			GET /api/admin/blogs
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+[
+  {
+    "blogId": 15,
+    "title": "Artificial Intelligence",
+    "category":"Technology",
+    "userName": "johnsmith",
+    "createdAt": "2026-07-21"
+  }
+]
+
+
+
+10.5 Get Blog Details:
+
+Endpoint:			GET /api/admin/blogs/{blogId}
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+{
+  "blogId": 15,
+  "title": "Artificial Intelligence",
+  "userName": "johnsmith",
+  "prompt": "Explain Artificial Intelligence",
+  "content": "Generated blog content...",
+  "creditsUsed": 5,
+  "createdAt": "2026-07-21"
+}
+
+
+
+10.6 Get All Payments:
+
+Endpoint:			GET /api/admin/payments
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+[
+  {
+    "paymentId": 1,
+    "userName": "johnsmith",
+    "planName": "Standard",
+    "amount": 50,
+    "creditsPurchased": 100,
+    "paymentStatus": "Succeeded",
+    "purchasedAt": "2026-07-21"
+  }
+]
+
+
+
+10.7 Get Deleted Accounts:
+
+Endpoint:			GET /api/admin/deleted-users
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+[
+  {
+    "deletedId": 1,
+    "email": "john@example.com",
+    "reason": "No longer using the application.",
+    "deletedAt": "2026-07-23"
+  }
+]
+
+
+
+10.8 Get All Feedback:
+
+Endpoint:			GET /api/admin/feedback
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+[
+  {
+    "feedbackId": 1,
+    "userName": "johnsmith",
+    "subject": "Excellent AI",
+    "rating": 5,
+    "status": "Pending",
+    "createdAt": "2026-07-21"
+  }
+]
+
+
+
+10.9 Resolve Feedback:
+
+Endpoint:			PUT /api/admin/feedback/{feedbackId}/resolve
+Authorization:			Admin
+
+Request
+{
+  "adminResponse": "Thank you for your valuable feedback."
+}
+Success Response
+{
+  "message": "Feedback resolved successfully."
+}
+
+
+
+10.10 Get All Issues:
+
+Endpoint:			GET /api/admin/issues
+Authorization:			Admin
+
+Request:			None
+
+Success Response
+[
+  {
+    "issueId": 1,
+    "userName": "johnsmith",
+    "subject": "Payment Failed",
+    "description": "i was trying but payment is constantly showing errors...",
+    "status": "Pending",
+    "createdAt": "2026-07-21"
+  }
+]
+
+
+
+10.11 Resolve Issue:
+
+Endpoint:			PUT /api/admin/issues/{issueId}/resolve
+Authorization:			Admin
+
+Request
+{
+  "adminResponse": "The issue has been fixed. Please try again."
+}
+Success Response
+{
+  "message": "Issue resolved successfully."
+}
+
+
+10.12 Get User Payment History:
+
+Endpoint:			GET /api/admin/users/{userId}/payments 
+Description:			Returns the complete payment history of a specific user.
+Authorization:			Admin
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Payment history retrieved successfully.",
+  "data": [
+    {
+      "paymentId": 1,
+      "planName": "Standard Plan",
+      "amount": 199.00,
+      "creditsPurchased": 500,
+      "paymentStatus": "Succeeded",
+      "purchasedAt": "2026-07-24T10:30:00Z"
+    },
+    {
+      "paymentId": 2,
+      "planName": "Premium Plan",
+      "amount": 499.00,
+      "creditsPurchased": 1500,
+      "paymentStatus": "Succeeded",
+      "purchasedAt": "2026-08-05T12:15:00Z"
+    }
+  ]
+}
+
+
+Error Responses:
+
+404 Not Found
+{
+  "success": false,
+  "message": "User not found."
+}
+
+10.13 Create Subscription Plan:
+
+Endpoint:			POST /api/admin/plans
+Authorization:			Admin
+
+Request:
+{
+  "name": "Premium Plan",
+  "description": "Best value for frequent users.",
+  "price": 499,
+  "credits": 1500
+}
+
+Success Response (201 Created)
+{
+  "success": true,
+  "message": "Subscription plan created successfully."
+}
+
+Error Responses:
+
+400 Bad Request
+{
+  "success": false,
+  "message": "Invalid plan details."
+}
+
+10.14 Update Subscription Plan:
+
+Endpoint:			PUT /api/admin/plans/{planId}
+Authorization:			Admin
+
+Request:
+{
+  "name": "Premium Plan",
+  "description": "Updated plan description.",
+  "price": 599,
+  "credits": 1800,
+  "isActive": true
+}
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Subscription plan updated successfully."
+}
+
+Error Responses
+
+404 Not Found
+{
+  "success": false,
+  "message": "Subscription plan not found."
+}
+
+10.15 Delete Subscription Plan:
+
+Endpoint:			DELETE /api/admin/plans/{planId}
+Authorization:			Admin
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Subscription plan deleted successfully."
+}
+
+Error Responses
+
+404 Not Found
+{
+  "success": false,
+  "message": "Subscription plan not found."
+}
+
+10.16 Block / Suspend User
+
+Endpoint: PUT /api/admin/users/{userId}/block
+Authorization: Admin
+
+Request:
+
+{
+  "reason": "Posting spam and violating community guidelines."
+}
+
+Success Response (200 OK):
+
+{
+  "success": true,
+  "message": "User account has been suspended successfully."
+}
+
+Error Responses
+
+404 Not Found
+
+{
+  "success": false,
+  "message": "User not found."
+}
+
+400 Bad Request
+
+{
+  "success": false,
+  "message": "User is already suspended."
+}
+10.17 Unblock User
+
+Endpoint: PUT /api/admin/users/{userId}/unblock
+Authorization: Admin
+
+Request: None
+
+Success Response (200 OK):
+
+{
+  "success": true,
+  "message": "User account has been reactivated successfully."
+}
+
+Error Responses
+
+404 Not Found
+
+{
+  "success": false,
+  "message": "User not found."
+}
+
+400 Bad Request
+
+{
+  "success": false,
+  "message": "User account is not suspended."
+}
+10.18 Remove Published Blog
+
+Endpoint: DELETE /api/admin/blogs/{blogId}
+Authorization: Admin
+
+Description: Removes a published blog that violates community policies.
+
+Success Response (200 OK):
+
+{
+  "success": true,
+  "message": "Blog removed successfully."
+}
+
+Error Responses
+
+404 Not Found
+
+{
+  "success": false,
+  "message": "Blog not found."
+}
+10.19 Get Reported Blogs
+
+Endpoint: GET /api/admin/reported-blogs
+Authorization: Admin
+
+Success Response (200 OK):
+
+{
+  "success": true,
+  "message": "Reported blogs retrieved successfully.",
+  "data": [
+    {
+      "reportId": 12,
+      "blogId": 45,
+      "title": "Artificial Intelligence",
+      "author": "johnsmith",
+      "reportedBy": "sarah",
+      "reason": "Spam",
+      "reportedAt": "2026-08-06T10:15:00Z",
+      "status": "Pending"
+    },
+    {
+      "reportId": 13,
+      "blogId": 67,
+      "title": "Machine Learning Basics",
+      "author": "alex",
+      "reportedBy": "mike",
+      "reason": "Offensive Content",
+      "reportedAt": "2026-08-06T11:30:00Z",
+      "status": "Pending"
+    }
+  ]
+}
+10.20 Resolve Reported Blog
+
+Endpoint: PUT /api/admin/reported-blogs/{reportId}/resolve
+Authorization: Admin
+
+Request:
+
+{
+  "action": "Removed",
+  "adminRemarks": "Blog violated community guidelines."
+}
+
+Success Response (200 OK):
+
+{
+  "success": true,
+  "message": "Reported blog resolved successfully."
+}
+
+Error Responses
+
+404 Not Found
+
+{
+  "success": false,
+  "message": "Report not found."
+}
+10.21 Platform Statistics
+
+Endpoint: GET /api/admin/statistics
+Authorization: Admin
+
+Description: Returns complete platform analytics.
+
+Success Response (200 OK):
+
+{
+  "success": true,
+  "message": "Platform statistics retrieved successfully.",
+  "data": {
+    "totalUsers": 1248,
+    "activeUsers": 1192,
+    "blockedUsers": 56,
+    "totalPublishedBlogs": 6842,
+    "totalDraftBlogs": 2103,
+    "totalViews": 428975,
+    "totalLikes": 36541,
+    "totalComments": 8912,
+    "totalReposts": 1754,
+    "totalSavedBlogs": 5432,
+    "totalPayments": 1035,
+    "totalRevenue": 248950,
+    "totalCreditsPurchased": 865000,
+    "totalFeedback": 317,
+    "totalIssues": 84,
+    "pendingReports": 19
+  }
+}
+
+Error Responses
+
+403 Forbidden
+
+{
+  "success": false,
+  "message": "Only administrators can access this resource."
+}
+
+
+11. Public Feed APIs
+11.1 Get Public Feed
+
+Endpoint: GET /api/feed
+
+Authorization: Public
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Public feed retrieved successfully.",
+  "data": [
+    {
+      "blogId": 21,
+      "title": "The Future of Artificial Intelligence",
+      "excerpt": "Artificial Intelligence is transforming industries worldwide...",
+      "coverImage": "https://cdn.ai-blog.com/images/ai-cover.jpg",
+      "category": "Technology",
+      "author": {
+        "userId": 5,
+        "userName": "johnsmith",
+        "profilePicture": "https://cdn.ai-blog.com/profile/john.jpg"
+      },
+      "publishedAt": "2026-08-05T09:15:00Z",
+      "views": 2540,
+      "likes": 321,
+      "comments": 48,
+      "isLiked": false,
+      "isSaved": false
+    }
+  ]
+}
+11.2 Get Trending Blogs
+
+Endpoint: GET /api/feed/trending
+
+Authorization: Public
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Trending blogs retrieved successfully.",
+  "data": [
+    {
+      "blogId": 34,
+      "title": "Top 10 AI Tools in 2026",
+      "author": "Sarah",
+      "category": "Technology",
+      "views": 14235,
+      "likes": 1890,
+      "comments": 216,
+      "publishedAt": "2026-08-03T11:20:00Z"
+    }
+  ]
+}
+11.3 Get Blogs From Users I Follow
+
+Endpoint: GET /api/feed/following
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Following feed retrieved successfully.",
+  "data": [
+    {
+      "blogId": 45,
+      "title": "Cloud Computing Essentials",
+      "author": "alex",
+      "publishedAt": "2026-08-05T18:20:00Z",
+      "likes": 86,
+      "comments": 17
+    }
+  ]
+}
+Error Response
+{
+  "success": false,
+  "message": "You are not following any users yet."
+}
+11.4 Get Blogs By Category
+
+Endpoint: GET /api/feed/category/{category}
+
+Authorization: Public
+
+Example
+GET /api/feed/category/Technology
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Blogs retrieved successfully.",
+  "data": [
+    {
+      "blogId": 11,
+      "title": "Introduction to Machine Learning",
+      "author": "John",
+      "category": "Technology",
+      "publishedAt": "2026-08-02T12:00:00Z"
+    },
+    {
+      "blogId": 18,
+      "title": "Latest AI Trends",
+      "author": "Sarah",
+      "category": "Technology",
+      "publishedAt": "2026-08-04T09:45:00Z"
+    }
+  ]
+}
+11.5 Search Published Blogs
+
+Endpoint: GET /api/feed/search
+
+Authorization: Public
+
+Query Parameters
+keyword=AI
+category=Technology
+author=john
+page=1
+pageSize=10
+Example
+GET /api/feed/search?keyword=AI&category=Technology
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Search completed successfully.",
+  "data": [
+    {
+      "blogId": 15,
+      "title": "Understanding AI",
+      "author": "johnsmith",
+      "category": "Technology",
+      "publishedAt": "2026-08-05T10:30:00Z"
+    }
+  ]
+}
+11.6 View Published Blog
+
+Endpoint: GET /api/feed/{blogId}
+
+Authorization: Public
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Blog retrieved successfully.",
+  "data": {
+    "blogId": 15,
+    "title": "Understanding Artificial Intelligence",
+    "content": "Complete published blog content...",
+    "coverImage": "https://cdn.ai-blog.com/images/blog15.jpg",
+    "category": "Technology",
+    "tags": [
+      "AI",
+      "Machine Learning",
+      "Technology"
+    ],
+    "author": {
+      "userId": 5,
+      "userName": "johnsmith",
+      "profilePicture": "https://cdn.ai-blog.com/profile/john.jpg"
+    },
+    "publishedAt": "2026-08-05T10:30:00Z",
+    "views": 2458,
+    "likes": 315,
+    "comments": 42,
+    "reposts": 27,
+    "isLiked": false,
+    "isSaved": true,
+    "isFollowingAuthor": false
+  }
+}
+Error Response
+{
+  "success": false,
+  "message": "Blog not found."
+}
+
+
+12. Blog Interaction APIs
+12.1 Like Blog
+
+Endpoint: POST /api/blogs/{blogId}/like
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Blog liked successfully.",
+  "data": {
+    "totalLikes": 321,
+    "isLiked": true
+  }
+}
+Error Responses
+{
+  "success": false,
+  "message": "Blog not found."
+}
+{
+  "success": false,
+  "message": "You have already liked this blog."
+}
+12.2 Unlike Blog
+
+Endpoint: DELETE /api/blogs/{blogId}/like
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Blog unliked successfully.",
+  "data": {
+    "totalLikes": 320,
+    "isLiked": false
+  }
+}
+12.3 Get Blog Likes
+
+Endpoint: GET /api/blogs/{blogId}/likes
+
+Authorization: Public
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Likes retrieved successfully.",
+  "data": [
+    {
+      "userId": 5,
+      "userName": "johnsmith",
+      "profilePicture": "https://cdn.ai-blog.com/profile/john.jpg"
+    },
+    {
+      "userId": 8,
+      "userName": "Sarah"
+    }
+  ]
+}
+12.4 Add Comment
+
+Endpoint: POST /api/blogs/{blogId}/comments
+
+Authorization: User
+
+Request
+{
+  "content": "Excellent article! Very informative."
+}
+Success Response (201 Created)
+{
+  "success": true,
+  "message": "Comment added successfully.",
+  "data": {
+    "commentId": 51,
+    "content": "Excellent article! Very informative.",
+    "createdAt": "2026-08-05T10:45:00Z"
+  }
+}
+12.5 Get Blog Comments
+
+Endpoint: GET /api/blogs/{blogId}/comments
+
+Authorization: Public
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Comments retrieved successfully.",
+  "data": [
+    {
+      "commentId": 51,
+      "userName": "johnsmith",
+      "profilePicture": "https://cdn.ai-blog.com/profile/john.jpg",
+      "content": "Excellent article!",
+      "likes": 8,
+      "createdAt": "2026-08-05T10:45:00Z"
+    }
+  ]
+}
+12.6 Edit Comment
+
+Endpoint: PUT /api/comments/{commentId}
+
+Authorization: User
+
+Request
+{
+  "content": "Excellent article! Really enjoyed reading it."
+}
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Comment updated successfully."
+}
+12.7 Delete Comment
+
+Endpoint: DELETE /api/comments/{commentId}
+
+Authorization: User
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Comment deleted successfully."
+}
+12.8 Save Blog
+
+Endpoint: POST /api/blogs/{blogId}/save
+
+Authorization: User
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Blog saved successfully.",
+  "data": {
+    "isSaved": true
+  }
+}
+12.9 Remove Saved Blog
+
+Endpoint: DELETE /api/blogs/{blogId}/save
+
+Authorization: User
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Blog removed from saved blogs.",
+  "data": {
+    "isSaved": false
+  }
+}
+12.10 Repost Blog
+
+Endpoint: POST /api/blogs/{blogId}/repost
+
+Authorization: User
+
+Request
+{
+  "caption": "Worth reading!"
+}
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Blog reposted successfully.",
+  "data": {
+    "repostId": 14,
+    "totalReposts": 29
+  }
+}
+12.11 Remove Repost
+
+Endpoint: DELETE /api/blogs/{blogId}/repost
+
+Authorization: User
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Repost removed successfully."
+}
+12.12 Report Blog
+
+Endpoint: POST /api/blogs/{blogId}/report
+
+Authorization: User
+
+Request
+{
+  "reason": "Spam",
+  "description": "This blog contains misleading promotional content."
+}
+Success Response (201 Created)
+{
+  "success": true,
+  "message": "Blog reported successfully."
+}
+12.13 Like Comment (Optional)
+
+Endpoint: POST /api/comments/{commentId}/like
+
+Authorization: User
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Comment liked successfully.",
+  "data": {
+    "totalLikes": 12
+  }
+}
+12.14 Unlike Comment (Optional)
+
+Endpoint: DELETE /api/comments/{commentId}/like
+
+Authorization: User
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Comment unliked successfully.",
+  "data": {
+    "totalLikes": 11
+  }
+}
+
+
+13. Notifications APIs
+13.1 Get Notifications
+
+Endpoint: GET /api/notifications
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Notifications retrieved successfully.",
+  "data": [
+    {
+      "notificationId": 101,
+      "type": "Like",
+      "title": "New Like",
+      "message": "Sarah liked your blog 'Understanding AI'.",
+      "referenceId": 15,
+      "isRead": false,
+      "createdAt": "2026-08-05T10:30:00Z"
+    },
+    {
+      "notificationId": 102,
+      "type": "Comment",
+      "title": "New Comment",
+      "message": "John commented on your blog.",
+      "referenceId": 15,
+      "isRead": true,
+      "createdAt": "2026-08-04T18:10:00Z"
+    },
+    {
+      "notificationId": 103,
+      "type": "Follow",
+      "title": "New Follower",
+      "message": "Alex started following you.",
+      "referenceId": 8,
+      "isRead": false,
+      "createdAt": "2026-08-03T15:20:00Z"
+    }
+  ]
+}
+13.2 Mark Notification as Read
+
+Endpoint: PUT /api/notifications/{notificationId}/read
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "Notification marked as read."
+}
+Error Responses
+
+404 Not Found
+
+{
+  "success": false,
+  "message": "Notification not found."
+}
+13.3 Mark All Notifications as Read
+
+Endpoint: PUT /api/notifications/read-all
+
+Authorization: User
+
+Request
+
+None
+
+Success Response (200 OK)
+{
+  "success": true,
+  "message": "All notifications marked as read."
+}
