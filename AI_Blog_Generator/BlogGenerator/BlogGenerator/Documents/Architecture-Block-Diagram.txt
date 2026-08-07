@@ -1,121 +1,98 @@
-                                      +----------------------+
-                                      |        User          |
-                                      +----------------------+
-                                                 |
-                                          HTTPS Requests
-                                                 |
-                                                 v
-                    +--------------------------------------------------+
-                    |          Angular Frontend (Client UI)            |
-                    +--------------------------------------------------+
-                    | Login / Register                                 |
-                    | Dashboard                                        |
-                    | AI Blog Generator                                |
-                    | My Blogs                                         |
-                    | Credits & Plans                                  |
-                    | Stripe Checkout                                  |
-                    | Feedback / Issues                                |
-                    | Profile                                          |
-                    +--------------------------------------------------+
-                                                 |
-                                       REST API + JWT
-                                                 |
-                                                 v
-             +--------------------------------------------------------------+
-             |           ASP.NET Core Web API (.NET 8)                      |
-             +--------------------------------------------------------------+
-             | Controllers                                                  |
-             |--------------------------------------------------------------|
-             | AuthController                                               |
-             | ProfileController                                            |
-             | BlogController                                               |
-             | CreditController                                             |
-             | PaymentController                                            |
-             | PlanController                                               |
-             | FeedbackController                                           |
-             | IssueController                                              |
-             | AdminController                                              |
-             +--------------------------------------------------------------+
-                                                 |
-                                                 v
-             +--------------------------------------------------------------+
-             |               Business Logic Layer (Services)                |
-             +--------------------------------------------------------------+
-             | Authentication Service                                       |
-             | Profile Service                                              |
-             | Blog Service                                                 |
-             | Credit Service                                               |
-             | Payment Service                                              |
-             | Plan Service                                                 |
-             | Feedback Service                                             |
-             | Issue Service                                                |
-             | Admin Service                                                |
-             +--------------------------------------------------------------+
-                   |                 |                 |                |
-                   |                 |                 |                |
-                   v                 v                 v                v
-        +----------------+  +----------------+  +---------------+  +----------------+
-        | AI Provider    |  | Stripe API     |  | File Storage  |  | Entity Framework|
-        +----------------+  +----------------+  +---------------+  +----------------+
-        | Blog Generation|  | Payments       |  | Images        |  | EF Core ORM     |
-        | Expand         |  | Credit Purchase|  | Profile Pics  |  |                 |
-        | Shorten        |  +----------------+  +---------------+  +----------------+
-        | Regenerate     |                                               |
-        | AI Images      |                                               |
-        +----------------+                                               |
-                                                                          |
-                                                                          v
-                                                          +-----------------------------+
-                                                          |      SQL Server Database    |
-                                                          +-----------------------------+
-                                                          | Users                      |
-                                                          | RefreshTokens              |
-                                                          | Blogs                      |
-                                                          | BlogVersions               |
-                                                          | BlogImages                 |
-                                                          | Plans                      |
-                                                          | Payments                   |
-                                                          | Feedbacks                  |
-                                                          | Issues                     |
-                                                          | DeletedAccounts            |
-                                                          +-----------------------------+
-
-
-
-
-
-User
-   │
-   ▼
-Angular Frontend
-   │
-   ▼
-ASP.NET Core Web API
-   │
-   ▼
-Controllers
-   │
-   ▼
-Services
-   ├── Entity Framework Core ──► SQL Server
-   ├── AI Provider
-   ├── Stripe Payment Gateway
-   └── File/Image Storage
-
-
-
-
-
-Technologies Used:
-
-Layer				Technology
-
-Frontend			Angular
-Backend				ASP.NET Core Web API (.NET 8)
-Authentication			JWT + Refresh Token
-ORM				Entity Framework Core
-Database			SQL Server
-AI Integration			OpenAI API or Gemini API (whichever you use)
-Payment Gateway			Stripe
-File Storage			Local Storage / Cloud Storage
-API Testing			Postman
+                                         +----------------------+
+                                         |        End-User      |
+                                         |----------------------|
+                                         | Guest               |
+                                         | Registered User     |
+                                         | Admin               |
+                                         +----------+-----------+
+                                                    |
+                                              HTTPS Requests
+                                                    |
+                                                    ▼
++---------------------------------------------------------------------------------------------+
+|                            Angular Frontend (Client Application)                            |
++---------------------------------------------------------------------------------------------+
+| Authentication | Dashboard | AI Studio | My Blogs | Public Feed | Blog Details              |
+| Drafts | Published Blogs | Profile | Other User Profiles | Saved Blogs                      |
+| Followers / Following | Search Users | Notifications | Credits & Plans                     |
+| Stripe Checkout | Feedback | Issues | Admin Dashboard                                       |
++---------------------------------------------------------------------------------------------+
+                                                    |
+                                             REST API + JWT
+                                                    |
+                                                    ▼
++---------------------------------------------------------------------------------------------+
+|                         ASP.NET Core Web API (.NET 8)                                       |
++---------------------------------------------------------------------------------------------+
+| Controllers                                                                                 |
+|---------------------------------------------------------------------------------------------|
+| AuthController                                                                              |
+| ProfileController                                                                           |
+| BlogController                                                                              |
+| FeedController                                                                              |
+| InteractionController                                                                       |
+| NotificationController                                                                      |
+| CreditController                                                                            |
+| PaymentController                                                                           |
+| PlanController                                                                              |
+| FeedbackController                                                                          |
+| IssueController                                                                             |
+| AdminController                                                                             |
++---------------------------------------------------------------------------------------------+
+                                                    |
+                                                    ▼
++---------------------------------------------------------------------------------------------+
+|                             Business Logic Layer (Services)                                 |
++---------------------------------------------------------------------------------------------+
+| Authentication Service                                                                      |
+| Profile Service                                                                             |
+| AI Blog Service                                                                             |
+| Blog Management Service                                                                     |
+| Public Feed Service                                                                         |
+| Blog Interaction Service                                                                    |
+| Notification Service                                                                        |
+| Credit Service                                                                              |
+| Payment Service                                                                             |
+| Subscription Plan Service                                                                   |
+| Feedback Service                                                                            |
+| Issue Service                                                                               |
+| Admin Service                                                                               |
++---------------------------------------------------------------------------------------------+
+           │                    │                     │                    │
+           │                    │                     │                    │
+           ▼                    ▼                     ▼                    ▼
++-------------------+   +----------------+   +----------------+   +----------------------+
+| AI Provider       |   | Stripe API     |   | File Storage   |   | Entity Framework Core|
++-------------------+   +----------------+   +----------------+   +----------------------+
+| Generate Blog     |   | Payments       |   | Profile Images |   | ORM                  |
+| Regenerate //     |   | Webhooks       |   | Blog Images    |   |                      |
+| Expand            |   | Credit Purchase|   |                |   |                      |
+| Shorten           |   +----------------+   +----------------+   +----------+-----------+
+| Rewrite           |                                                |                                                |
+| Generate Summary  |                                                |
+| Generate Tags     |                                                |
+| Generate Images   |                                                |
++-------------------+                                                |
+                                                                      ▼
+                                   +------------------------------------------------------+
+                                   |              SQL Server Database                     |
+                                   +------------------------------------------------------+
+                                   | Users                                                |
+                                   | RefreshTokens                                        |
+                                   | Blogs                                                |
+                                   | BlogVersions                                         |
+                                   | BlogImages                                           |
+                                   | Followers                                            |
+                                   | BlogLikes                                            |
+                                   | Comments                                             |
+                                   | CommentLikes                                         |
+                                   | SavedBlogs                                           |
+                                   | Reposts                                              |
+                                   | Reports                                              |
+                                   | Notifications                                        |
+                                   | Plans                                                |
+                                   | Payments                                             |
+                                   | Feedbacks                                            |
+                                   | Issues                                               |
+                                   | DeletedAccounts                                      |
+                                   +------------------------------------------------------+

@@ -1,3 +1,6 @@
+
+1. User Authentication Workflow:
+
                            Start
                              │
                              ▼
@@ -29,7 +32,7 @@
                                         ▼
                                        End
 
-
+2. AI Blog Generation & Management Workflow:
 
                               Start
                                 │
@@ -78,7 +81,7 @@
                                │
 ┌────────┬──────────┬───────────┬──────────┬──────────┬──────────┬────────────┬────────────┬─────────────┐
 ▼        ▼          ▼           ▼          ▼          ▼          ▼            ▼            ▼
-Edit   Expand    Shorten   Regenerate   Rewrite   Translate   AI Image   Generate Tags  Generate Summary
+Edit   Expand    Shorten   Regenerate   Rewrite   Translate//   AI Image   Generate Tags  Generate Summary
 │        │          │           │          │          │          │            │            │
 └────────┴──────────┴───────────┴──────────┴──────────┴──────────┴────────────┴────────────┘
                                │
@@ -106,6 +109,7 @@ Edit   Expand    Shorten   Regenerate   Rewrite   Translate   AI Image   Generat
         End
 
 
+3. Public Feed & Blog Interaction Workflow:
 
                            Start
                              │
@@ -142,6 +146,7 @@ Like    Comment   Library    Repost      for Review
                             End
 
 
+4. Profile & Social Workflow:
 
                            Start
                              │
@@ -180,6 +185,7 @@ End
 
 
 
+5. Subscription & Payment Workflow:
 
                            Start
                              │
@@ -211,6 +217,7 @@ End
                                             │
                                             ▼
                                            End
+6. Support Workflow:
 
 
                            Start
@@ -245,6 +252,7 @@ End
                             End
 
 
+7. Admin Workflow:
 
 
                            Start

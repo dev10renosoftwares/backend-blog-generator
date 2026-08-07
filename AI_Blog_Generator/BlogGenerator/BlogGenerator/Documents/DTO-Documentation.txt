@@ -2,91 +2,309 @@ AI Blog Generator DTO Specification:
 
 1. Authentication DTOs:
 
-->RegisterRequestDto:
+1.1 RegisterRequestDto
+
+Purpose: Used to register a new user account.
 
 public class RegisterRequestDto
 {
-    string UserName;
-    string Email;
-    string Password;
+    public string UserName { get; set; }
+
+    public string Email { get; set; }
+
+    public string Password { get; set; }
 }
 
-->LoginRequestDto:
+1.2 LoginRequestDto
+
+Purpose: Used for user authentication.
 
 public class LoginRequestDto
 {
-    string Email;
-    string Password;
+    public string Email { get; set; }
+
+    public string Password { get; set; }
 }
 
-->RefreshTokenRequestDto
+1.3 RefreshTokenRequestDto
+
+Purpose: Requests a new access token using a valid refresh token.
 
 public class RefreshTokenRequestDto
 {
-    string RefreshToken;
+    public string RefreshToken { get; set; }
 }
 
-->LogoutRequestDto
+1.4 LogoutRequestDto
+
+Purpose: Invalidates the user's refresh token.
 
 public class LogoutRequestDto
 {
-    string RefreshToken;
+    public string RefreshToken { get; set; }
 }
 
-->AuthResponseDto
+1.5 AuthResponseDto
+
+Purpose: Returned after successful registration or login.
 
 public class AuthResponseDto
 {
-    int UserId;
-    string UserName;
-    string Email;
-    string Role;
-    int AvailableCredits;
+    public int UserId { get; set; }
 
-    string AccessToken;
-    string RefreshToken;
-    DateTime ExpiresAt;
+    public string UserName { get; set; }
+
+    public string Email { get; set; }
+
+    public string Role { get; set; }
+
+    public int AvailableCredits { get; set; }
+
+    public string AccessToken { get; set; }
+
+    public string RefreshToken { get; set; }
+
+    public DateTime ExpiresAt { get; set; }
 }
+
+1.6 MessageResponseDto
+
+Purpose: Generic success response used by Logout and similar endpoints.
+
+public class MessageResponseDto
+{
+    public string Message { get; set; }
+}
+
+1.7 ValidationErrorResponseDto
+
+Purpose: Returned when model validation fails.
+
+public class ValidationErrorResponseDto
+{
+    public string Message { get; set; }
+
+    public Dictionary<string, List<string>> Errors { get; set; }
+}
+
+1.8 ErrorResponseDto
+
+Purpose: Generic error response.
+
+public class ErrorResponseDto
+{
+    public string Message { get; set; }
+}
+
 
 2. Profile DTOs:
 
-->UserProfileDto:
+2.1 UserProfileDto
+
+Purpose: Returns the authenticated user's profile information.
 
 public class UserProfileDto
 {
-    int UserId;
-    string UserName;
-    string Email;
-    string ProfilePictureUrl;
-    int AvailableCredits;
-    string Role;
-    DateTime CreatedAt;
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string Email { get; set; }
+
+    public string ProfilePictureUrl { get; set; }
+
+    public int AvailableCredits { get; set; }
+
+    public string Role { get; set; }
+
+    public DateTime CreatedAt { get; set; }
 }
 
-->UpdateProfileRequestDto:
+2.2 PublicUserProfileDto
+
+Purpose: Returned when viewing another user's public profile.
+
+public class PublicUserProfileDto
+{
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string ProfilePictureUrl { get; set; }
+
+    public int FollowersCount { get; set; }
+
+    public int FollowingCount { get; set; }
+
+    public int PublishedBlogsCount { get; set; }
+
+    public bool IsFollowing { get; set; }
+
+    public DateTime JoinedAt { get; set; }
+}
+
+2.3 UpdateProfileRequestDto
+
+Purpose: Update profile information.
 
 public class UpdateProfileRequestDto
 {
-    string UserName;
+    public string UserName { get; set; }
 }
 
-->UploadProfilePictureResponseDto:
+2.4 ChangePasswordRequestDto
+
+Purpose: Change account password.
+
+public class ChangePasswordRequestDto
+{
+    public string OldPassword { get; set; }
+
+    public string NewPassword { get; set; }
+
+    public string ConfirmNewPassword { get; set; }
+}
+
+2.5 UploadProfilePictureResponseDto
+
+Purpose: Returned after successfully uploading a profile picture.
 
 public class UploadProfilePictureResponseDto
 {
-    string ProfilePictureUrl;
+    public string ProfilePictureUrl { get; set; }
 }
 
-->DeleteAccountRequestDto:
+2.6 DeleteAccountRequestDto
+
+Purpose: Used while deleting an account.
 
 public class DeleteAccountRequestDto
 {
-    string Reason;
+    public string Reason { get; set; }
 }
+
+2.7 FollowUserRequestDto
+
+Purpose: Follow another user.
+
+public class FollowUserRequestDto
+{
+    public int FollowingUserId { get; set; }
+}
+
+2.8 UnfollowUserRequestDto
+
+Purpose: Unfollow a user.
+
+public class UnfollowUserRequestDto
+{
+    public int FollowingUserId { get; set; }
+}
+
+2.9 FollowerDto
+
+Purpose: Represents a follower.
+
+public class FollowerDto
+{
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string ProfilePictureUrl { get; set; }
+
+    public DateTime FollowedAt { get; set; }
+}
+
+2.10 FollowingDto
+
+Purpose: Represents a user being followed.
+
+public class FollowingDto
+{
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string ProfilePictureUrl { get; set; }
+
+    public DateTime FollowedAt { get; set; }
+}
+
+2.11 UserActivityDto:
+
+Purpose: Displays recent user activities.
+
+public class UserActivityDto
+{
+    public int ActivityId { get; set; }
+
+    public string ActivityType { get; set; }
+
+    public string Description { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+
+2.12 SavedBlogDto
+
+Purpose: Displays blogs saved/bookmarked by the user.
+
+public class SavedBlogDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string AuthorName { get; set; }
+
+    public string Category { get; set; }
+
+    public DateTime SavedAt { get; set; }
+}
+
+2.13 ProfileStatisticsDto
+
+Purpose: Profile statistics shown on the profile page.
+
+public class ProfileStatisticsDto
+{
+    public int TotalBlogs { get; set; }
+
+    public int PublishedBlogs { get; set; }
+
+    public int DraftBlogs { get; set; }
+
+    public int Followers { get; set; }
+
+    public int Following { get; set; }
+
+    public int TotalLikesReceived { get; set; }
+
+    public int TotalCommentsReceived { get; set; }
+}
+
+2.14 UserSearchResultDto
+
+Purpose: Returned when searching users.
+
+public class UserSearchResultDto
+{
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string ProfilePictureUrl { get; set; }
+
+    public int FollowersCount { get; set; }
+
+    public bool IsFollowing { get; set; }
+}
+
 
 3. AI Blog DTOs:
 
-->GenerateBlogRequestDto:
+GenerateBlogRequestDto
 
 public class GenerateBlogRequestDto
 {
@@ -97,375 +315,1282 @@ public class GenerateBlogRequestDto
     int WordCount;
 }
 
-->GenerateBlogResponseDto
+GenerateBlogResponseDto
 
 public class GenerateBlogResponseDto
 {
     int BlogId;
     string Title;
-    string Category;
     string Content;
+    string Category;
     int WordCount;
 
     int CreditsUsed;
     int RemainingCredits;
 
+    bool IsPublished;
+
     DateTime CreatedAt;
 }
 
-->GenerateImageResponseDto
-
-public class GenerateImageResponseDto
+RewriteBlogRequestDto
+public class RewriteBlogRequestDto
 {
-    string ImageUrl;
-
-    int CreditsUsed;
-
-    int RemainingCredits;
+    string RewriteInstruction;
 }
 
-4. Blog DTOs:
+BlogContentResponseDto
 
-->BlogListDto
+(Used by Rewrite, Regenerate, Expand, Shorten, Summarize, Translate, SEO Optimize)
 
-public class BlogListDto
+public class BlogContentResponseDto
 {
     int BlogId;
-
-    string Title;
-    
-    string Category;
-
-    int WordCount;
-
-    DateTime CreatedAt;
-
-    DateTime UpdatedAt;
-}
-
-->BlogDetailsDto
-
-public class BlogDetailsDto
-{
-    int BlogId;
-
-    string Title;
-
-    string Prompt;
-
-    string Content;
-
-    string Tone;
-
-    string Audience;
-
-    int WordCount;
-
-    int CreditsUsed;
-
-    DateTime CreatedAt;
-
-    DateTime UpdatedAt;
-}
-
-->BlogVersionDto
-
-public class BlogVersionDto
-{
     int VersionId;
-
-    string Title;
 
     string VersionType;
 
     string Content;
 
-    int WordCount;
+    int CreditsUsed;
+    int RemainingCredits;
 
     DateTime CreatedAt;
 }
-
-5. Credits DTOs
-
-->CreditBalanceDto
-
-public class CreditBalanceDto
+TranslateBlogRequestDto
+public class TranslateBlogRequestDto
 {
-    int AvailableCredits;
+    string TargetLanguage;
 }
-
-->CreditTransactionDto
-
-public class CreditTransactionDto
+GenerateImageRequestDto
+public class GenerateImageRequestDto
 {
-    int TransactionId;
-
-    int CreditAmount;
-
-    string TransactionType;
-
-    string Description;
-
-    DateTime CreatedAt;
+    string Prompt;
 }
-
-->CreditPricingDto
-
-public class CreditPricingDto
+GenerateImageResponseDto
+public class GenerateImageResponseDto
 {
-    int BlogGeneration;
+    int ImageId;
 
-    int RegenerateBlog;
-
-    int ExpandBlog;
-
-    int ShortenBlog;
-
-    int GenerateImage;
-}
-6. Plans DTOs:
-
-->PlanDto
-
-public class PlanDto
-{
-    int PlanId;
-
-    string Name;
-
-    string Description;
-
-    decimal Price;
-
-    int Credits;
-}
-
-7. Payments DTOs
-
-->CreatePaymentRequestDto
-
-public class CreatePaymentRequestDto
-{
-    int PlanId;
-}
-
-->PaymentIntentResponseDto
-
-public class PaymentIntentResponseDto
-{
-    string ClientSecret;
-
-    string PaymentIntentId;
-}
-
-->ConfirmPaymentRequestDto
-
-public class ConfirmPaymentRequestDto
-{
-    string PaymentIntentId;
-}
-
-->PaymentHistoryDto
-
-public class PaymentHistoryDto
-{
-    int PaymentId;
-
-    string PlanName;
-
-    decimal Amount;
-
-    int CreditsPurchased;
-
-    string PaymentStatus;
-
-    DateTime PurchasedAt;
-}
-
-8. Feedback DTOs
-
-->CreateFeedbackRequestDto
-
-public class CreateFeedbackRequestDto
-{
-    string Subject;
-
-    string Message;
-
-    int Rating;
-
-    bool IsPublic;
-}
-
-->FeedbackDto
-
-public class FeedbackDto
-{
-    int FeedbackId;
-
-    string Subject;
-
-    string Message;
-
-    int Rating;
-
-    bool IsPublic;
-
-    string Status;
-
-    string AdminResponse;
-
-    DateTime CreatedAt;
-}
-
-->PublicFeedbackDto
-
-public class PublicFeedbackDto
-{
-    string UserName;
-
-    int Rating;
-
-    string Message;
-}
-
-9. Issue DTOs
-
-->CreateIssueRequestDto
-
-public class CreateIssueRequestDto
-{
-    string Subject;
-
-    string Description;
-}
-
-->IssueDto
-
-public class IssueDto
-{
-    int IssueId;
-
-    string Subject;
-
-    string Description;
-
-    string Status;
-
-    string AdminResponse;
-
-    DateTime CreatedAt;
-}
-
-10. Admin DTOs
-
-->DashboardStatisticsDto
-
-public class DashboardStatisticsDto
-{
-    int TotalUsers;
-
-    int TotalBlogs;
-
-    int TotalPayments;
-
-    int TotalCreditsPurchased;
-
-    int TotalFeedback;
-
-    int TotalIssues;
-
-    int TotalDeletedAccounts;
-}
-
-->AdminUserDto
-
-public class AdminUserDto
-{
-    int UserId;
-
-    string UserName;
-
-    string Email;
-
-    int AvailableCredits;
-
-    string Role;
-
-    DateTime CreatedAt;
-}
-
-->AdminBlogDto
-
-public class AdminBlogDto
-{
-    int BlogId;
-
-    string Title;
-
-    string UserName;
+    string ImageUrl;
 
     int CreditsUsed;
 
+    int RemainingCredits;
+
     DateTime CreatedAt;
 }
-
-->AdminPaymentDto
-
-public class AdminPaymentDto
+PublishBlogRequestDto
+public class PublishBlogRequestDto
 {
-    int PaymentId;
+    bool IsPublished;
+}
+PublishBlogResponseDto
+public class PublishBlogResponseDto
+{
+    int BlogId;
 
-    string UserName;
+    bool IsPublished;
 
-    string PlanName;
+    DateTime PublishedAt;
+}
+SeoOptimizationResponseDto
+public class SeoOptimizationResponseDto
+{
+    int BlogId;
 
-    decimal Amount;
+    string SeoTitle;
 
-    string PaymentStatus;
+    string MetaDescription;
 
-    DateTime PurchasedAt;
+    List<string> Keywords;
+
+    int CreditsUsed;
+
+    int RemainingCredits;
+}3. AI Blog DTOs
+3.1 GenerateBlogRequestDto
+
+Purpose: Used to generate a new AI blog.
+
+public class GenerateBlogRequestDto
+{
+    public string Topic { get; set; }
+
+    public string Tone { get; set; }
+
+    public string Audience { get; set; }
+
+    public string Category { get; set; }
+
+    public int WordCount { get; set; }
+}
+3.2 GenerateBlogResponseDto
+
+Purpose: Returned after successfully generating a blog.
+
+public class GenerateBlogResponseDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string Content { get; set; }
+
+    public string Category { get; set; }
+
+    public int WordCount { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public int RemainingCredits { get; set; }
+
+    public bool IsPublished { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+3.3 RewriteBlogRequestDto
+
+Purpose: Provides instructions to rewrite an existing blog.
+
+public class RewriteBlogRequestDto
+{
+    public string RewriteInstruction { get; set; }
+}
+3.4 TranslateBlogRequestDto
+
+Purpose: Specifies the target language for blog translation.
+
+public class TranslateBlogRequestDto
+{
+    public string TargetLanguage { get; set; }
+}
+3.5 GenerateImageRequestDto
+
+Purpose: Optional prompt for AI image generation.
+
+public class GenerateImageRequestDto
+{
+    public string Prompt { get; set; }
+}
+3.6 PublishBlogRequestDto
+
+Purpose: Publish or unpublish a blog.
+
+public class PublishBlogRequestDto
+{
+    public bool IsPublished { get; set; }
+}
+3.7 BlogContentResponseDto
+
+Purpose: Common response returned after Rewrite, Regenerate, Expand, Shorten, Summarize, Translate, and SEO Optimization.
+
+public class BlogContentResponseDto
+{
+    public int BlogId { get; set; }
+
+    public int VersionId { get; set; }
+
+    public string VersionType { get; set; }
+
+    public string Content { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public int RemainingCredits { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+3.8 GenerateImageResponseDto
+
+Purpose: Returned after AI image generation.
+
+public class GenerateImageResponseDto
+{
+    public int ImageId { get; set; }
+
+    public string ImageUrl { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public int RemainingCredits { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+3.9 PublishBlogResponseDto
+
+Purpose: Returned after publishing or unpublishing a blog.
+
+public class PublishBlogResponseDto
+{
+    public int BlogId { get; set; }
+
+    public bool IsPublished { get; set; }
+
+    public DateTime? PublishedAt { get; set; }
+}
+3.10 SeoOptimizationResponseDto
+
+Purpose: Returns SEO suggestions for a blog.
+
+public class SeoOptimizationResponseDto
+{
+    public int BlogId { get; set; }
+
+    public string SeoTitle { get; set; }
+
+    public string MetaDescription { get; set; }
+
+    public List<string> Keywords { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public int RemainingCredits { get; set; }
+}
+3.11 BlogSummaryResponseDto
+
+Purpose: Returned after generating an AI summary.
+
+public class BlogSummaryResponseDto
+{
+    public int BlogId { get; set; }
+
+    public int VersionId { get; set; }
+
+    public string Summary { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public int RemainingCredits { get; set; }
+}
+3.12 BlogTranslationResponseDto
+
+Purpose: Returned after translating a blog.
+
+public class BlogTranslationResponseDto
+{
+    public int BlogId { get; set; }
+
+    public int VersionId { get; set; }
+
+    public string TargetLanguage { get; set; }
+
+    public string TranslatedContent { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public int RemainingCredits { get; set; }
+}
+3.13 RewriteBlogResponseDto
+
+Purpose: Returned after rewriting a blog.
+
+public class RewriteBlogResponseDto
+{
+    public int BlogId { get; set; }
+
+    public int VersionId { get; set; }
+
+    public string Content { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public int RemainingCredits { get; set; }
+
+    public DateTime CreatedAt { get; set; }
 }
 
-->DeletedAccountDto
 
-public class DeletedAccountDto
+4. Blog Management DTOs
+4.1 BlogListDto
+
+Purpose: Displays blogs owned by the authenticated user.
+
+public class BlogListDto
 {
-    string Email;
+    public int BlogId { get; set; }
 
-    string Reason;
+    public string Title { get; set; }
 
-    DateTime DeletedAt;
+    public string Category { get; set; }
+
+    public bool IsPublished { get; set; }
+
+    public int WordCount { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+}
+4.2 BlogDetailsDto
+
+Purpose: Displays complete details of a specific blog.
+
+public class BlogDetailsDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string Prompt { get; set; }
+
+    public string Content { get; set; }
+
+    public string Tone { get; set; }
+
+    public string Audience { get; set; }
+
+    public string Category { get; set; }
+
+    public int WordCount { get; set; }
+
+    public bool IsPublished { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+}
+4.3 BlogVersionDto
+
+Purpose: Represents a version of a blog.
+
+public class BlogVersionDto
+{
+    public int VersionId { get; set; }
+
+    public string VersionType { get; set; }
+
+    public string Content { get; set; }
+
+    public int WordCount { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+4.4 BlogVersionDetailsDto
+
+Purpose: Displays complete details of a selected blog version.
+
+public class BlogVersionDetailsDto
+{
+    public int VersionId { get; set; }
+
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string VersionType { get; set; }
+
+    public string Content { get; set; }
+
+    public int WordCount { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+4.5 DraftBlogDto
+
+Purpose: Represents blogs saved as drafts.
+
+public class DraftBlogDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string Category { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+}
+4.6 PublishedBlogDto
+
+Purpose: Represents published blogs owned by the current user.
+
+public class PublishedBlogDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string Category { get; set; }
+
+    public int Likes { get; set; }
+
+    public int Comments { get; set; }
+
+    public int Reposts { get; set; }
+
+    public DateTime PublishedAt { get; set; }
+}
+4.7 PublicBlogDto
+
+Purpose: Represents blogs displayed in the public feed.
+
+public class PublicBlogDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string AuthorName { get; set; }
+
+    public string Category { get; set; }
+
+    public string CoverImageUrl { get; set; }
+
+    public int Likes { get; set; }
+
+    public int Comments { get; set; }
+
+    public int Reposts { get; set; }
+
+    public DateTime PublishedAt { get; set; }
+}
+4.8 PublicBlogDetailsDto
+
+Purpose: Displays complete information of a published blog.
+
+public class PublicBlogDetailsDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string Content { get; set; }
+
+    public string Category { get; set; }
+
+    public string AuthorName { get; set; }
+
+    public string AuthorProfilePicture { get; set; }
+
+    public int Likes { get; set; }
+
+    public int Comments { get; set; }
+
+    public int Reposts { get; set; }
+
+    public bool IsLiked { get; set; }
+
+    public bool IsSaved { get; set; }
+
+    public bool IsReposted { get; set; }
+
+    public DateTime PublishedAt { get; set; }
+}
+4.9 SearchBlogDto
+
+Purpose: Returned while searching blogs.
+
+public class SearchBlogDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string AuthorName { get; set; }
+
+    public string Category { get; set; }
+
+    public DateTime PublishedAt { get; set; }
+}
+4.10 DeleteBlogResponseDto
+
+Purpose: Returned after deleting a blog.
+
+public class DeleteBlogResponseDto
+{
+    public string Message { get; set; }
 }
 
-->ResolveFeedbackRequestDto
+
+5. Social Interaction DTOs
+5.1 LikeBlogRequestDto
+
+Purpose: Like a published blog.
+
+public class LikeBlogRequestDto
+{
+    public int BlogId { get; set; }
+}
+5.2 LikeBlogResponseDto
+
+Purpose: Returned after liking or unliking a blog.
+
+public class LikeBlogResponseDto
+{
+    public int BlogId { get; set; }
+
+    public bool IsLiked { get; set; }
+
+    public int TotalLikes { get; set; }
+}
+5.3 CreateCommentRequestDto
+
+Purpose: Add a comment to a published blog.
+
+public class CreateCommentRequestDto
+{
+    public string Comment { get; set; }
+}
+5.4 CommentDto
+
+Purpose: Represents a blog comment.
+
+public class CommentDto
+{
+    public int CommentId { get; set; }
+
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string ProfilePictureUrl { get; set; }
+
+    public string Comment { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+5.5 SaveBlogRequestDto
+
+Purpose: Save (bookmark) a blog.
+
+public class SaveBlogRequestDto
+{
+    public int BlogId { get; set; }
+}
+5.6 SaveBlogResponseDto
+
+Purpose: Returned after saving or removing a saved blog.
+
+public class SaveBlogResponseDto
+{
+    public int BlogId { get; set; }
+
+    public bool IsSaved { get; set; }
+}
+5.7 RepostBlogRequestDto
+
+Purpose: Repost a published blog.
+
+public class RepostBlogRequestDto
+{
+    public int BlogId { get; set; }
+}
+5.8 RepostBlogResponseDto
+
+Purpose: Returned after reposting a blog.
+
+public class RepostBlogResponseDto
+{
+    public int BlogId { get; set; }
+
+    public int RepostId { get; set; }
+
+    public int TotalReposts { get; set; }
+
+    public DateTime RepostedAt { get; set; }
+}
+5.9 ReportBlogRequestDto
+
+Purpose: Report inappropriate content.
+
+public class ReportBlogRequestDto
+{
+    public string Reason { get; set; }
+
+    public string Description { get; set; }
+}
+5.10 ReportBlogResponseDto
+
+Purpose: Returned after reporting a blog.
+
+public class ReportBlogResponseDto
+{
+    public string Message { get; set; }
+}
+5.11 NotificationDto
+
+Purpose: Represents a user notification.
+
+public class NotificationDto
+{
+    public int NotificationId { get; set; }
+
+    public string Title { get; set; }
+
+    public string Message { get; set; }
+
+    public bool IsRead { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+5.12 MarkNotificationAsReadRequestDto
+
+Purpose: Mark a notification as read.
+
+public class MarkNotificationAsReadRequestDto
+{
+    public int NotificationId { get; set; }
+}
+
+
+6. Credits & Subscription DTOs
+6.1 CreditBalanceDto
+
+Purpose: Returns the user's available credit balance.
+
+public class CreditBalanceDto
+{
+    public int AvailableCredits { get; set; }
+}
+6.2 CreditPricingDto
+
+Purpose: Returns the credit cost of each AI feature.
+
+public class CreditPricingDto
+{
+    public int GenerateBlog { get; set; }
+
+    public int RewriteBlog { get; set; }
+
+    public int RegenerateBlog { get; set; }
+
+    public int ExpandBlog { get; set; }
+
+    public int ShortenBlog { get; set; }
+
+    public int SummarizeBlog { get; set; }
+
+    public int TranslateBlog { get; set; }
+
+    public int SeoOptimization { get; set; }
+
+    public int GenerateImage { get; set; }
+}
+6.3 CreditHistoryDto
+
+Purpose: Displays a user's credit transaction history.
+
+public class CreditHistoryDto
+{
+    public int TransactionId { get; set; }
+
+    public int Credits { get; set; }
+
+    public string TransactionType { get; set; }
+
+    public string Description { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+6.4 SubscriptionPlanDto
+
+Purpose: Represents an available subscription plan.
+
+public class SubscriptionPlanDto
+{
+    public int PlanId { get; set; }
+
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public decimal Price { get; set; }
+
+    public int Credits { get; set; }
+
+    public bool IsActive { get; set; }
+}
+6.5 CreateSubscriptionPlanRequestDto
+
+Purpose: Create a new subscription plan (Admin).
+
+public class CreateSubscriptionPlanRequestDto
+{
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public decimal Price { get; set; }
+
+    public int Credits { get; set; }
+}
+6.6 UpdateSubscriptionPlanRequestDto
+
+Purpose: Update an existing subscription plan.
+
+public class UpdateSubscriptionPlanRequestDto
+{
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public decimal Price { get; set; }
+
+    public int Credits { get; set; }
+
+    public bool IsActive { get; set; }
+}
+6.7 SubscriptionPlanResponseDto
+
+Purpose: Returned after creating or updating a subscription plan.
+
+public class SubscriptionPlanResponseDto
+{
+    public int PlanId { get; set; }
+
+    public string Name { get; set; }
+
+    public decimal Price { get; set; }
+
+    public int Credits { get; set; }
+
+    public bool IsActive { get; set; }
+}
+
+
+7. Payment DTOs
+7.1 CreatePaymentRequestDto
+
+Purpose: Initiates Stripe payment.
+
+public class CreatePaymentRequestDto
+{
+    public int PlanId { get; set; }
+}
+7.2 PaymentIntentResponseDto
+
+Purpose: Returns Stripe payment information.
+
+public class PaymentIntentResponseDto
+{
+    public string ClientSecret { get; set; }
+
+    public string PaymentIntentId { get; set; }
+}
+7.3 ConfirmPaymentRequestDto
+
+Purpose: Confirms Stripe payment.
+
+public class ConfirmPaymentRequestDto
+{
+    public string PaymentIntentId { get; set; }
+}
+7.4 PaymentResponseDto
+
+Purpose: Returned after successful payment.
+
+public class PaymentResponseDto
+{
+    public string Message { get; set; }
+
+    public int CreditsAdded { get; set; }
+
+    public int AvailableCredits { get; set; }
+
+    public string PaymentStatus { get; set; }
+}
+7.5 PaymentHistoryDto
+
+Purpose: Represents a payment made by a user.
+
+public class PaymentHistoryDto
+{
+    public int PaymentId { get; set; }
+
+    public string PlanName { get; set; }
+
+    public decimal Amount { get; set; }
+
+    public int CreditsPurchased { get; set; }
+
+    public string PaymentStatus { get; set; }
+
+    public DateTime PurchasedAt { get; set; }
+}
+7.6 UserPaymentHistoryDto
+
+Purpose: Admin view of a specific user's payments.
+
+public class UserPaymentHistoryDto
+{
+    public int PaymentId { get; set; }
+
+    public string PlanName { get; set; }
+
+    public decimal Amount { get; set; }
+
+    public int CreditsPurchased { get; set; }
+
+    public string PaymentStatus { get; set; }
+
+    public DateTime PurchasedAt { get; set; }
+}
+
+
+8. Feedback DTOs
+8.1 CreateFeedbackRequestDto
+
+Purpose: Used to submit user feedback.
+
+public class CreateFeedbackRequestDto
+{
+    public string Subject { get; set; }
+
+    public string Message { get; set; }
+
+    public int Rating { get; set; }
+
+    public bool IsPublic { get; set; }
+}
+8.2 UpdateFeedbackRequestDto
+
+Purpose: Used by the user to update their own feedback.
+
+public class UpdateFeedbackRequestDto
+{
+    public string Subject { get; set; }
+
+    public string Message { get; set; }
+
+    public int Rating { get; set; }
+
+    public bool IsPublic { get; set; }
+}
+8.3 FeedbackDto
+
+Purpose: Represents complete feedback details.
+
+public class FeedbackDto
+{
+    public int FeedbackId { get; set; }
+
+    public string Subject { get; set; }
+
+    public string Message { get; set; }
+
+    public int Rating { get; set; }
+
+    public bool IsPublic { get; set; }
+
+    public string Status { get; set; }
+
+    public string AdminResponse { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+}
+8.4 PublicFeedbackDto
+
+Purpose: Displays public feedback on the website.
+
+public class PublicFeedbackDto
+{
+    public string UserName { get; set; }
+
+    public string ProfilePictureUrl { get; set; }
+
+    public int Rating { get; set; }
+
+    public string Message { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+8.5 ResolveFeedbackRequestDto
+
+Purpose: Used by the admin to respond to feedback.
 
 public class ResolveFeedbackRequestDto
 {
-    string AdminResponse;
+    public string AdminResponse { get; set; }
+}
+8.6 FeedbackStatisticsDto
+
+Purpose: Returns feedback statistics.
+
+public class FeedbackStatisticsDto
+{
+    public int TotalFeedbacks { get; set; }
+
+    public int PendingFeedbacks { get; set; }
+
+    public int ResolvedFeedbacks { get; set; }
+
+    public double AverageRating { get; set; }
 }
 
-->ResolveIssueRequestDto
+
+9. Issue DTOs
+9.1 CreateIssueRequestDto
+
+Purpose: Used to raise a new support issue.
+
+public class CreateIssueRequestDto
+{
+    public string Subject { get; set; }
+
+    public string Description { get; set; }
+}
+9.2 UpdateIssueRequestDto
+
+Purpose: Used by the user to update an unresolved issue.
+
+public class UpdateIssueRequestDto
+{
+    public string Subject { get; set; }
+
+    public string Description { get; set; }
+}
+9.3 IssueDto
+
+Purpose: Represents issue details.
+
+public class IssueDto
+{
+    public int IssueId { get; set; }
+
+    public string Subject { get; set; }
+
+    public string Description { get; set; }
+
+    public string Status { get; set; }
+
+    public string AdminResponse { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
+    public DateTime? ResolvedAt { get; set; }
+}
+9.4 ResolveIssueRequestDto
+
+Purpose: Used by the admin to resolve an issue.
 
 public class ResolveIssueRequestDto
 {
-    string AdminResponse;
+    public string AdminResponse { get; set; }
+}
+9.5 IssueStatisticsDto
+
+Purpose: Returns issue statistics.
+
+public class IssueStatisticsDto
+{
+    public int TotalIssues { get; set; }
+
+    public int PendingIssues { get; set; }
+
+    public int InProgressIssues { get; set; }
+
+    public int ResolvedIssues { get; set; }
 }
 
 
+10. Admin DTOs
+10.1 DashboardStatisticsDto
 
-Total DTO Count:
+Purpose: Returns overall platform statistics displayed on the admin dashboard.
+
+public class DashboardStatisticsDto
+{
+    public int TotalUsers { get; set; }
+
+    public int TotalPublishedBlogs { get; set; }
+
+    public int TotalDraftBlogs { get; set; }
+
+    public int TotalBlogVersions { get; set; }
+
+    public int TotalPayments { get; set; }
+
+    public decimal TotalRevenue { get; set; }
+
+    public int TotalCreditTransactions { get; set; }
+
+    public int TotalFeedbacks { get; set; }
+
+    public int TotalIssues { get; set; }
+
+    public int TotalReports { get; set; }
+
+    public int TotalDeletedAccounts { get; set; }
+}
+10.2 AdminUserDto
+
+Purpose: Displays user information for admin management.
+
+public class AdminUserDto
+{
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string Email { get; set; }
+
+    public string Role { get; set; }
+
+    public int AvailableCredits { get; set; }
+
+    public bool IsBlocked { get; set; }
+
+    public bool IsDeleted { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+10.3 AdminUserDetailsDto
+
+Purpose: Displays detailed information about a specific user.
+
+public class AdminUserDetailsDto
+{
+    public int UserId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string Email { get; set; }
+
+    public string Role { get; set; }
+
+    public int AvailableCredits { get; set; }
+
+    public int TotalBlogs { get; set; }
+
+    public int PublishedBlogs { get; set; }
+
+    public int DraftBlogs { get; set; }
+
+    public int FollowersCount { get; set; }
+
+    public int FollowingCount { get; set; }
+
+    public bool IsBlocked { get; set; }
+
+    public bool IsDeleted { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+10.4 BlockUserRequestDto
+
+Purpose: Blocks a user from accessing the platform.
+
+public class BlockUserRequestDto
+{
+    public string Reason { get; set; }
+}
+10.5 UnblockUserRequestDto
+
+Purpose: Unblocks a previously blocked user.
+
+public class UnblockUserRequestDto
+{
+    public string Reason { get; set; }
+}
+10.6 AdminBlogDto
+
+Purpose: Displays blogs for administrative management.
+
+public class AdminBlogDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string AuthorName { get; set; }
+
+    public string Category { get; set; }
+
+    public bool IsPublished { get; set; }
+
+    public int TotalLikes { get; set; }
+
+    public int TotalComments { get; set; }
+
+    public int TotalReports { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+10.7 AdminBlogDetailsDto
+
+Purpose: Displays complete details of a selected blog.
+
+public class AdminBlogDetailsDto
+{
+    public int BlogId { get; set; }
+
+    public string Title { get; set; }
+
+    public string AuthorName { get; set; }
+
+    public string Content { get; set; }
+
+    public string Category { get; set; }
+
+    public string Tone { get; set; }
+
+    public string Audience { get; set; }
+
+    public bool IsPublished { get; set; }
+
+    public int CreditsUsed { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+10.8 DeleteBlogRequestDto
+
+Purpose: Deletes a blog that violates platform policies.
+
+public class DeleteBlogRequestDto
+{
+    public string Reason { get; set; }
+}
+10.9 AdminPaymentDto
+
+Purpose: Displays payment information.
+
+public class AdminPaymentDto
+{
+    public int PaymentId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string PlanName { get; set; }
+
+    public decimal Amount { get; set; }
+
+    public int CreditsPurchased { get; set; }
+
+    public string PaymentStatus { get; set; }
+
+    public DateTime PurchasedAt { get; set; }
+}
+10.10 CreditTransactionDto
+
+Purpose: Displays all credit transactions across the platform.
+
+public class CreditTransactionDto
+{
+    public int TransactionId { get; set; }
+
+    public string UserName { get; set; }
+
+    public string TransactionType { get; set; }
+
+    public int Credits { get; set; }
+
+    public string Description { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+}
+10.11 AdminPlanDto
+
+Purpose: Displays subscription plan information.
+
+public class AdminPlanDto
+{
+    public int PlanId { get; set; }
+
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public decimal Price { get; set; }
+
+    public int Credits { get; set; }
+
+    public bool IsActive { get; set; }
+}
+10.12 CreatePlanRequestDto
+
+Purpose: Creates a new subscription plan.
+
+public class CreatePlanRequestDto
+{
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public decimal Price { get; set; }
+
+    public int Credits { get; set; }
+}
+10.13 UpdatePlanRequestDto
+
+Purpose: Updates an existing subscription plan.
+
+public class UpdatePlanRequestDto
+{
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public decimal Price { get; set; }
+
+    public int Credits { get; set; }
+
+    public bool IsActive { get; set; }
+}
+10.14 DeletedAccountDto
+
+Purpose: Displays deleted account information.
+
+public class DeletedAccountDto
+{
+    public int UserId { get; set; }
+
+    public string Email { get; set; }
+
+    public string Reason { get; set; }
+
+    public DateTime DeletedAt { get; set; }
+}
+10.15 ResolveFeedbackRequestDto
+
+Purpose: Resolves user feedback.
+
+public class ResolveFeedbackRequestDto
+{
+    public string AdminResponse { get; set; }
+}
+10.16 ResolveIssueRequestDto
+
+Purpose: Resolves a reported issue.
+
+public class ResolveIssueRequestDto
+{
+    public string AdminResponse { get; set; }
+}
+10.17 ResolveReportRequestDto
+
+Purpose: Resolves a reported blog.
+
+public class ResolveReportRequestDto
+{
+    public string ActionTaken { get; set; }
+
+    public string AdminRemarks { get; set; }
+}
+
+
+Final DTO Count:
 
 Module	DTOs:
 
-Authentication:			5
-Profile:			4
-AI Blog:			7
-Blog Management:		3
+Authentication:			8
+Profile:			14
+AI Blog:			10
+Blog Management:		13
 Credits:			3
 Plans:				1
-Payments:			4
+Payments:			5
+Social:				11
 Feedback:			3
 Issues:				2
-Admin:				7
-Total:				39 DTOs
+Reports:			3
+Notifications:			2
+Admin:				17
+Total:				92 DTOs

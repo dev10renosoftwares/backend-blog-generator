@@ -41,7 +41,7 @@ User ------------------------>| (View Liked Blogs)                              
                               |                                                   |
 User ------------------------>| (View Profile)                                    |
 User ------------------------>| (Update Profile)                                  |
-User ------------------------>| (Update Public Profile)                           |
+User ------------------------>| (Update Public Profile)//                         |
 User ------------------------>| (Change Password)                                 |
 User ------------------------>| (Upload/Delete Profile Picture)                   |
 User ------------------------>| (Delete Account)                                  |

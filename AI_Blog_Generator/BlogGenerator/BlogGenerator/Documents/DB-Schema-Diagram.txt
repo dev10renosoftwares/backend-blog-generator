@@ -1,60 +1,78 @@
-1. Users:
+# Database Schema
+
+## 1. Users
 
 | Column            | Data Type     | Constraints               | Description            |
 | ----------------- | ------------- | ------------------------- | ---------------------- |
 | UserId            | int           | PK, Identity              | Unique user identifier |
 | UserName          | nvarchar(100) | Required, Unique          | Username               |
+| DisplayName //    | nvarchar(100) | Nullable                  | Public display name    |
 | Email             | nvarchar(255) | Required, Unique          | User email             |
 | PasswordHash      | nvarchar(max) | Required                  | Hashed password        |
 | Role              | int           | Required                  | UserRole enum          |
-| ProfilePictureUrl | nvarchar(500) | Nullable                  | Profile image URL      |
-| AvailableCredits  | int           | Required, Default = 100   | Current credit balance |
+| Bio               | nvarchar(500) | Nullable                  | User biography         |
+| Website           | nvarchar(255) | Nullable                  | Personal website       |
+| Location          | nvarchar(100) | Nullable                  | User location          |
+| ProfilePictureUrl | nvarchar(500) | Nullable                  | Profile picture URL    |
+| AvailableCredits  | int           | Required, Default = 100   | Available AI credits   |
 | IsDeleted         | bit           | Required, Default = false | Soft delete flag       |
 | CreatedAt         | datetime2     | Required                  | Account creation date  |
-| UpdatedAt         | datetime2     | Nullable                  | Last update date       |
+| UpdatedAt         | datetime2     | Nullable                  | Last profile update    |
 
+---
 
-2. RefreshTokens:
+## 2. RefreshTokens
 
-| Column     | Data Type     | Constraints               | Description                            |
-| ---------- | ------------- | ------------------------- | -------------------------------------- |
-| TokenId    | int           | PK, Identity              | Refresh token identifier               |
-| UserId     | int           | FK → Users(UserId)        | Owner of the refresh token             |
-| Token      | nvarchar(max) | Required                  | Refresh token value                    |
-| ExpiryDate | datetime2     | Required                  | Token expiration date                  |
-| IsRevoked  | bit           | Required, Default = false | Indicates whether the token is revoked |
-| CreatedAt  | datetime2     | Required                  | Token creation date                    |
+| Column     | Data Type     | Constraints               | Description              |
+| ---------- | ------------- | ------------------------- | ------------------------ |
+| TokenId    | int           | PK, Identity              | Refresh token identifier |
+| UserId     | int           | FK → Users(UserId)        | Token owner              |
+| Token      | nvarchar(max) | Required                  | Refresh token            |
+| ExpiryDate | datetime2     | Required                  | Token expiry             |
+| IsRevoked  | bit           | Required, Default = false | Revoked status           |
+| CreatedAt  | datetime2     | Required                  | Creation date            |
 
-3. Blogs:
+---
 
-| Column      | Data Type     | Constraints        | Description                     |
-| ----------- | ------------- | ------------------ | ------------------------------- |
-| BlogId      | int           | PK, Identity       | Blog identifier                 |
-| UserId      | int           | FK → Users(UserId) | Blog owner                      |
-| Title       | nvarchar(255) | Required           | Blog title                      |
-| Prompt      | nvarchar(max) | Required           | Prompt provided to AI           |
-| Content     | nvarchar(max) | Required           | Generated blog content          |
-| Tone        | nvarchar(100) | Required           | Blog tone                       |
-| Audience    | nvarchar(100) | Required           | Intended audience               |
-| Category    | nvarchar(500) | Required           | chosen category used            |
-| WordCount   | int           | Required           | Total word count                |
-| CreditsUsed | int           | Required           | Credits deducted for generation |
-| CreatedAt   | datetime2     | Required           | Blog creation date              |
-| UpdatedAt   | datetime2     | Nullable           | Last modification date          |
+## 3. Blogs
 
-4. BlogVersions:
+| Column      | Data Type     | Constraints               | Description            |
+| ----------- | ------------- | ------------------------- | ---------------------- |
+| BlogId      | int           | PK, Identity              | Blog identifier        |
+| UserId      | int           | FK → Users(UserId)        | Blog owner             |
+| Title       | nvarchar(255) | Required                  | Blog title             |
+| Prompt      | nvarchar(max) | Required                  | AI prompt              |
+| Content     | nvarchar(max) | Required                  | Blog content           |
+| Tone        | nvarchar(100) | Required                  | Blog tone              |
+| Audience    | nvarchar(100) | Required                  | Target audience        |
+| Category    | nvarchar(100) | Required                  | Blog category          |
+| WordCount   | int           | Required                  | Word count             |
+| CreditsUsed | int           | Required                  | Credits consumed       |
+| Summary     | nvarchar(max) | Nullable                  | AI generated summary   |
+| SeoTags     | nvarchar(max) | Nullable                  | AI generated SEO tags  |
+| Language    | nvarchar(50)  | Nullable                  | Blog language          |
+| IsPublished | bit           | Required, Default = false | Draft/Published status |
+| PublishedAt | datetime2     | Nullable                  | Publishing date        |
+| CreatedAt   | datetime2     | Required                  | Creation date          |
+| UpdatedAt   | datetime2     | Nullable                  | Last modification      |
 
-| Column      | Data Type     | Constraints        | Description             |
-| ----------- | ------------- | ------------------ | ----------------------- |
-| VersionId   | int           | PK, Identity       | Blog version identifier |
-| BlogId      | int           | FK → Blogs(BlogId) | Parent blog             |
-| Title       | nvarchar(255) | Required           | Version title           |
-| VersionType | int           | Required           | VersionType enum        |
-| Content     | nvarchar(max) | Required           | Version content         |
-| WordCount   | int           | Required           | Word count              |
-| CreatedAt   | datetime2     | Required           | Version creation date   |
+---
 
-5. BlogImages:
+## 4. BlogVersions
+
+| Column      | Data Type     | Constraints        | Description                                                            |
+| ----------- | ------------- | ------------------ | ---------------------------------------------------------------------- |
+| VersionId   | int           | PK, Identity       | Version identifier                                                     |
+| BlogId      | int           | FK → Blogs(BlogId) | Parent blog                                                            |
+| Title       | nvarchar(255) | Required           | Version title                                                          |
+| VersionType | int           | Required           | Original / Expanded / Shortened / Regenerated / Rewritten / Translated |
+| Content     | nvarchar(max) | Required           | Version content                                                        |
+| WordCount   | int           | Required           | Word count                                                             |
+| CreatedAt   | datetime2     | Required           | Version creation date                                                  |
+
+---
+
+## 5. BlogImages
 
 | Column      | Data Type     | Constraints        | Description             |
 | ----------- | ------------- | ------------------ | ----------------------- |
@@ -62,90 +80,236 @@
 | BlogId      | int           | FK → Blogs(BlogId) | Associated blog         |
 | Prompt      | nvarchar(max) | Required           | Image generation prompt |
 | ImageUrl    | nvarchar(500) | Required           | Generated image URL     |
-| CreditsUsed | int           | Required           | Credits deducted        |
+| CreditsUsed | int           | Required           | Credits consumed        |
 | CreatedAt   | datetime2     | Required           | Image generation date   |
 
-6. Plans:
+---
 
-| Column      | Data Type     | Constraints              | Description                          |
-| ----------- | ------------- | ------------------------ | ------------------------------------ |
-| PlanId      | int           | PK, Identity             | Subscription plan identifier         |
-| Name        | nvarchar(100) | Required                 | Plan name                            |
-| Description | nvarchar(500) | Nullable                 | Plan description                     |
-| Price       | decimal(18,2) | Required                 | Plan price                           |
-| Credits     | int           | Required                 | Credits included in the plan         |
-| IsActive    | bit           | Required, Default = true | Indicates whether the plan is active |
-| CreatedAt   | datetime2     | Required                 | Plan creation date                   |
+## 6. Plans
 
-7. Payments:
+| Column      | Data Type     | Constraints              | Description                  |
+| ----------- | ------------- | ------------------------ | ---------------------------- |
+| PlanId      | int           | PK, Identity             | Subscription plan identifier |
+| Name        | nvarchar(100) | Required                 | Plan name                    |
+| Description | nvarchar(500) | Nullable                 | Plan description             |
+| Price       | decimal(18,2) | Required                 | Plan price                   |
+| Credits     | int           | Required                 | Credits included             |
+| IsActive    | bit           | Required, Default = true | Plan availability            |
+| CreatedAt   | datetime2     | Required                 | Creation date                |
 
-| Column                | Data Type     | Constraints        | Description               |
-| --------------------- | ------------- | ------------------ | ------------------------- |
-| PaymentId             | int           | PK, Identity       | Payment identifier        |
-| UserId                | int           | FK → Users(UserId) | User who made the payment |
-| PlanId                | int           | FK → Plans(PlanId) | Purchased plan            |
-| Amount                | decimal(18,2) | Required           | Payment amount            |
-| CreditsPurchased      | int           | Required           | Credits added to the user |
-| StripePaymentIntentId | nvarchar(255) | Required           | Stripe payment identifier |
-| PaymentStatus         | int           | Required           | PaymentStatus enum        |
-| PurchasedAt           | datetime2     | Required           | Payment completion date   |
+---
 
-8. Feedbacks:
+## 7. Payments
 
-| Column        | Data Type     | Constraints               | Description                 |
-| ------------- | ------------- | ------------------------- | --------------------------- |
-| FeedbackId    | int           | PK, Identity              | Feedback identifier         |
-| UserId        | int           | FK → Users(UserId)        | User who submitted feedback |
-| Subject       | nvarchar(255) | Required                  | Feedback subject            |
-| Message       | nvarchar(max) | Required                  | Feedback message            |
-| Rating        | int           | Required                  | Rating (1–5)                |
-| IsPublic      | bit           | Required, Default = false | Public visibility           |
-| Status        | int           | Required                  | FeedbackStatus enum         |
-| AdminResponse | nvarchar(max) | Nullable                  | Admin response              |
-| CreatedAt     | datetime2     | Required                  | Feedback submission date    |
-| UpdatedAt     | datetime2     | Nullable                  | Last update date            |
+| Column                | Data Type     | Constraints        | Description              |
+| --------------------- | ------------- | ------------------ | ------------------------ |
+| PaymentId             | int           | PK, Identity       | Payment identifier       |
+| UserId                | int           | FK → Users(UserId) | User making payment      |
+| PlanId                | int           | FK → Plans(PlanId) | Purchased plan           |
+| Amount                | decimal(18,2) | Required           | Payment amount           |
+| CreditsPurchased      | int           | Required           | Credits received         |
+| StripePaymentIntentId | nvarchar(255) | Required           | Stripe payment reference |
+| PaymentStatus         | int           | Required           | PaymentStatus enum       |
+| PurchasedAt           | datetime2     | Required           | Purchase date            |
 
-9. Issues:
+---
 
-| Column        | Data Type     | Constraints        | Description                       |
-| ------------- | ------------- | ------------------ | --------------------------------- |
-| IssueId       | int           | PK, Identity       | Issue identifier                  |
-| UserId        | int           | FK → Users(UserId) | User who raised the issue         |
-| Subject       | nvarchar(255) | Required           | Issue subject                     |
-| Description   | nvarchar(max) | Required           | Issue description                 |
-| Status        | int           | Required           | IssueStatus enum                  |
-| AdminResponse | nvarchar(max) | Nullable           | Resolution or response from admin |
-| ResolvedAt    | datetime2     | Nullable           | Resolution date                   |
-| CreatedAt     | datetime2     | Required           | Issue creation date               |
-| UpdatedAt     | datetime2     | Nullable           | Last update date                  |
+## 8. Feedbacks
 
-10. DeletedAccounts:
+| Column        | Data Type     | Constraints        | Description         |
+| ------------- | ------------- | ------------------ | ------------------- |
+| FeedbackId    | int           | PK, Identity       | Feedback identifier |
+| UserId        | int           | FK → Users(UserId) | Feedback owner      |
+| Subject       | nvarchar(255) | Required           | Feedback subject    |
+| Message       | nvarchar(max) | Required           | Feedback message    |
+| Rating        | int           | Required           | Rating (1–5)        |
+| IsPublic      | bit           | Required           | Public visibility   |
+| Status        | int           | Required           | Feedback status     |
+| AdminResponse | nvarchar(max) | Nullable           | Admin response      |
+| CreatedAt     | datetime2     | Required           | Submission date     |
+| UpdatedAt     | datetime2     | Nullable           | Last update         |
 
-| Column    | Data Type     | Constraints        | Description                 |
-| --------- | ------------- | ------------------ | --------------------------- |
-| DeletedId | int           | PK, Identity       | Deleted account identifier  |
-| UserId    | int           | FK → Users(UserId) | Deleted user                |
-| Email     | nvarchar(255) | Required           | User email at deletion      |
-| Reason    | nvarchar(500) | Nullable           | Reason for account deletion |
-| DeletedAt | datetime2     | Required           | Account deletion date       |
+---
+
+## 9. Issues
+
+| Column        | Data Type     | Constraints        | Description       |
+| ------------- | ------------- | ------------------ | ----------------- |
+| IssueId       | int           | PK, Identity       | Issue identifier  |
+| UserId        | int           | FK → Users(UserId) | Issue owner       |
+| Subject       | nvarchar(255) | Required           | Issue subject     |
+| Description   | nvarchar(max) | Required           | Issue description |
+| Status        | int           | Required           | IssueStatus enum  |
+| AdminResponse | nvarchar(max) | Nullable           | Resolution        |
+| ResolvedAt    | datetime2     | Nullable           | Resolution date   |
+| CreatedAt     | datetime2     | Required           | Creation date     |
+| UpdatedAt     | datetime2     | Nullable           | Last update       |
+
+---
+
+## 10. DeletedAccounts
+
+| Column    | Data Type     | Constraints        | Description                |
+| --------- | ------------- | ------------------ | -------------------------- |
+| DeletedId | int           | PK, Identity       | Deleted account identifier |
+| UserId    | int           | FK → Users(UserId) | Deleted user               |
+| Email     | nvarchar(255) | Required           | User email                 |
+| Reason    | nvarchar(500) | Nullable           | Deletion reason            |
+| DeletedAt | datetime2     | Required           | Deletion date              |
+
+---
+
+## 11. Followers
+
+| Column      | Data Type | Constraints        | Description         |
+| ----------- | --------- | ------------------ | ------------------- |
+| FollowId    | int       | PK, Identity       | Follow record       |
+| FollowerId  | int       | FK → Users(UserId) | User who follows    |
+| FollowingId | int       | FK → Users(UserId) | User being followed |
+| FollowedAt  | datetime2 | Required           | Follow date         |
+
+---
+
+## 12. BlogLikes
+
+| Column    | Data Type | Constraints        | Description     |
+| --------- | --------- | ------------------ | --------------- |
+| LikeId    | int       | PK, Identity       | Like identifier |
+| BlogId    | int       | FK → Blogs(BlogId) | Liked blog      |
+| UserId    | int       | FK → Users(UserId) | User who liked  |
+| CreatedAt | datetime2 | Required           | Like date       |
+
+---
+
+## 13. Comments
+
+| Column    | Data Type     | Constraints               | Description        |
+| --------- | ------------- | ------------------------- | ------------------ |
+| CommentId | int           | PK, Identity              | Comment identifier |
+| BlogId    | int           | FK → Blogs(BlogId)        | Blog               |
+| UserId    | int           | FK → Users(UserId)        | Comment author     |
+| Content   | nvarchar(max) | Required                  | Comment            |
+| IsDeleted | bit           | Required, Default = false | Soft delete        |
+| CreatedAt | datetime2     | Required                  | Comment date       |
+| UpdatedAt | datetime2     | Nullable                  | Last update        |
+
+---
+
+## 14. CommentLikes (Optional)
+
+| Column        | Data Type | Constraints              | Description             |
+| ------------- | --------- | ------------------------ | ----------------------- |
+| CommentLikeId | int       | PK, Identity             | Comment like identifier |
+| CommentId     | int       | FK → Comments(CommentId) | Comment                 |
+| UserId        | int       | FK → Users(UserId)       | User                    |
+| CreatedAt     | datetime2 | Required                 | Like date               |
+
+---
+
+## 15. SavedBlogs
+
+| Column  | Data Type | Constraints        | Description           |
+| ------- | --------- | ------------------ | --------------------- |
+| SaveId  | int       | PK, Identity       | Saved blog identifier |
+| BlogId  | int       | FK → Blogs(BlogId) | Saved blog            |
+| UserId  | int       | FK → Users(UserId) | User                  |
+| SavedAt | datetime2 | Required           | Save date             |
+
+---
+
+## 16. Reposts
+
+| Column     | Data Type | Constraints        | Description       |
+| ---------- | --------- | ------------------ | ----------------- |
+| RepostId   | int       | PK, Identity       | Repost identifier |
+| BlogId     | int       | FK → Blogs(BlogId) | Reposted blog     |
+| UserId     | int       | FK → Users(UserId) | User              |
+| RepostedAt | datetime2 | Required           | Repost date       |
+
+---
+
+## 17. BlogReports
+
+| Column        | Data Type     | Constraints        | Description        |
+| ------------- | ------------- | ------------------ | ------------------ |
+| ReportId      | int           | PK, Identity       | Report identifier  |
+| BlogId        | int           | FK → Blogs(BlogId) | Reported blog      |
+| UserId        | int           | FK → Users(UserId) | Reporting user     |
+| Reason        | nvarchar(255) | Required           | Report reason      |
+| Description   | nvarchar(max) | Nullable           | Additional details |
+| Status        | int           | Required           | ReportStatus enum  |
+| AdminResponse | nvarchar(max) | Nullable           | Resolution         |
+| CreatedAt     | datetime2     | Required           | Report date        |
+| ResolvedAt    | datetime2     | Nullable           | Resolution date    |
+
+---
+
+## 18. Notifications
+
+| Column         | Data Type     | Constraints               | Description             |
+| -------------- | ------------- | ------------------------- | ----------------------- |
+| NotificationId | int           | PK, Identity              | Notification identifier |
+| UserId         | int           | FK → Users(UserId)        | Recipient               |
+| Type           | int           | Required                  | NotificationType enum   |
+| Title          | nvarchar(255) | Required                  | Notification title      |
+| Message        | nvarchar(max) | Required                  | Notification message    |
+| ReferenceId    | int           | Nullable                  | Related entity ID       |
+| IsRead         | bit           | Required, Default = false | Read status             |
+| CreatedAt      | datetime2     | Required                  | Notification date       |
+
+---
+
+## 19. UserActivities
+
+| Column       | Data Type     | Constraints        | Description          |
+| ------------ | ------------- | ------------------ | -------------------- |
+| ActivityId   | int           | PK, Identity       | Activity identifier  |
+| UserId       | int           | FK → Users(UserId) | User                 |
+| ActivityType | int           | Required           | ActivityType enum    |
+| ReferenceId  | int           | Nullable           | Related entity ID    |
+| Description  | nvarchar(500) | Nullable           | Activity description |
+| CreatedAt    | datetime2     | Required           | Activity date        |
+
+---
+
+# Account Deletion Behaviour
 
 When a user deletes their account:
 
-• Users.IsDeleted = true
-• A record is inserted into DeletedAccounts
-• Login is blocked
-• Existing blogs, payments, feedback, and issues are retained
+* Users.IsDeleted = true
+* A record is inserted into **DeletedAccounts**
+* Refresh tokens are revoked
+* Login is blocked
+* Existing blogs, payments, comments, likes, feedback, issues, notifications, and other historical records remain for auditing and platform integrity.
 
-RELATIONSHIPS:
+---
 
-| Parent Table | Relationship          | Child Table        |
-| ------------ | --------------------- | ------------------ |
-| Users        | One-to-Many           | RefreshTokens      |
-| Users        | One-to-Many           | Blogs              |
-| Users        | One-to-Many           | Payments           |
-| Users        | One-to-Many           | Feedbacks          |
-| Users        | One-to-Many           | Issues             |
-| Users        | One-to-One (Optional) | DeletedAccounts    |
-| Blogs        | One-to-Many           | BlogVersions       |
-| Blogs        | One-to-Many           | BlogImages         |
-| Plans        | One-to-Many           | Payments           |
+# Relationships
+
+| Parent Table | Relationship          | Child Table             |
+| ------------ | --------------------- | ----------------------- |
+| Users        | One-to-Many           | RefreshTokens           |
+| Users        | One-to-Many           | Blogs                   |
+| Users        | One-to-Many           | Payments                |
+| Users        | One-to-Many           | Feedbacks               |
+| Users        | One-to-Many           | Issues                  |
+| Users        | One-to-One (Optional) | DeletedAccounts         |
+| Users        | One-to-Many           | Followers (FollowerId)  |
+| Users        | One-to-Many           | Followers (FollowingId) |
+| Users        | One-to-Many           | BlogLikes               |
+| Users        | One-to-Many           | Comments                |
+| Users        | One-to-Many           | CommentLikes            |
+| Users        | One-to-Many           | SavedBlogs              |
+| Users        | One-to-Many           | Reposts                 |
+| Users        | One-to-Many           | BlogReports             |
+| Users        | One-to-Many           | Notifications           |
+| Users        | One-to-Many           | UserActivities          |
+| Blogs        | One-to-Many           | BlogVersions            |
+| Blogs        | One-to-Many           | BlogImages              |
+| Blogs        | One-to-Many           | BlogLikes               |
+| Blogs        | One-to-Many           | Comments                |
+| Blogs        | One-to-Many           | SavedBlogs              |
+| Blogs        | One-to-Many           | Reposts                 |
+| Blogs        | One-to-Many           | BlogReports             |
+| Comments     | One-to-Many           | CommentLikes            |
+| Plans        | One-to-Many           | Payments                |
