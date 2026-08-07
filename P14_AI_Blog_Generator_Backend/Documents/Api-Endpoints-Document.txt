@@ -21,7 +21,6 @@ DELETE       /api/profile/picture			Delete profile picture
 
 GET	     /api/profile/{userId}	                View another user's public profile
 GET	     /api/profile/{userId}/blogs	        View all published blogs of a user
-PUT          /api/profile/public-profile                Update public profile (Bio, Website, Location, Social Links, Display Name)
 
 POST	     /api/profile/{userId}/follow	        Follow a user
 DELETE	     /api/profile/{userId}/follow	        Unfollow a user
@@ -37,7 +36,6 @@ GET          /api/profile/{userId}/stats                Get User Statistics
 GET          /api/profile/activity                      View user's activity history (published, liked, commented, reposted)
 GET	     /api/profile/search	                Search users by username or display name
 GET	     /api/profile/suggestions	                Get suggested users to follow
-GET          /api/profile/drafts                        Get all draft blogs of the logged-in user
 
 GET          /api/profile/{userId}/badges               Get all badges/achievements earned by a user
 
@@ -55,6 +53,8 @@ POST	     /api/blogs/{blogId}/rewrite	        Rewrite the blog with custom instr
 POST	     /api/blogs/{blogId}/translate	        Translate the blog into another language
 POST	     /api/blogs/{blogId}/generate-tags	        Generate SEO tags/keywords for the blog
 POST	     /api/blogs/{blogId}/generate-summary	Generate a short summary/excerpt for the blog
+
+GET          /api/blogs/{blogId}/tags                   Get SEO tags for Blog
 
 
 4. Blog Management APIs:
@@ -89,9 +89,6 @@ GET         /api/credits/pricing			Get pricing details of using AI services
 
 Method	    Endpoint					Description
 GET	    /api/plans					Get all available subscription plans
-POST   	    /api/admin/plans                            Create Plan
-PUT         /api/admin/plans/{planId}                   Update Plan
-DELETE      /api/admin/plans/{planId}                   Delete Plan
 
 
 7. Payment APIs:
@@ -102,7 +99,7 @@ POST	    /api/payments/confirm			Confirm successful payment and add credits
 GET	    /api/payments/history			Get user's payment history
 POST        /api/payments/webhook                       Stripe webhook endpoint to receive payment events and update payment status automatically
 GET         /api/payments/{paymentId}                   View payment details
-POST	    /api/payments/cancel			Cancel a pending payment (optional but useful)
+POST	    /api/payments/{paymentId}/cancel		Cancel a pending payment (optional but useful)
 
 
 8. Feedback APIs:
@@ -190,16 +187,22 @@ GET	    /api/notifications				Get all notifications
 PUT	    /api/notifications/{notificationId}/read	Mark notification as read
 PUT	    /api/notifications/read-all			Mark all notifications as read
 
+
+14. Categories Module:
+
+Method	    Endpoint					Description
+GET         /api/categories                             Get Categories
+
 API Summary:
 
 Module	Number of APIs:
 
 Authentication 	      :			4
-User Profile	      :			21
-AI Blog		      :			10
+User Profile	      :			20
+AI Blog		      :			11
 Blog Management	      :			12
 Credits		      :			2
-Subscription Plans    :			4
+Subscription Plans    :			1
 Payments	      :			6
 Feedback	      :			4
 Issues		      :			6
@@ -207,4 +210,5 @@ Admin Dashboard	      :			21
 Public Feed 	      :			6
 Blog Interaction      :                 14
 Notifications         :                 3
-Total APIs	      :			113 APIs
+Categories            :                 1
+Total APIs	      :			111 APIs

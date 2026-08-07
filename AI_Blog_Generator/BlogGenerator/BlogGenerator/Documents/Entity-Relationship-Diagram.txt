@@ -18,6 +18,7 @@
 | IsActive                                             |
 | CreatedAt                                            |
 | UpdatedAt                                            |
+| LastSeenAt (Nullable)                                |
 +------------------------------------------------------+
 
 
@@ -46,6 +47,7 @@ Users (1)
 +------------------------------------------------------+
 | BlogId (PK)                                          |
 | UserId (FK -> Users)                                 |
+| CategoryId (FK -> Categories)                        |
 | Title                                                |
 | Slug (Unique)                                        |
 | Prompt                                               |
@@ -53,7 +55,6 @@ Users (1)
 | Excerpt                                              |
 | Tone                                                 |
 | Audience                                             |
-| Category                                              |
 | WordCount                                            |
 | CreditsUsed                                          |
 | CoverImageUrl                                        |
@@ -100,6 +101,8 @@ Blogs (1)
 | BlogId (FK -> Blogs)                                 |
 | Prompt                                               |
 | ImageUrl                                             |
+| ImageType                                            |
+| DisplayOrder                                         |
 | CreditsUsed                                          |
 | CreatedAt                                            |
 +------------------------------------------------------+
@@ -153,6 +156,26 @@ Blogs (1)
 │ *
 ▼
 Comments
+
+
+Users (1)
+│
+│ *
+▼
++------------------------------------------------------+
+|                    CommentLikes                      |
++------------------------------------------------------+
+| CommentLikeId (PK)                                   |
+| CommentId (FK -> Comments)                           |
+| UserId (FK -> Users)                                 |
+| CreatedAt                                            |
++------------------------------------------------------+
+
+Comments (1)
+│
+│ *
+▼
+CommentLikes
 
 
 Users (1)
@@ -224,6 +247,7 @@ Users (1)
 | CreatedAt                                            |
 +------------------------------------------------------+
 
+
 Users (1)
 │
 │ *
@@ -236,7 +260,7 @@ Users (1)
 | ReportedByUserId (FK -> Users)                       |
 | Reason                                               |
 | Description                                          |
-| Status                                               |
+| ReportStatus                                         |
 | CreatedAt                                            |
 +------------------------------------------------------+
 
@@ -245,6 +269,73 @@ Blogs (1)
 │ *
 ▼
 BlogReports
+
++------------------------------------------------------+
+|                     Categories                       |
++------------------------------------------------------+
+| CategoryId (PK)                                      |
+| Name (Unique)                                        |
+| Description                                          |
+| Icon                                                 |
+| CreatedAt                                            |
++------------------------------------------------------+
+
+Categories (1)
+│
+│ *
+▼
+Blogs
+
+
++------------------------------------------------------+
+|                        Tags                          |
++------------------------------------------------------+
+| TagId (PK)                                           |
+| Name (Unique)                                        |
+| CreatedAt                                            |
++------------------------------------------------------+
+
+
+Blogs (*)
+│
+│ *
+├───────────────────────────────┐
+│                               │
+▼                               ▼
++------------------------------------------------------+
+|                     BlogTags                         |
++------------------------------------------------------+
+| BlogTagId (PK)                                      |
+| BlogId (FK -> Blogs)                                |
+| TagId (FK -> Tags)                                  |
++------------------------------------------------------+
+
+
++------------------------------------------------------+
+|                       Badges                         |
++------------------------------------------------------+
+| BadgeId (PK)                                         |
+| Name (Unique)                                        |
+| Description                                          |
+| IconUrl                                              |
+| CreatedAt                                            |
++------------------------------------------------------+
+
+
+Users (*)
+│
+│ *
+├───────────────────────────────┐
+│                               │
+▼                               ▼
++------------------------------------------------------+
+|                    UserBadges                        |
++------------------------------------------------------+
+| UserBadgeId (PK)                                     |
+| UserId (FK -> Users)                                 |
+| BadgeId (FK -> Badges)                               |
+| EarnedAt                                             |
++------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -333,7 +424,7 @@ Users (1)
 | DeletedId (PK)                                       |
 | UserId (FK -> Users)                                 |
 | Email                                                |
-| Reason                                               |
+| Reason                                                |
 | DeletedAt                                            |
 +------------------------------------------------------+
 
@@ -388,23 +479,6 @@ ENUMS
 | Entrepreneurs                 |
 | Marketers                     |
 | General                       |
-+-------------------------------+
-
-+-------------------------------+
-| BlogCategory                  |
-+-------------------------------+
-| Technology                    |
-| Business                      |
-| Finance                       |
-| Health                        |
-| Education                     |
-| Travel                        |
-| Food                          |
-| Sports                        |
-| Lifestyle                     |
-| Marketing                     |
-| Entertainment                 |
-| Science                       |
 +-------------------------------+
 
 +-------------------------------+
@@ -502,13 +576,18 @@ Users (1)
 ├── DeletedAccounts (0..1)
 ├── Likes (*)
 ├── Comments (*)
+├── CommentLikes (*)
 ├── Bookmarks (*)
 ├── Reposts (*)
 ├── BlogReports (*)
 ├── NotificationsReceived (*)
 ├── NotificationsSent (*)
+├── UserBadges (*)
 ├── Following (*)
 └── Followers (*)
+
+Categories (1)
+└── Blogs (*)
 
 Blogs (1)
 ├── BlogVersions (*)
@@ -518,10 +597,18 @@ Blogs (1)
 ├── Bookmarks (*)
 ├── Reposts (*)
 ├── BlogReports (*)
-└── Notifications (*)
+├── Notifications (*)
+└── BlogTags (*)
 
 Comments (1)
-└── Replies (*)
+├── Replies (*)
+└── CommentLikes (*)
+
+Tags (1)
+└── BlogTags (*)
+
+Badges (1)
+└── UserBadges (*)
 
 Plans (1)
 └── Payments (*)
@@ -544,26 +631,38 @@ Comments
 DELETE BEHAVIOR (RECOMMENDED)
 ========================================================
 
-Users → Blogs                Restrict
-Users → Payments             Restrict
-Users → Feedbacks            Restrict
-Users → Issues               Restrict
-Users → RefreshTokens        Cascade
-Users → Likes                Cascade
-Users → Bookmarks            Cascade
-Users → Reposts              Cascade
-Users → Follows              Cascade
-Users → Notifications        Cascade
-Users → BlogReports          Cascade
+Users → Blogs                 Restrict
+Users → Payments              Restrict
+Users → Feedbacks             Restrict
+Users → Issues                Restrict
+Users → RefreshTokens         Cascade
+Users → Likes                 Cascade
+Users → Comments              Cascade
+Users → CommentLikes          Cascade
+Users → Bookmarks             Cascade
+Users → Reposts               Cascade
+Users → Follows               Cascade
+Users → Notifications         Cascade
+Users → BlogReports           Cascade
+Users → UserBadges            Cascade
 
-Blogs → BlogVersions         Cascade
-Blogs → BlogImages           Cascade
-Blogs → Likes                Cascade
-Blogs → Comments             Cascade
-Blogs → Bookmarks            Cascade
-Blogs → Reposts              Cascade
-Blogs → BlogReports          Cascade
+Categories → Blogs            Restrict
 
-Comments → Replies           Cascade
+Blogs → BlogVersions          Cascade
+Blogs → BlogImages            Cascade
+Blogs → Likes                 Cascade
+Blogs → Comments              Cascade
+Blogs → Bookmarks             Cascade
+Blogs → Reposts               Cascade
+Blogs → BlogReports           Cascade
+Blogs → Notifications         Cascade
+Blogs → BlogTags              Cascade
+
+Comments → Replies            Cascade
+Comments → CommentLikes       Cascade
+
+Tags → BlogTags              Cascade
+
+Badges → UserBadges          Cascade
 
 Plans → Payments             Restrict
