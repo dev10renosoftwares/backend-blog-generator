@@ -14,7 +14,7 @@ public class Payment
 
     public int CreditsPurchased { get; set; }
 
-    public string StripePaymentIntentId { get; set; } = string.Empty;
+    public string StripeTransactionId { get; set; } = string.Empty;
 
     public PaymentStatus PaymentStatus { get; set; }
 

@@ -3,7 +3,12 @@ namespace BlogGenerator.Enums;
 public enum VersionType
 {
     Original,
+    Edited,
+    Rewritten,
     Regenerated,
     Expanded,
-    Shortened
+    Shortened,
+    Translated,
+    SEOOptimized,
+    Summary
 }

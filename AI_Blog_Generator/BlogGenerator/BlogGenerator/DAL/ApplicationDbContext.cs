@@ -1,6 +1,8 @@
-﻿using BlogGenerator.DomainModels.v1;
+﻿using Azure;
 using BlogGenerator.Configurations;
+using BlogGenerator.DomainModels.v1;
 using Microsoft.EntityFrameworkCore;
+using static QuestPDF.Helpers.Colors;
 
 namespace BlogGenerator.DAL
 {
@@ -29,7 +31,30 @@ namespace BlogGenerator.DAL
         public DbSet<Issue> Issues => Set<Issue>();
 
         public DbSet<DeletedAccount> DeletedAccounts => Set<DeletedAccount>();
-    
+
+        public DbSet<Likes> Likes => Set<Likes>();
+
+        public DbSet<Comments> Comments => Set<Comments>();
+
+        public DbSet<Bookmarks> Bookmarks => Set<Bookmarks>();
+
+        public DbSet<Reposts> Reposts => Set<Reposts>();
+
+        public DbSet<Follow> Follows => Set<Follow>();
+
+        public DbSet<Notifications> Notifications => Set<Notifications>();
+
+        public DbSet<BlogReports> BlogReports => Set<BlogReports>();
+
+        public DbSet<UserBadge> UserBadges => Set<UserBadge>();
+        public DbSet<Category> Categories => Set<Category>();
+
+        public DbSet<Tags> Tags => Set<Tags>();
+
+        public DbSet<BlogTags> BlogTags => Set<BlogTags>();
+
+        public DbSet<Badges> Badges => Set<Badges>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

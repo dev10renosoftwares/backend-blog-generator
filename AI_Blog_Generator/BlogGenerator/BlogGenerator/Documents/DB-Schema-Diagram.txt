@@ -54,7 +54,6 @@
 | Audience       | int           | Required                    | BlogAudience enum                |
 | WordCount      | int           | Required                    | WordCount enum                   |
 | CreditsUsed    | int           | Required                    | Credits consumed                 |
-| CoverImageUrl//| nvarchar(500) | Nullable                    | Blog cover image                 |
 | Language       | int           | Required, Default= English  | BlogLanguage enum                |
 | Status         | int           | Required                    | BlogStatus enum                  |
 | Visibility     | int           | Required                    | BlogVisibility enum              |

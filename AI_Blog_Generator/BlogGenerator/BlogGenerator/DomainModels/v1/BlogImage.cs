@@ -9,6 +9,9 @@ public class BlogImage
     public string Prompt { get; set; } = string.Empty;
 
     public string ImageUrl { get; set; } = string.Empty;
+    public BlogImageType ImageType { get; set; }
+
+    public int DisplayOrder { get; set; } = 1;
 
     public int CreditsUsed { get; set; }
 
