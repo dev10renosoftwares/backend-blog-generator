@@ -19,7 +19,7 @@ View All Users                               View All Blogs                     
       │                                           │                                           │
       ├────────► View User Details             ├────────► View Blog Details            ├────────► View User Payment History
       │                                           │                                           │
-      ├────────► Block User                    ├────────► Delete Blog//                 │
+      ├────────► Block User                    ├────────► Delete Blog                   │
       │                                           │                                           │
       ├────────► Unblock User                  ├────────► View Reported Blogs          │
       │                                           │             │                            │

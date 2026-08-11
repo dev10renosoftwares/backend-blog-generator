@@ -94,7 +94,7 @@ GET	    /api/plans					Get all available subscription plans
 7. Payment APIs:
 
 Method	    Endpoint					Description
-POST	    /api/payments/create-payment-intent		Create a Stripe payment session/intent
+POST	    /api/payments/create-payment-intent		Create a Stripe payment session/intent .. no credits added
 POST	    /api/payments/confirm			Confirm successful payment and add credits
 GET	    /api/payments/history			Get user's payment history
 POST        /api/payments/webhook                       Stripe webhook endpoint to receive payment events and update payment status automatically

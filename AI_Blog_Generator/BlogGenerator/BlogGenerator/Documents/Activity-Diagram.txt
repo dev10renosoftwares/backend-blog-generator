@@ -34,80 +34,87 @@
 
 2. AI Blog Generation & Management Workflow:
 
-                              Start
-                                │
-                                ▼
-                           User Login
-                                │
-                                ▼
-                        Open Dashboard
-                                │
-                                ▼
-                 Enter Blog Generation Details
-        (Topic, Tone, Audience, Category, Word Count, Language)
-                                │
-                                ▼
-                    Click Generate Blog
-                                │
-                                ▼
-                   Check Available Credits
-                                │
-               ┌────────────────┴────────────────┐
-               │                                 │
-               ▼                                 ▼
-      Insufficient Credits         |--->    Credits Available
-               │                  |               │
-               ▼                 |                ▼
-     Display Subscription Plans  |        Call AI Provider
-               │                |                 │
-               ▼               |                  ▼
-      Purchase Subscription    |          Generate Blog
-               │               |                  │
-               ▼               |                   ▼
-      Stripe Payment Success    |        Save Blog
-               │                |                 │
-               ▼                                 ▼
-          Add Credits  ----------     Create Original Version
-               │                                 │
-               └───────────────┬─────────────────┘
-                               ▼
-                        Deduct Credits
-                               │
-                               ▼
-                   Display Generated Blog
-                               │
-                               ▼
-                    User Chooses an Action
-                               │
-┌────────┬──────────┬───────────┬──────────┬──────────┬──────────┬────────────┬────────────┬─────────────┐
-▼        ▼          ▼           ▼          ▼          ▼          ▼            ▼            ▼
-Edit   Expand    Shorten   Regenerate   Rewrite   Translate//   AI Image   Generate Tags  Generate Summary
-│        │          │           │          │          │          │            │            │
-└────────┴──────────┴───────────┴──────────┴──────────┴──────────┴────────────┴────────────┘
-                               │
-                               ▼
-                    Create New Blog Version
-                               │
-                               ▼
-                     Save Version History
-                               │
-                               ▼
-                     User Chooses an Action
-                               │
-         ┌───────────────┬───────────────┬───────────────┐
-         ▼               ▼               ▼
-     Publish Blog    Save as Draft   Delete Blog
-         │               │               │
-         ▼               ▼               ▼
- Visible in Public    Visible Only    Remove Blog
-       Feed             to Owner      Permanently
-         │
-         ▼
-   Download PDF / Copy Blog
-         │
-         ▼
-        End
-
+                         Start
+                           │
+                           ▼
+                      User Login
+                           │
+                           ▼
+                   Open Dashboard
+                           │
+                           ▼
+            Enter Blog Generation Details
+       (Topic, Tone, Audience, Category,
+        Word Count, Language)
+                           │
+                           ▼
+                 Click Generate Blog
+                           │
+                           ▼
+                Check Available Credits
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+              ▼                         ▼
+       Insufficient Credits       Credits Available
+              │                         │
+              ▼                         ▼
+   Display Subscription Plans    Call AI Provider
+              │                         │
+              ▼                         ▼
+   Purchase Subscription         Generate Blog
+              │                         │
+              ▼                         ▼
+      Stripe Payment Success       Save Blog
+              │                         │
+              ▼                         ▼
+         Add Credits          Create Original Version
+              │                         │
+              └────────────┬──────┘
+                           ▼
+                    Deduct Credits
+                           │
+                           ▼
+                 Display Generated Blog
+                           │
+                           ▼
+                  User Chooses an Action
+                           │
+       ┌────────┬──────────┬───────────┬──────────┬───────────┬──────────────┬───────────────┐
+       ▼        ▼          ▼           ▼          ▼           ▼              ▼
+      Edit    Expand     Shorten    Regenerate//  Rewrite    AI Image     Generate Tags       Generate summary
+       │        │          │           │          │           │              │
+       |   ────┴──────────┴───────────┴──────────┴───────────┴──────────────┘
+       |                    │
+       |                    ▼
+       |             Perform Selected Action
+       |                    │
+       |                    ▼
+       |         Check Credits (if applicable)
+       |                    │
+       |                    ▼
+       |           Deduct Credits (if applicable)
+       |                    │
+       |                    ▼
+       |--------> Save Changes / New Version
+                           │
+                           ▼
+                  User Chooses an Action
+                           │
+             ┌─────────────┼──────────────┐
+             ▼             ▼              ▼
+        Publish Blog   Save as Draft   Delete Blog
+             │             │              │
+             ▼             ▼              ▼
+       Public Feed     Owner Only     Remove Blog
+             │             │              │
+             └─────────────┼──────────────┘
+                           ▼
+                    Download PDF /
+                       Copy Blog
+                           │
+                           ▼
+                          End
 
 3. Public Feed & Blog Interaction Workflow:
 
@@ -205,9 +212,9 @@ End
               │                             │
               ▼                             ▼
    Display Failure Message        Verify Payment
-                                            │
-                                            ▼
-                                  Save Payment Record
+              |                              │
+             ▼                              ▼
+            End                     Save Payment Record
                                             │
                                             ▼
                                     Add Purchased Credits
@@ -219,37 +226,47 @@ End
                                            End
 6. Support Workflow:
 
-
-                           Start
-                             │
-                             ▼
-                          User Login
-                             │
-                             ▼
-                     Open Support Center
-                             │
-                             ▼
-                     Select an Operation
-                             │
-              ┌──────────────┴──────────────┐
-              ▼                             ▼
-       Submit Feedback                Raise Issue
-              │                             │
-              ▼                             ▼
-      Enter Feedback Details      Enter Issue Details
-              │                             │
-              ▼                             ▼
-         Save Feedback               Save Issue
-              │                             │
-              └──────────────┬──────────────┘
-                             ▼
+                         Start
+                           │
+                           ▼
+                      User Login
+                           │
+                           ▼
+                  Open Support Center
+                           │
+                           ▼
+                  Select an Operation
+                           │
+              ┌────────────┴────────────┐
+              │                         │
+              ▼                         ▼
+       Submit Feedback             Raise Issue
+              │                         │
+              ▼                         ▼
+      Enter Feedback Details     Enter Issue Details
+              │                         │
+              ▼                         ▼
+        Save Feedback             Save Issue
+              │                         │
+              │                 ┌───────┴────────┐
+              │                 │                │
+              │                 ▼                ▼
+              │           Update Issue     Withdraw Issue
+              │                 │                │
+              │                 └───────┬────────┘
+              │                         │
+              └────────────┬────────────┘
+                           ▼
                  View Submitted History
-                             │
-                             ▼
-          View Feedback Details / Issue Details
-                             │
-                             ▼
-                            End
+                           │
+                           ▼
+              View Feedback / Issue Details
+                           │
+                           ▼
+                 View Issue Status
+                           │
+                           ▼
+                          End
 
 
 7. Admin Workflow:

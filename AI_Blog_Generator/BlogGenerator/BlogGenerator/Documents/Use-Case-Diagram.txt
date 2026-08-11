@@ -7,6 +7,8 @@ Guest ----------------------->| (Browse Public Blogs)                           
 Guest ----------------------->| (View Blog Details)                               |
 Guest ----------------------->| (Search Blogs)                                    |
 Guest ----------------------->| (View Public User Profile)                        |
+Guest ----------------------->| (View Public Feedback)                            |
+Guest ----------------------->| (View Categories)                                 |
                               |                                                   |
 User ------------------------>| (Generate AI Blog)                                |
 User ------------------------>| (Regenerate Blog)//                               |
@@ -14,9 +16,13 @@ User ------------------------>| (Expand Blog)                                   
 User ------------------------>| (Shorten Blog)                                    |
 User ------------------------>| (Generate AI Image)                               |
 User ------------------------>| (Rewrite Blog)                                    |
-User ------------------------>| (Translate Blog)//                                |
 User ------------------------>| (Generate SEO Tags)                               |
 User ------------------------>| (Generate Blog Summary)                           |
+                              |                                                   |
+User ------------------------>| (Cancel Pending Payment)                          |
+User ------------------------>| (Update Issue)                                    |
+User ------------------------>| (Withdraw Issue)                                  |
+User ------------------------>| (View Issue Status)                               |
                               |                                                   |
 User ------------------------>| (View My Blogs)                                   |
 User ------------------------>| (View Blog Details)                               |
@@ -41,7 +47,6 @@ User ------------------------>| (View Liked Blogs)                              
                               |                                                   |
 User ------------------------>| (View Profile)                                    |
 User ------------------------>| (Update Profile)                                  |
-User ------------------------>| (Update Public Profile)//                         |
 User ------------------------>| (Change Password)                                 |
 User ------------------------>| (Upload/Delete Profile Picture)                   |
 User ------------------------>| (Delete Account)                                  |
@@ -70,7 +75,6 @@ User ------------------------>| (Mark Notification Read)                        
 User ------------------------>| (Mark All Notifications Read)                     |
 User ------------------------>| (Logout)                                          |
                               |                                                   |
-Admin ----------------------->| (Admin Login)                                     |
 Admin ----------------------->| (View Dashboard)                                  |
 Admin ----------------------->| (Manage Users)                                    |
 Admin ----------------------->| (View User Details)                               |
@@ -140,20 +144,50 @@ Rewrite Blog
     <<include>>
     Check Credits
 
+Rewrite Blog
+    <<include>>
+    Deduct Credits
+
+
 Generate SEO Tags
+    <<include>>
+    Check Credits
+
+Generate SEO Tags
+    <<include>>
+    Deduct Credits
+
+
+Generate Blog Summary
     <<include>>
     Check Credits
 
 Generate Blog Summary
     <<include>>
-    Check Credits
+    Deduct Credits
+
+Regenerate Blog
+    <<include>>
+    Save Blog Version
+
+Expand Blog
+    <<include>>
+    Save Blog Version
+
+Shorten Blog
+    <<include>>
+    Save Blog Version
+
+Rewrite Blog
+    <<include>>
+    Save Blog Version
 
 Buy Subscription Plan
     <<include>>
     Stripe Payment
 
 Delete Account
-    <<extend>>
+    <<include>>
     Store Deletion Reason
 
 Publish Blog

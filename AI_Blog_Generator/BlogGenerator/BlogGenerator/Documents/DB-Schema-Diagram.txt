@@ -2,158 +2,161 @@
 
 ## 1. Users
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| UserId | int | PK, Identity | Unique user identifier |
-| UserName | nvarchar(100) | Required, Unique | Username used for login and profile |
-| Email | nvarchar(255) | Required, Unique | User email address |
-| PasswordHash | nvarchar(max) | Required | Encrypted password |
-| DisplayName | nvarchar(100) | Nullable | Public display name |
-| Bio | nvarchar(500) | Nullable | User biography |
-| Website | nvarchar(255) | Nullable | Personal website |
-| Location | nvarchar(150) | Nullable | User location |
-| ProfilePictureUrl | nvarchar(500) | Nullable | Profile picture URL |
-| CoverPhotoUrl | nvarchar(500) | Nullable | Cover photo URL |
-| Role | int | Required | UserRole enum |
-| AvailableCredits | int | Required, Default = 100 | Available AI credits |
-| IsVerified | bit | Required, Default = false | Email/account verification status |
-| IsDeleted | bit | Required, Default = false | Soft delete flag |
-| IsActive | bit | Required, Default = true | Account active status |
-| CreatedAt | datetime2 | Required | Account creation date |
-| UpdatedAt | datetime2 | Nullable | Last profile update |
-| LastSeenAt | datetime2 | Nullable | Last active timestamp |
+| Column                | Data Type       | Constraints                 | Description                                                 |
+| --------------------- | --------------- | --------------------------- | ----------------------------------------------------------- |
+| **UserId**            | `int`           | PK, Identity                | Unique identifier for the user                              |
+| **UserName**          | `nvarchar(100)` | Required, Unique            | Username used for authentication and profile identification |
+| **Email**             | `nvarchar(255)` | Required, Unique            | User's email address                                        |
+| **PasswordHash**      | `nvarchar(max)` | Required                    | Securely stored hashed password                             |
+| **DisplayName**       | `nvarchar(100)` | Nullable                    | Public display name of the user                             |
+| **Bio**               | `nvarchar(500)` | Nullable                    | User biography or profile description                       |
+| **Website**           | `nvarchar(255)` | Nullable                    | Personal or professional website URL                        |
+| **Location**          | `nvarchar(150)` | Nullable                    | User's location                                             |
+| **ProfilePictureUrl** | `nvarchar(500)` | Nullable                    | URL of the user's profile picture                           |
+| **Role**              | `int`           | Required                    | User role represented by the `UserRole` enum                |
+| **AvailableCredits**  | `int`           | Required, Default = 100     | Number of AI credits currently available to the user        |
+| **IsDeleted**         | `bit`           | Required, Default = `false` | Indicates whether the account has been soft-deleted         |
+| **IsActive**          | `bit`           | Required, Default = `true`  | Indicates whether the user account is currently active      |
+| **CreatedAt**         | `datetime2`     | Required                    | Date and time when the account was created                  |
+| **UpdatedAt**         | `datetime2`     | Nullable                    | Date and time when the user's profile was last updated      |
+| **LastSeenAt**        | `datetime2`     | Nullable                    | Date and time when the user was last active                 |
+
 
 ---
 
 ## 2. RefreshTokens
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| TokenId | int | PK, Identity | Refresh token identifier |
-| UserId | int | FK → Users(UserId) | Token owner |
-| Token | nvarchar(max) | Required | Refresh token |
-| ExpiryDate | datetime2 | Required | Token expiration date |
-| IsRevoked | bit | Required, Default = false | Indicates whether token is revoked |
-| CreatedAt | datetime2 | Required | Token creation date |
+| Column         | Data Type       | Constraints                 | Description                                          |
+| -------------- | --------------- | --------------------------- | ---------------------------------------------------- |
+| **TokenId**    | `int`           | PK, Identity                | Unique identifier for the refresh token              |
+| **UserId**     | `int`           | FK → `Users(UserId)`        | Identifier of the user who owns the refresh token    |
+| **Token**      | `nvarchar(max)` | Required                    | Stored refresh token value                           |
+| **ExpiryDate** | `datetime2`     | Required                    | Date and time when the refresh token expires         |
+| **IsRevoked**  | `bit`           | Required, Default = `false` | Indicates whether the refresh token has been revoked |
+| **CreatedAt**  | `datetime2`     | Required                    | Date and time when the refresh token was created     |
+
 
 ---
 
 ## 3. Blogs
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| BlogId | int | PK, Identity | Unique blog identifier |
-| UserId | int | FK → Users(UserId) | Blog owner |
-| CategoryId | int | FK → Categories(CategoryId) | Blog category |
-| Title | nvarchar(255) | Required | Blog title |
-| Slug | nvarchar(255) | Required, Unique | SEO-friendly URL slug |
-| Prompt | nvarchar(max) | Required | Prompt used to generate the blog |
-| Content | nvarchar(max) | Required | Blog content |
-| Excerpt | nvarchar(500) | Nullable | Short blog preview |
-| Tone | int | Required | BlogTone enum |
-| Audience | int | Required | BlogAudience enum |
-| WordCount | int | Required | Target/generated word count |
-| CreditsUsed | int | Required | Credits consumed |
-| CoverImageUrl | nvarchar(500) | Nullable | Blog cover image |
-| Status | int | Required | BlogStatus enum |
-| Visibility | int | Required | BlogVisibility enum |
-| AllowComments | bit | Required, Default = true | Whether comments are allowed |
-| ReadingTime | int | Nullable | Estimated reading time (minutes) |
-| ViewsCount | int | Required, Default = 0 | Total blog views |
-| LikesCount | int | Required, Default = 0 | Total likes |
-| CommentsCount | int | Required, Default = 0 | Total comments |
-| BookmarksCount | int | Required, Default = 0 | Total bookmarks |
-| RepostsCount | int | Required, Default = 0 | Total reposts |
-| PublishedAt | datetime2 | Nullable | Publishing date |
-| CreatedAt | datetime2 | Required | Blog creation date |
-| UpdatedAt | datetime2 | Nullable | Last modification date |
+| Column         | Data Type     | Constraints                 | Description                      |
+| -------------- | ------------- | --------------------------- | -------------------------------- |
+| BlogId         | int           | PK, Identity                | Unique blog identifier           |
+| UserId         | int           | FK → Users(UserId)          | Blog owner                       |
+| CategoryId     | int           | FK → Categories(CategoryId) | Blog category                    |
+| Title          | nvarchar(255) | Required                    | Blog title                       |
+| Slug           | nvarchar(255) | Required, Unique            | SEO-friendly URL slug            |
+| Prompt         | nvarchar(max) | Required                    | Prompt used to generate the blog |
+| Content        | nvarchar(max) | Required                    | Blog content                     |
+| Excerpt        | nvarchar(500) | Nullable                    | Short blog preview               |
+| Tone           | int           | Required                    | BlogTone enum                    |
+| Audience       | int           | Required                    | BlogAudience enum                |
+| WordCount      | int           | Required                    | WordCount enum                   |
+| CreditsUsed    | int           | Required                    | Credits consumed                 |
+| CoverImageUrl//| nvarchar(500) | Nullable                    | Blog cover image                 |
+| Language       | int           | Required, Default= English  | BlogLanguage enum                |
+| Status         | int           | Required                    | BlogStatus enum                  |
+| Visibility     | int           | Required                    | BlogVisibility enum              |
+| AllowComments  | bit           | Required, Default = true    | Whether comments are allowed     |
+| ReadingTime    | int           | Nullable                    | Estimated reading time (minutes) |
+| ViewsCount     | int           | Required, Default = 0       | Total blog views                 |
+| LikesCount     | int           | Required, Default = 0       | Total likes                      |
+| CommentsCount  | int           | Required, Default = 0       | Total comments                   |
+| BookmarksCount | int           | Required, Default = 0       | Total bookmarks                  |
+| RepostsCount   | int           | Required, Default = 0       | Total reposts                    |
+| PublishedAt    | datetime2     | Nullable                    | Publishing date                  |
+| CreatedAt      | datetime2     | Required                    | Blog creation date               |
+| UpdatedAt      | datetime2     | Nullable                    | Last modification date           |
+
 
 ---
 
 ## 4. BlogVersions
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| VersionId | int | PK, Identity | Version identifier |
-| BlogId | int | FK → Blogs(BlogId) | Parent blog |
-| Title | nvarchar(255) | Required | Version title |
-| VersionType | int | Required | VersionType enum |
-| Content | nvarchar(max) | Required | Version content |
-| WordCount | int | Required | Version word count |
-| CreatedAt | datetime2 | Required | Version creation date |
+| Column      | Data Type     | Constraints        | Description           |
+| ----------- | ------------- | ------------------ | --------------------- |
+| VersionId   | int           | PK, Identity       | Version identifier    |
+| BlogId      | int           | FK → Blogs(BlogId) | Parent blog           |
+| Title       | nvarchar(255) | Required           | Version title         |
+| VersionType | int           | Required           | VersionType enum      |
+| Content     | nvarchar(max) | Required           | Version content       |
+| WordCount   | int           | Required           | Version word count    |
+| CreatedAt   | datetime2     | Required           | Version creation date |
+
 
 ---
 
 ## 5. BlogImages
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| ImageId | int | PK, Identity | Image identifier |
-| BlogId | int | FK → Blogs(BlogId) | Associated blog |
-| Prompt | nvarchar(max) | Required | AI image generation prompt |
-| ImageUrl | nvarchar(500) | Required | Generated image URL |
-| ImageType | nvarchar(50) | Required | Cover, Inline, Thumbnail, Banner, etc. |
-| DisplayOrder | int | Required, Default = 1 | Image display order |
-| CreditsUsed | int | Required | Credits consumed |
-| CreatedAt | datetime2 | Required | Image generation date |
-
+| Column       | Data Type     | Constraints           | Description                            |
+| ------------ | ------------- | --------------------- | -------------------------------------- |
+| ImageId      | int           | PK, Identity          | Image identifier                       |
+| BlogId       | int           | FK → Blogs(BlogId)    | Associated blog                        |
+| Prompt       | nvarchar(max) | Required              | AI image generation prompt             |
+| ImageUrl     | nvarchar(500) | Required              | Generated image URL                    |
+| ImageType    | int           | Required              | BlogImageType enum                     |
+| DisplayOrder | int           | Required, Default = 1 | Image display order                    |
+| CreditsUsed  | int           | Required              | Credits consumed                       |
+| CreatedAt    | datetime2     | Required              | Image generation date                  |
 ---
 
 ## 6. Likes
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| LikeId | int | PK, Identity | Like identifier |
-| BlogId | int | FK → Blogs(BlogId) | Liked blog |
-| UserId | int | FK → Users(UserId) | User who liked the blog |
-| CreatedAt | datetime2 | Required | Like creation date |
+| Column    | Data Type | Constraints        | Description             |
+| --------- | --------- | ------------------ | ----------------------- |
+| LikeId    | int       | PK, Identity       | Like identifier         |
+| BlogId    | int       | FK → Blogs(BlogId) | Liked blog              |
+| UserId    | int       | FK → Users(UserId) | User who liked the blog |
+| CreatedAt | datetime2 | Required           | Like creation date      |
 
 ---
 
 ## 7. Comments
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| CommentId | int | PK, Identity | Comment identifier |
-| BlogId | int | FK → Blogs(BlogId) | Associated blog |
-| UserId | int | FK → Users(UserId) | Comment author |
-| ParentCommentId | int | FK → Comments(CommentId), Nullable | Parent comment for replies |
-| Content | nvarchar(max) | Required | Comment text |
-| IsEdited | bit | Required, Default = false | Indicates whether comment was edited |
-| CreatedAt | datetime2 | Required | Comment creation date |
-| UpdatedAt | datetime2 | Nullable | Last edited date |
+| Column          | Data Type     | Constraints                        | Description                          |
+| --------------- | ------------- | ---------------------------------- | ------------------------------------ |
+| CommentId       | int           | PK, Identity                       | Comment identifier                   |
+| BlogId          | int           | FK → Blogs(BlogId)                 | Associated blog                      |
+| UserId          | int           | FK → Users(UserId)                 | Comment author                       |
+| ParentCommentId | int           | FK → Comments(CommentId), Nullable | Parent comment for replies           |
+| Content         | nvarchar(max) | Required                           | Comment text                         |
+| IsEdited        | bit           | Required, Default = false          | Indicates whether comment was edited |
+| CreatedAt       | datetime2     | Required                           | Comment creation date                |
+| UpdatedAt       | datetime2     | Nullable                           | Last edited date                     |
+
 
 ---
 
 ## 8. CommentLikes
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| CommentLikeId | int | PK, Identity | Comment like identifier |
-| CommentId | int | FK → Comments(CommentId) | Liked comment |
-| UserId | int | FK → Users(UserId) | User who liked the comment |
-| CreatedAt | datetime2 | Required | Like creation date |
+| Column        | Data Type | Constraints              | Description                |
+| ------------- | --------- | ------------------------ | -------------------------- |
+| CommentLikeId | int       | PK, Identity             | Comment like identifier    |
+| CommentId     | int       | FK → Comments(CommentId) | Liked comment              |
+| UserId        | int       | FK → Users(UserId)       | User who liked the comment |
+| CreatedAt     | datetime2 | Required                 | Like creation date         |
 
 ---
 
 ## 9. Bookmarks
 
-| Column | Data Type | Constraints | Description |
-|---------|-----------|-------------|-------------|
-| BookmarkId | int | PK, Identity | Bookmark identifier |
-| BlogId | int | FK → Blogs(BlogId) | Bookmarked blog |
-| UserId | int | FK → Users(UserId) | User who bookmarked the blog |
-| CreatedAt | datetime2 | Required | Bookmark creation date |
+| Column     | Data Type | Constraints        | Description                  |
+| ---------- | --------- | ------------------ | ---------------------------- |
+| BookmarkId | int       | PK, Identity       | Bookmark identifier          |
+| BlogId     | int       | FK → Blogs(BlogId) | Bookmarked blog              |
+| UserId     | int       | FK → Users(UserId) | User who bookmarked the blog |
+| CreatedAt  | datetime2 | Required           | Bookmark creation date       |
 
 ------------------------------------------------------------
 10. Reposts
 ------------------------------------------------------------
 
-| Column     | Data Type      | Constraints      | Description            |
+| Column     | Data Type      | Constraints     | Description            |
 |------------|----------------|-----------------|------------------------|
 | RepostId   | int            | PK, Identity    | Repost identifier      |
 | BlogId     | int            | FK → Blogs      | Reposted blog          |
-| UserId     | int            | FK → Users      | User                   |
+| UserId     | int            | FK → Users      | User who reposted      |
 | Caption    | nvarchar(500)  | Nullable        | Optional repost text   |
 | CreatedAt  | datetime2      | Required        | Repost date            |
 
@@ -335,7 +338,8 @@
 | Column     | Data Type      | Constraints        | Description                    |
 | -----------|----------------|--------------------|--------------------------------|
 | DeletedId  | int            | PK, Identity       | Deleted account identifier     |
-| UserId     | int            | FK → Users         | Deleted user                   |
+| UserId     | int            | Required → NO FK   | Deleted user                   |
+| UserName   | nvarchar(100)  | Required           | UserName                       |
 | Email      | nvarchar(255)  | Required           | User email                     |
 | Reason     | nvarchar(500)  | Nullable           | Deletion reason                |
 | DeletedAt  | datetime2      | Required           | Account deletion date          |

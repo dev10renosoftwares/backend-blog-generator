@@ -10,10 +10,8 @@
 | Website                                              |
 | Location                                             |
 | ProfilePictureUrl                                    |
-| CoverPhotoUrl                                        |
 | Role                                                 |
 | AvailableCredits                                     |
-| IsVerified                                           |
 | IsDeleted                                            |
 | IsActive                                             |
 | CreatedAt                                            |
@@ -57,7 +55,7 @@ Users (1)
 | Audience                                             |
 | WordCount                                            |
 | CreditsUsed                                          |
-| CoverImageUrl                                        |
+| CoverImageUrl//                                      |
 | Status                                               |
 | Visibility                                           |
 | AllowComments                                        |
@@ -299,9 +297,9 @@ Blogs
 Blogs (*)
 │
 │ *
-├───────────────────────────────┐
-│                               │
-▼                               ▼
+|
+│                               
+▼                               
 +------------------------------------------------------+
 |                     BlogTags                         |
 +------------------------------------------------------+
@@ -325,9 +323,9 @@ Blogs (*)
 Users (*)
 │
 │ *
-├───────────────────────────────┐
-│                               │
-▼                               ▼
+|
+│                               
+▼                               
 +------------------------------------------------------+
 |                    UserBadges                        |
 +------------------------------------------------------+
@@ -416,15 +414,16 @@ Users (1)
 
 Users (1)
 │
-│ 0..1
+│ account deletion archive
 ▼
 +------------------------------------------------------+
 |                 DeletedAccounts                      |
 +------------------------------------------------------+
 | DeletedId (PK)                                       |
-| UserId (FK -> Users)                                 |
+| UserId                                               |
+| Username                                             |
 | Email                                                |
-| Reason                                                |
+| Reason                                               |
 | DeletedAt                                            |
 +------------------------------------------------------+
 
@@ -445,7 +444,6 @@ ENUMS
 +-------------------------------+
 | Draft                         |
 | Published                     |
-| Archived                      |
 +-------------------------------+
 
 +-------------------------------+
@@ -506,11 +504,21 @@ ENUMS
 +-------------------------------+
 
 +-------------------------------+
+| ImageType                     |
++-------------------------------+
+| Cover                         |
+| Inline                        |
+| Thumbnail                     |
+| Banner                        |
++-------------------------------+
+
++-------------------------------+
 | PaymentStatus                 |
 +-------------------------------+
 | Pending                       |
 | Succeeded                     |
 | Failed                        |
+| Cancelled                     |
 +-------------------------------+
 
 +-------------------------------+
@@ -560,6 +568,17 @@ ENUMS
 | BlogPublished                 |
 | PaymentSuccess                |
 | ReportResolved                |
++-------------------------------+
+
++-------------------------------+
+| Language                      |
++-------------------------------+
+| English                       |
+| Urdu                          |
+| Kahmiri                       |
+| Spanish                       |
+| Arabic                        |
+| Turkish                       |
 +-------------------------------+
 
 
@@ -626,7 +645,6 @@ Users
 Comments
 └── ParentCommentId → Comments.CommentId
 
-
 ========================================================
 DELETE BEHAVIOR (RECOMMENDED)
 ========================================================
@@ -635,34 +653,110 @@ Users → Blogs                 Restrict
 Users → Payments              Restrict
 Users → Feedbacks             Restrict
 Users → Issues                Restrict
+Users → DeletedAccounts       No FK / Historical Record
+
 Users → RefreshTokens         Cascade
+
 Users → Likes                 Cascade
 Users → Comments              Cascade
 Users → CommentLikes          Cascade
 Users → Bookmarks             Cascade
 Users → Reposts               Cascade
-Users → Follows               Cascade
+Users → Follows               NoAction
 Users → Notifications         Cascade
-Users → BlogReports           Cascade
+Users → BlogReports           NoAction
 Users → UserBadges            Cascade
+
 
 Categories → Blogs            Restrict
 
+
 Blogs → BlogVersions          Cascade
-Blogs → BlogImages            Cascade
+Blogs → BlogImages             Cascade
 Blogs → Likes                 Cascade
 Blogs → Comments              Cascade
 Blogs → Bookmarks             Cascade
 Blogs → Reposts               Cascade
 Blogs → BlogReports           Cascade
 Blogs → Notifications         Cascade
-Blogs → BlogTags              Cascade
+Blogs → BlogTags               Cascade
 
-Comments → Replies            Cascade
-Comments → CommentLikes       Cascade
 
-Tags → BlogTags              Cascade
+Comments → Replies             Cascade
+Comments → CommentLikes        Cascade
 
-Badges → UserBadges          Cascade
 
-Plans → Payments             Restrict
+Tags → BlogTags                Cascade
+
+
+Badges → UserBadges            Cascade
+
+
+Plans → Payments               Restrict
+
+
+========================================================
+DELETE STRATEGY
+========================================================
+
+Users:
+- Blogs, Payments, Feedbacks, and Issues are restricted
+  from database-level deletion.
+- RefreshTokens are automatically deleted.
+- Likes, Comments, CommentLikes, Bookmarks, Reposts,
+  Notifications, and UserBadges are deleted when the
+  user account is deleted.
+- Follows uses NoAction because Users is referenced twice
+  through FollowerUserId and FollowingUserId.
+- BlogReports are preserved for moderation/audit purposes.
+- DeletedAccounts is a historical archive and has no FK
+  dependency on Users.
+
+
+Blogs:
+- BlogVersions, BlogImages, Likes, Comments, Bookmarks,
+  Reposts, BlogReports, Notifications, and BlogTags are
+  automatically deleted when a Blog is deleted.
+
+
+Comments:
+- Child replies and CommentLikes are automatically deleted
+  when a Comment is deleted.
+
+
+Tags:
+- Related BlogTags are automatically deleted when a Tag
+  is deleted.
+
+
+Badges:
+- Related UserBadges are automatically deleted when a
+  Badge is deleted.
+
+
+Plans:
+- Payments are restricted from deletion to preserve
+  financial transaction history.
+
+
+
+User deletes account
+        │
+        ├── Refresh tokens       → DELETE
+        ├── Likes                → DELETE
+        ├── Comments             → DELETE
+        ├── Comment likes        → DELETE
+        ├── Bookmarks            → DELETE
+        ├── Reposts              → DELETE
+        ├── Follows              → DELETE
+        ├── Notifications        → DELETE
+        ├── User badges          → DELETE
+        │
+        ├── Blog reports         → PRESERVE
+        ├── Payments             → PRESERVE
+        ├── Feedbacks            → PRESERVE
+        ├── Issues               → PRESERVE
+        │
+        └── DeletedAccounts      → PRESERVE
+                                  (Username, Email,
+                                   Reason, DeletedAt)

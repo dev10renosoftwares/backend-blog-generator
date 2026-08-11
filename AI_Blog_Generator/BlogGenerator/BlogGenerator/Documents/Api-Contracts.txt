@@ -1,26 +1,33 @@
-AI Blog Generator - API Contract
-1. Authentication APIs
-1.1 Register
+# AI Blog Generator – API Contract
 
-Endpoint:
-POST /api/auth/register
+## 1. Authentication APIs
 
-Authorization:
-Public
+### 1.1 Register User
 
-Request
+**Endpoint:**
+`POST /api/auth/register`
+
+**Authorization:** Public
+
+**Request**
+
+```json
 {
   "userName": "johnsmith",
   "email": "john@example.com",
   "password": "Password@123"
 }
-Success Response (201 Created)
+```
+
+**Success Response — 201 Created**
+
+```json
 {
   "success": true,
   "message": "User registered successfully.",
   "data": {
-    "accessToken": "<jwt-access-token>",
-    "refreshToken": "<refresh-token>",
+    "accessToken": "",
+    "refreshToken": "",
     "expiresIn": 3600,
     "user": {
       "userId": 1,
@@ -32,59 +39,71 @@ Success Response (201 Created)
     }
   }
 }
-Error Responses
+```
 
-400 Bad Request
+**Error Responses**
 
+**400 Bad Request**
+
+```json
 {
   "success": false,
   "message": "Validation failed.",
   "errors": {
-    "userName": [
-      "Username is required."
-    ],
-    "email": [
-      "A valid email address is required."
-    ],
+    "userName": ["Username is required."],
+    "email": ["A valid email address is required."],
     "password": [
       "Password must contain at least 8 characters including uppercase, lowercase, number and special character."
     ]
   }
 }
+```
 
-409 Conflict
+**409 Conflict**
 
+```json
 {
   "success": false,
   "message": "Username already exists."
 }
+```
 
-409 Conflict
+**409 Conflict**
 
+```json
 {
   "success": false,
   "message": "Email is already registered."
 }
-1.2 Login
+```
 
-Endpoint:
-POST /api/auth/login
+---
 
-Authorization:
-Public
+### 1.2 Login
 
-Request
+**Endpoint:**
+`POST /api/auth/login`
+
+**Authorization:** Public
+
+**Request**
+
+```json
 {
   "email": "john@example.com",
   "password": "Password@123"
 }
-Success Response (200 OK)
+```
+
+**Success Response — 200 OK**
+
+```json
 {
   "success": true,
   "message": "Login successful.",
   "data": {
-    "accessToken": "<jwt-access-token>",
-    "refreshToken": "<refresh-token>",
+    "accessToken": "",
+    "refreshToken": "",
     "expiresIn": 3600,
     "user": {
       "userId": 1,
@@ -96,112 +115,104 @@ Success Response (200 OK)
     }
   }
 }
-Error Responses
+```
 
-400 Bad Request
+**401 Unauthorized**
 
-{
-  "success": false,
-  "message": "Email and password are required."
-}
-
-401 Unauthorized
-
+```json
 {
   "success": false,
   "message": "Invalid email or password."
 }
+```
 
-403 Forbidden
+**403 Forbidden**
 
+```json
 {
   "success": false,
   "message": "Your account has been suspended."
 }
-1.3 Refresh Token
+```
 
-Endpoint:
-POST /api/auth/refresh-token
+---
 
-Authorization:
-Public
+### 1.3 Refresh Token
 
-Request
+**Endpoint:**
+`POST /api/auth/refresh-token`
+
+**Authorization:** Public
+
+**Request**
+
+```json
 {
-  "refreshToken": "<refresh-token>"
+  "refreshToken": ""
 }
-Success Response (200 OK)
+```
+
+**Success Response — 200 OK**
+
+```json
 {
   "success": true,
   "message": "Token refreshed successfully.",
   "data": {
-    "accessToken": "<new-access-token>",
-    "refreshToken": "<new-refresh-token>",
+    "accessToken": "",
+    "refreshToken": "",
     "expiresIn": 3600
   }
 }
-Error Responses
+```
 
-400 Bad Request
+**401 Unauthorized**
 
-{
-  "success": false,
-  "message": "Refresh token is required."
-}
-
-401 Unauthorized
-
+```json
 {
   "success": false,
   "message": "Refresh token is invalid or expired."
 }
-1.4 Logout
+```
 
-Endpoint:
-POST /api/auth/logout
+---
 
-Authorization:
-User
+### 1.4 Logout
 
-Request
+**Endpoint:**
+`POST /api/auth/logout`
+
+**Authorization:** User
+
+**Request**
+
+```json
 {
-  "refreshToken": "<refresh-token>"
+  "refreshToken": ""
 }
-Success Response (200 OK)
+```
+
+**Success Response — 200 OK**
+
+```json
 {
   "success": true,
   "message": "Logged out successfully."
 }
-Error Responses
+```
 
-400 Bad Request
+---
 
-{
-  "success": false,
-  "message": "Refresh token is required."
-}
+# 2. User Profile APIs
 
-401 Unauthorized
+### 2.1 Get My Profile
 
-{
-  "success": false,
-  "message": "Invalid or expired refresh token."
-}
+**Endpoint:** `GET /api/profile`
+**Authorization:** User
 
-2. User Profile APIs
-2.1 Get Profile
+**Success Response — 200 OK**
 
-Endpoint:
-GET /api/profile
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Profile retrieved successfully.",
@@ -222,103 +233,86 @@ Success Response (200 OK)
     "createdAt": "2026-08-01T10:30:00Z"
   }
 }
-Error Responses
+```
 
-401 Unauthorized
+---
 
-{
-  "success": false,
-  "message": "Unauthorized."
-}
-2.2 Update Profile
+### 2.2 Update Profile
 
-Endpoint:
-PUT /api/profile
+**Endpoint:** `PUT /api/profile`
+**Authorization:** User
 
-Authorization:
-User
+**Request**
 
-Request
+```json
 {
   "displayName": "John Smith",
   "bio": "Backend Developer | AI Enthusiast",
   "location": "New York",
   "website": "https://johnsmith.dev"
 }
-Success Response (200 OK)
+```
+
+**Success Response — 200 OK**
+
+```json
 {
   "success": true,
   "message": "Profile updated successfully."
 }
-Error Responses
+```
 
-400 Bad Request
+---
 
-{
-  "success": false,
-  "message": "Validation failed.",
-  "errors": {
-    "displayName": [
-      "Display name cannot exceed 100 characters."
-    ]
-  }
-}
-2.3 Change Password
+### 2.3 Change Password
 
-Endpoint:
-PUT /api/profile/change-password
+**Endpoint:** `PUT /api/profile/change-password`
+**Authorization:** User
 
-Authorization:
-User
+**Request**
 
-Request
+```json
 {
   "oldPassword": "OldPassword@123",
   "newPassword": "NewPassword@123",
   "confirmNewPassword": "NewPassword@123"
 }
-Success Response (200 OK)
+```
+
+**Success Response — 200 OK**
+
+```json
 {
   "success": true,
   "message": "Password changed successfully."
 }
-Error Responses
+```
 
-400 Bad Request
+**400 Bad Request**
 
+```json
 {
   "success": false,
   "message": "Old password is incorrect."
 }
+```
 
-400 Bad Request
+---
 
-{
-  "success": false,
-  "message": "New password and confirm password do not match."
-}
+### 2.4 Upload Profile Picture
 
-400 Bad Request
+**Endpoint:** `POST /api/profile/upload-picture`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "New password must be different from the old password."
-}
-2.4 Upload Profile Picture
+**Request:** `multipart/form-data`
 
-Endpoint:
-POST /api/profile/upload-picture
+| Key            | Type |
+| -------------- | ---- |
+| profilePicture | File |
 
-Authorization:
-User
+**Success Response**
 
-Request
-
-multipart/form-data
-
-Key	Type
-profilePicture	File
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Profile picture uploaded successfully.",
@@ -326,69 +320,58 @@ Success Response (200 OK)
     "profilePictureUrl": "https://cdn.aiblog.com/profile/1.jpg"
   }
 }
-Error Responses
+```
 
-400 Bad Request
+---
 
-{
-  "success": false,
-  "message": "Invalid image file."
-}
-2.5 Delete Profile Picture
+### 2.5 Delete Profile Picture
 
-Endpoint:
-DELETE /api/profile/picture
+**Endpoint:** `DELETE /api/profile/picture`
+**Authorization:** User
 
-Authorization:
-User
+**Success Response**
 
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Profile picture deleted successfully."
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Profile picture not found."
-}
-2.6 Delete Account
+### 2.6 Delete Account
 
-Endpoint:
-DELETE /api/profile
+**Endpoint:** `DELETE /api/profile`
+**Authorization:** User
 
-Authorization:
-User
+**Request**
 
-Request
+```json
 {
   "reason": "No longer using the application."
 }
-Success Response (200 OK)
+```
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Account deleted successfully."
 }
-2.7 View Another User's Public Profile
+```
 
-Endpoint:
-GET /api/profile/{userId}
+---
 
-Authorization:
-Public
+### 2.7 View Public Profile
 
-Request
+**Endpoint:** `GET /api/profile/{userId}`
+**Authorization:** Public
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Profile retrieved successfully.",
@@ -407,27 +390,18 @@ Success Response (200 OK)
     "joinedOn": "2026-01-12T10:30:00Z"
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "User not found."
-}
-2.8 View Published Blogs of a User
+### 2.8 Get User's Published Blogs
 
-Endpoint:
-GET /api/profile/{userId}/blogs
+**Endpoint:** `GET /api/profile/{userId}/blogs`
+**Authorization:** Public
 
-Authorization:
-Public
+**Success Response**
 
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Published blogs retrieved successfully.",
@@ -442,91 +416,53 @@ Success Response (200 OK)
       "views": 452,
       "likes": 76,
       "comments": 18
-    },
-    {
-      "blogId": 25,
-      "title": "Future of Robotics",
-      "excerpt": "Robotics is evolving rapidly...",
-      "coverImageUrl": "https://cdn.aiblog.com/blogs/25.jpg",
-      "category": "Technology",
-      "publishedAt": "2026-08-04T10:15:00Z",
-      "views": 214,
-      "likes": 39,
-      "comments": 7
     }
   ]
 }
-2.9 Follow User
+```
 
-Endpoint:
-POST /api/profile/{userId}/follow
+---
 
-Authorization:
-User
+### 2.9 Follow User
 
-Request
+**Endpoint:** `POST /api/profile/{userId}/follow`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "User followed successfully."
 }
-Error Responses
+```
 
-400 Bad Request
+---
 
-{
-  "success": false,
-  "message": "You are already following this user."
-}
+### 2.10 Unfollow User
 
-404 Not Found
+**Endpoint:** `DELETE /api/profile/{userId}/follow`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "User not found."
-}
-2.10 Unfollow User
+**Success Response**
 
-Endpoint:
-DELETE /api/profile/{userId}/follow
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "User unfollowed successfully."
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "User not found."
-}
+### 2.11 Get My Followers
 
-2.11 Get My Followers
+**Endpoint:** `GET /api/profile/followers`
+**Authorization:** User
 
-Endpoint:
-GET /api/profile/followers
+**Success Response**
 
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Followers retrieved successfully.",
@@ -537,37 +473,21 @@ Success Response (200 OK)
       "displayName": "Alex Johnson",
       "profilePictureUrl": "https://cdn.aiblog.com/profile/5.jpg",
       "isFollowing": true
-    },
-    {
-      "userId": 8,
-      "userName": "emma",
-      "displayName": "Emma Wilson",
-      "profilePictureUrl": "https://cdn.aiblog.com/profile/8.jpg",
-      "isFollowing": false
     }
   ]
 }
-Error Responses
+```
 
-401 Unauthorized
+---
 
-{
-  "success": false,
-  "message": "Unauthorized."
-}
-2.12 Get Users I Follow
+### 2.12 Get Users I Follow
 
-Endpoint:
-GET /api/profile/following
+**Endpoint:** `GET /api/profile/following`
+**Authorization:** User
 
-Authorization:
-User
+**Success Response**
 
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Following list retrieved successfully.",
@@ -580,145 +500,86 @@ Success Response (200 OK)
     }
   ]
 }
-2.13 Get Another User's Followers
+```
 
-Endpoint:
-GET /api/profile/{userId}/followers
+---
 
-Authorization:
-Public
+### 2.13 Get Another User's Followers
 
-Request
+**Endpoint:** `GET /api/profile/{userId}/followers`
+**Authorization:** Public
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Followers retrieved successfully.",
-  "data": [
-    {
-      "userId": 10,
-      "userName": "mark",
-      "displayName": "Mark Lee",
-      "profilePictureUrl": "https://cdn.aiblog.com/profile/10.jpg"
-    },
-    {
-      "userId": 11,
-      "userName": "jessica",
-      "displayName": "Jessica Brown",
-      "profilePictureUrl": "https://cdn.aiblog.com/profile/11.jpg"
-    }
-  ]
+  "data": []
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "User not found."
-}
-2.14 Get Another User's Following
+### 2.14 Get Another User's Following
 
-Endpoint:
-GET /api/profile/{userId}/following
+**Endpoint:** `GET /api/profile/{userId}/following`
+**Authorization:** Public
 
-Authorization:
-Public
+**Success Response**
 
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Following list retrieved successfully.",
-  "data": [
-    {
-      "userId": 20,
-      "userName": "michael",
-      "displayName": "Michael Scott",
-      "profilePictureUrl": "https://cdn.aiblog.com/profile/20.jpg"
-    }
-  ]
+  "data": []
 }
-2.15 View Saved Blogs
+```
 
-Endpoint:
-GET /api/profile/saved-blogs
+---
 
-Authorization:
-User
+### 2.15 Get Saved Blogs
 
-Request
+**Endpoint:** `GET /api/profile/saved-blogs`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Saved blogs retrieved successfully.",
-  "data": [
-    {
-      "blogId": 18,
-      "title": "Cloud Computing Basics",
-      "coverImageUrl": "https://cdn.aiblog.com/blogs/18.jpg",
-      "author": "John Smith",
-      "category": "Technology",
-      "savedAt": "2026-08-03T14:20:00Z"
-    },
-    {
-      "blogId": 22,
-      "title": "Understanding Docker",
-      "coverImageUrl": "https://cdn.aiblog.com/blogs/22.jpg",
-      "author": "Sarah Lee",
-      "category": "Technology",
-      "savedAt": "2026-08-04T11:00:00Z"
-    }
-  ]
+  "data": []
 }
-2.16 View Liked Blogs
+```
 
-Endpoint:
-GET /api/profile/liked-blogs
+---
 
-Authorization:
-User
+### 2.16 Get Liked Blogs
 
-Request
+**Endpoint:** `GET /api/profile/liked-blogs`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Liked blogs retrieved successfully.",
-  "data": [
-    {
-      "blogId": 11,
-      "title": "Machine Learning Basics",
-      "coverImageUrl": "https://cdn.aiblog.com/blogs/11.jpg",
-      "author": "Alex",
-      "category": "Technology",
-      "likedAt": "2026-08-02T15:10:00Z"
-    }
-  ]
+  "data": []
 }
-2.17 Get User Statistics
+```
 
-Endpoint:
-GET /api/profile/{userId}/stats
+---
 
-Authorization:
-Public
+### 2.17 Get User Statistics
 
-Request
+**Endpoint:** `GET /api/profile/{userId}/stats`
+**Authorization:** Public
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "User statistics retrieved successfully.",
@@ -733,27 +594,18 @@ Success Response (200 OK)
     "totalReposts": 48
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "User not found."
-}
-2.18 View Activity History
+### 2.18 Get Activity History
 
-Endpoint:
-GET /api/profile/activity
+**Endpoint:** `GET /api/profile/activity`
+**Authorization:** User
 
-Authorization:
-User
+**Success Response**
 
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Activity history retrieved successfully.",
@@ -763,40 +615,21 @@ Success Response (200 OK)
       "blogId": 15,
       "blogTitle": "Understanding AI",
       "activityDate": "2026-08-03T10:30:00Z"
-    },
-    {
-      "activityType": "Liked",
-      "blogId": 22,
-      "blogTitle": "Cloud Security",
-      "activityDate": "2026-08-04T09:15:00Z"
-    },
-    {
-      "activityType": "Commented",
-      "blogId": 34,
-      "blogTitle": "Future of AI",
-      "activityDate": "2026-08-04T18:10:00Z"
-    },
-    {
-      "activityType": "Reposted",
-      "blogId": 18,
-      "blogTitle": "Machine Learning Basics",
-      "activityDate": "2026-08-05T12:45:00Z"
     }
   ]
 }
-2.19 Search Users
+```
 
-Endpoint:
-GET /api/profile/search?query=john
+---
 
-Authorization:
-User
+### 2.19 Search Users
 
-Request
+**Endpoint:** `GET /api/profile/search?query=john`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Users retrieved successfully.",
@@ -807,29 +640,21 @@ Success Response (200 OK)
       "displayName": "John Smith",
       "profilePictureUrl": "https://cdn.aiblog.com/profile/12.jpg",
       "followers": 125
-    },
-    {
-      "userId": 18,
-      "userName": "john_dev",
-      "displayName": "John Developer",
-      "profilePictureUrl": "https://cdn.aiblog.com/profile/18.jpg",
-      "followers": 84
     }
   ]
 }
-2.20 Get Suggested Users
+```
 
-Endpoint:
-GET /api/profile/suggestions
+---
 
-Authorization:
-User
+### 2.20 Get Suggested Users
 
-Request
+**Endpoint:** `GET /api/profile/suggestions`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Suggested users retrieved successfully.",
@@ -840,29 +665,21 @@ Success Response (200 OK)
       "displayName": "Sarah Lee",
       "profilePictureUrl": "https://cdn.aiblog.com/profile/21.jpg",
       "mutualFollowers": 6
-    },
-    {
-      "userId": 27,
-      "userName": "alex",
-      "displayName": "Alex Johnson",
-      "profilePictureUrl": "https://cdn.aiblog.com/profile/27.jpg",
-      "mutualFollowers": 4
     }
   ]
 }
-2.21 Get User Badges
+```
 
-Endpoint:
-GET /api/profile/{userId}/badges
+---
 
-Authorization:
-Public
+### 2.21 Get User Badges
 
-Request
+**Endpoint:** `GET /api/profile/{userId}/badges`
+**Authorization:** Public
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Badges retrieved successfully.",
@@ -872,43 +689,35 @@ Success Response (200 OK)
       "name": "Early Adopter",
       "iconUrl": "https://cdn.aiblog.com/badges/early-adopter.png",
       "earnedAt": "2026-02-12T10:30:00Z"
-    },
-    {
-      "badgeId": 4,
-      "name": "Top Writer",
-      "iconUrl": "https://cdn.aiblog.com/badges/top-writer.png",
-      "earnedAt": "2026-08-01T09:00:00Z"
     }
   ]
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "User not found."
-}
+# 3. AI Blog APIs
 
+### 3.1 Generate Blog
 
-3. AI Blog APIs
-3.1 Generate Blog
+**Endpoint:** `POST /api/blogs/generate`
+**Authorization:** User
 
-Endpoint:
-POST /api/blogs/generate
+**Request**
 
-Authorization:
-User
-
-Request
+```json
 {
   "topic": "Artificial Intelligence",
   "tone": "Professional",
   "audience": "Students",
-  "category": "Technology",
+  "categoryId": 1,
   "wordCount": 1000
 }
-Success Response (200 OK)
+```
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Blog generated successfully.",
@@ -928,34 +737,27 @@ Success Response (200 OK)
     }
   }
 }
-Error Responses
+```
 
-400 Bad Request
+**402 Payment Required**
 
-{
-  "success": false,
-  "message": "Invalid blog generation request."
-}
-
-402 Payment Required
-
+```json
 {
   "success": false,
   "message": "Insufficient credits."
 }
-3.2 Regenerate Blog
+```
 
-Endpoint:
-POST /api/blogs/{blogId}/regenerate
+---
 
-Authorization:
-User
+### 3.2 Regenerate Blog
 
-Request
+**Endpoint:** `POST /api/blogs/{blogId}/regenerate`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog regenerated successfully.",
@@ -966,34 +768,18 @@ Success Response (200 OK)
     "content": "Regenerated blog content..."
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.3 Expand Blog
 
-402 Payment Required
+**Endpoint:** `POST /api/blogs/{blogId}/expand`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.3 Expand Blog
+**Success Response**
 
-Endpoint:
-POST /api/blogs/{blogId}/expand
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog expanded successfully.",
@@ -1004,34 +790,18 @@ Success Response (200 OK)
     "content": "Expanded blog content..."
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.4 Shorten Blog
 
-402 Payment Required
+**Endpoint:** `POST /api/blogs/{blogId}/shorten`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.4 Shorten Blog
+**Success Response**
 
-Endpoint:
-POST /api/blogs/{blogId}/shorten
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog shortened successfully.",
@@ -1042,34 +812,18 @@ Success Response (200 OK)
     "content": "Shortened blog content..."
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.5 Generate Blog Image
 
-402 Payment Required
+**Endpoint:** `POST /api/blogs/{blogId}/generate-image`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.5 Generate Blog Image
+**Success Response**
 
-Endpoint:
-POST /api/blogs/{blogId}/generate-image
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog image generated successfully.",
@@ -1080,34 +834,18 @@ Success Response (200 OK)
     "imageUrl": "https://cdn.aiblog.com/blog-images/12.png"
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.6 Get AI History
 
-402 Payment Required
+**Endpoint:** `GET /api/blogs/{blogId}/ai-history`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.6 Get AI History
+**Success Response**
 
-Endpoint:
-GET /api/blogs/{blogId}/ai-history
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "AI history retrieved successfully.",
@@ -1121,35 +859,29 @@ Success Response (200 OK)
       "versionId": 2,
       "versionType": "Regenerated",
       "createdAt": "2026-08-01T10:45:00Z"
-    },
-    {
-      "versionId": 3,
-      "versionType": "Expanded",
-      "createdAt": "2026-08-01T11:00:00Z"
     }
   ]
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
-3.7 Rewrite Blog
+### 3.7 Rewrite Blog
 
-Endpoint:
-POST /api/blogs/{blogId}/rewrite
+**Endpoint:** `POST /api/blogs/{blogId}/rewrite`
+**Authorization:** User
 
-Authorization:
-User
+**Request**
 
-Request
+```json
 {
   "instructions": "Rewrite this blog in a casual tone for beginners."
 }
-Success Response (200 OK)
+```
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Blog rewritten successfully.",
@@ -1160,34 +892,26 @@ Success Response (200 OK)
     "content": "Rewritten blog content..."
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.8 Translate Blog
 
-402 Payment Required
+**Endpoint:** `POST /api/blogs/{blogId}/translate`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.8 Translate Blog
+**Request**
 
-Endpoint:
-POST /api/blogs/{blogId}/translate
-
-Authorization:
-User
-
-Request
+```json
 {
   "language": "Spanish"
 }
-Success Response (200 OK)
+```
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Blog translated successfully.",
@@ -1199,34 +923,18 @@ Success Response (200 OK)
     "content": "Contenido traducido..."
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.9 Generate SEO Tags
 
-402 Payment Required
+**Endpoint:** `POST /api/blogs/{blogId}/generate-tags`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.9 Generate SEO Tags
+**Success Response**
 
-Endpoint:
-POST /api/blogs/{blogId}/generate-tags
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "SEO tags generated successfully.",
@@ -1242,71 +950,39 @@ Success Response (200 OK)
     ]
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.10 Generate Blog Summary
 
-402 Payment Required
+**Endpoint:** `POST /api/blogs/{blogId}/generate-summary`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.10 Generate Blog Summary
+**Success Response**
 
-Endpoint:
-POST /api/blogs/{blogId}/generate-summary
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Summary generated successfully.",
   "data": {
     "creditsUsed": 1,
     "remainingCredits": 64,
-    "summary": "Artificial Intelligence is transforming industries by enabling machines to perform tasks that traditionally required human intelligence."
+    "summary": "Artificial Intelligence is transforming industries..."
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+### 3.11 Get Blog SEO Tags
 
-402 Payment Required
+**Endpoint:** `GET /api/blogs/{blogId}/tags`
+**Authorization:** User
 
-{
-  "success": false,
-  "message": "Insufficient credits."
-}
-3.11 Get Blog SEO Tags
+**Success Response**
 
-Endpoint:
-GET /api/blogs/{blogId}/tags
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "SEO tags retrieved successfully.",
@@ -1321,67 +997,35 @@ Success Response (200 OK)
     ]
   }
 }
-Error Responses
+```
 
-404 Not Found
+---
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+# 4. Blog Management APIs
 
+### 4.1 Get My Blogs
 
-4. Blog Management APIs
-4.1 Get My Blogs
+**Endpoint:** `GET /api/blogs`
+**Authorization:** User
 
-Endpoint:
-GET /api/blogs
+**Success Response**
 
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blogs retrieved successfully.",
-  "data": [
-    {
-      "blogId": 15,
-      "title": "Understanding Artificial Intelligence",
-      "category": "Technology",
-      "status": "Draft",
-      "wordCount": 1000,
-      "createdAt": "2026-08-05T10:30:00Z",
-      "updatedAt": "2026-08-05T11:20:00Z"
-    },
-    {
-      "blogId": 16,
-      "title": "Machine Learning Basics",
-      "category": "Technology",
-      "status": "Published",
-      "wordCount": 800,
-      "createdAt": "2026-08-04T09:00:00Z",
-      "updatedAt": "2026-08-04T10:10:00Z"
-    }
-  ]
+  "data": []
 }
-4.2 Get Blog Details
+```
 
-Endpoint:
-GET /api/blogs/{blogId}
+### 4.2 Get Blog Details
 
-Authorization:
-User
+**Endpoint:** `GET /api/blogs/{blogId}`
+**Authorization:** User
 
-Request
+**Success Response**
 
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog retrieved successfully.",
@@ -1400,182 +1044,85 @@ Success Response (200 OK)
     "updatedAt": "2026-08-05T11:20:00Z"
   }
 }
-Error Responses
+```
 
-404 Not Found
+### 4.3 Get Blog Images
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
-4.3 Get Blog Images
+**Endpoint:** `GET /api/blogs/{blogId}/images`
+**Authorization:** User
 
-Endpoint:
-GET /api/blogs/{blogId}/images
+**Success Response**
 
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog images retrieved successfully.",
-  "data": [
-    {
-      "imageId": 11,
-      "imageUrl": "https://cdn.aiblog.com/blog-images/11.png",
-      "prompt": "Artificial Intelligence robot",
-      "createdAt": "2026-08-05T12:20:00Z"
-    },
-    {
-      "imageId": 12,
-      "imageUrl": "https://cdn.aiblog.com/blog-images/12.png",
-      "prompt": "Future AI illustration",
-      "createdAt": "2026-08-05T12:35:00Z"
-    }
-  ]
+  "data": []
 }
-Error Responses
+```
 
-404 Not Found
+### 4.4 Download Blog PDF
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
-4.4 Download Blog PDF
+**Endpoint:** `GET /api/blogs/{blogId}/download-pdf`
+**Authorization:** User
 
-Endpoint:
-GET /api/blogs/{blogId}/download-pdf
+**Success Response:** `200 OK`
 
-Authorization:
-User
+**Content-Type:** `application/pdf`
 
-Request
+Returns the generated blog as a PDF file.
 
-None
+### 4.5 Get Blog Versions
 
-Success Response
-Content-Type: application/pdf
+**Endpoint:** `GET /api/blogs/{blogId}/versions`
+**Authorization:** User
 
-File Download
-Error Responses
+**Success Response**
 
-404 Not Found
-
-{
-  "success": false,
-  "message": "Blog not found."
-}
-4.5 Get Blog Versions
-
-Endpoint:
-GET /api/blogs/{blogId}/versions
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog versions retrieved successfully.",
-  "data": [
-    {
-      "versionId": 1,
-      "versionType": "Original",
-      "createdAt": "2026-08-05T10:30:00Z"
-    },
-    {
-      "versionId": 2,
-      "versionType": "Expanded",
-      "createdAt": "2026-08-05T10:45:00Z"
-    },
-    {
-      "versionId": 3,
-      "versionType": "Rewritten",
-      "createdAt": "2026-08-05T11:15:00Z"
-    }
-  ]
+  "data": []
 }
-Error Responses
+```
 
-404 Not Found
+### 4.6 Delete Blog
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
-4.6 Delete Blog
+**Endpoint:** `DELETE /api/blogs/{blogId}`
+**Authorization:** User
 
-Endpoint:
-DELETE /api/blogs/{blogId}
+**Success Response**
 
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog deleted successfully."
 }
-Error Responses
+```
 
-404 Not Found
+### 4.7 Delete Blog Image
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
-4.7 Delete Blog Image
+**Endpoint:** `DELETE /api/blogs/images/{imageId}`
+**Authorization:** User
 
-Endpoint:
-DELETE /api/blogs/images/{imageId}
+**Success Response**
 
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog image deleted successfully."
 }
-Error Responses
+```
 
-404 Not Found
+### 4.8 Publish Blog
 
-{
-  "success": false,
-  "message": "Image not found."
-}
-4.8 Publish Blog
+**Endpoint:** `POST /api/blogs/{blogId}/publish`
+**Authorization:** User
 
-Endpoint:
-POST /api/blogs/{blogId}/publish
+**Success Response**
 
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog published successfully.",
@@ -1583,68 +1130,40 @@ Success Response (200 OK)
     "publishedAt": "2026-08-06T09:30:00Z"
   }
 }
-Error Responses
+```
 
-404 Not Found
+### 4.9 Unpublish Blog
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+**Endpoint:** `POST /api/blogs/{blogId}/unpublish`
+**Authorization:** User
 
-400 Bad Request
+**Success Response**
 
-{
-  "success": false,
-  "message": "Blog is already published."
-}
-4.9 Unpublish Blog
-
-Endpoint:
-POST /api/blogs/{blogId}/unpublish
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Blog moved to drafts successfully."
 }
-Error Responses
+```
 
-404 Not Found
+### 4.10 Update Blog
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+**Endpoint:** `PUT /api/blogs/{blogId}`
+**Authorization:** User
 
-400 Bad Request
+**Request**
 
-{
-  "success": false,
-  "message": "Blog is already a draft."
-}
-4.10 Update Blog
-
-Endpoint:
-PUT /api/blogs/{blogId}
-
-Authorization:
-User
-
-Request
+```json
 {
   "title": "Understanding Artificial Intelligence",
   "content": "Updated blog content...",
   "category": "Technology"
 }
-Success Response (200 OK)
+```
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Blog updated successfully.",
@@ -1652,110 +1171,130 @@ Success Response (200 OK)
     "updatedAt": "2026-08-06T10:10:00Z"
   }
 }
-Error Responses
+```
 
-404 Not Found
+### 4.11 Get Draft Blogs
 
-{
-  "success": false,
-  "message": "Blog not found."
-}
+**Endpoint:** `GET /api/blogs/drafts`
+**Authorization:** User
 
-400 Bad Request
+**Success Response**
 
-{
-  "success": false,
-  "message": "Invalid blog details."
-}
-4.11 Get Draft Blogs
-
-Endpoint:
-GET /api/blogs/drafts
-
-Authorization:
-User
-
-Request
-
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Draft blogs retrieved successfully.",
-  "data": [
-    {
-      "blogId": 15,
-      "title": "Understanding Artificial Intelligence",
-      "category": "Technology",
-      "lastUpdated": "2026-08-06T10:10:00Z"
-    },
-    {
-      "blogId": 18,
-      "title": "Cloud Computing Basics",
-      "category": "Technology",
-      "lastUpdated": "2026-08-05T15:20:00Z"
-    }
-  ]
+  "data": []
 }
-4.12 Get Published Blogs
+```
 
-Endpoint:
-GET /api/blogs/published
+### 4.12 Get Published Blogs
 
-Authorization:
-User
+**Endpoint:** `GET /api/blogs/published`
+**Authorization:** User
 
-Request
+**Success Response**
 
-None
-
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Published blogs retrieved successfully.",
-  "data": [
-    {
-      "blogId": 20,
-      "title": "Future of Artificial Intelligence",
-      "category": "Technology",
-      "publishedAt": "2026-08-05T12:00:00Z",
-      "views": 512,
-      "likes": 84,
-      "comments": 19
-    },
-    {
-      "blogId": 24,
-      "title": "Cloud Computing Guide",
-      "category": "Technology",
-      "publishedAt": "2026-08-03T18:30:00Z",
-      "views": 391,
-      "likes": 62,
-      "comments": 13
-    }
-  ]
+  "data": []
 }
-Error Responses
+```
 
-404 Not Found
+**Note:** Copying blog text does not require a backend API because the copy operation is handled by the frontend/browser.
 
+---
+
+# 5. Credit APIs
+
+### 5.1 Get Available Credits
+
+**Endpoint:** `GET /api/credits`
+**Authorization:** User
+
+**Success Response — 200 OK**
+
+```json
+{
+  "success": true,
+  "message": "Credits retrieved successfully.",
+  "data": {
+    "availableCredits": 95
+  }
+}
+```
+
+**401 Unauthorized**
+
+```json
 {
   "success": false,
-  "message": "No published blogs found."
+  "message": "Unauthorized."
 }
+```
 
+---
 
-6. Subscription Plan APIs
-6.1 Get Subscription Plans
+### 5.2 Get Credit Pricing
 
-Endpoint: GET /api/plans
-Authorization: Public
+**Endpoint:** `GET /api/credits/pricing`
+**Authorization:** Public
 
-Request
+**Success Response — 200 OK**
 
-None
+```json
+{
+  "success": true,
+  "message": "Credit pricing retrieved successfully.",
+  "data": {
+    "services": [
+      {
+        "service": "Generate Blog",
+        "credits": 5
+      },
+      {
+        "service": "Regenerate Blog",
+        "credits": 5
+      },
+      {
+        "service": "Expand Blog",
+        "credits": 2
+      },
+      {
+        "service": "Shorten Blog",
+        "credits": 2
+      },
+      {
+        "service": "Generate Image",
+        "credits": 10
+      },
+      {
+        "service": "Generate Tags",
+        "credits": 1
+      },
+      {
+        "service": "Generate Summary",
+        "credits": 1
+      }
+    ]
+  }
+}
+```
 
-Success Response (200 OK)
+---
+
+# 6. Subscription Plan APIs
+
+### 6.1 Get Subscription Plans
+
+**Endpoint:** `GET /api/plans`
+**Authorization:** Public
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Subscription plans retrieved successfully.",
@@ -1786,22 +1325,28 @@ Success Response (200 OK)
     }
   ]
 }
-Error Response
-{
-  "success": false,
-  "message": "Unable to retrieve subscription plans."
-}
-7. Payment APIs
-7.1 Create Payment Intent
+```
 
-Endpoint: POST /api/payments/create-payment-intent
-Authorization: User
+---
 
-Request
+# 7. Payment APIs
+
+### 7.1 Create Payment Intent
+
+**Endpoint:** `POST /api/payments/create-payment-intent`
+**Authorization:** User
+
+**Request**
+
+```json
 {
   "planId": 2
 }
-Success Response (200 OK)
+```
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Payment intent created successfully.",
@@ -1810,25 +1355,24 @@ Success Response (200 OK)
     "clientSecret": "pi_xxxxxxxxx_secret_xxxxxxxxx"
   }
 }
-Error Responses
-{
-  "success": false,
-  "message": "Subscription plan not found."
-}
-{
-  "success": false,
-  "message": "Unable to create payment intent."
-}
-7.2 Confirm Payment
+```
 
-Endpoint: POST /api/payments/confirm
-Authorization: User
+### 7.2 Confirm Payment
 
-Request
+**Endpoint:** `POST /api/payments/confirm`
+**Authorization:** User
+
+**Request**
+
+```json
 {
   "paymentIntentId": "pi_xxxxxxxxx"
 }
-Success Response (200 OK)
+```
+
+**Success Response**
+
+```json
 {
   "success": true,
   "message": "Payment confirmed successfully.",
@@ -1839,75 +1383,46 @@ Success Response (200 OK)
     "paymentStatus": "Succeeded"
   }
 }
-Error Responses
-{
-  "success": false,
-  "message": "Payment verification failed."
-}
-{
-  "success": false,
-  "message": "Payment has already been confirmed."
-}
-7.3 Get Payment History
+```
 
-Endpoint: GET /api/payments/history
-Authorization: User
+### 7.3 Get Payment History
 
-Request
+**Endpoint:** `GET /api/payments/history`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Payment history retrieved successfully.",
-  "data": [
-    {
-      "paymentId": 1,
-      "planName": "Standard",
-      "amount": 50,
-      "creditsPurchased": 100,
-      "paymentStatus": "Succeeded",
-      "purchasedAt": "2026-08-01T10:20:00Z"
-    },
-    {
-      "paymentId": 2,
-      "planName": "Premium",
-      "amount": 199,
-      "creditsPurchased": 500,
-      "paymentStatus": "Succeeded",
-      "purchasedAt": "2026-08-05T14:30:00Z"
-    }
-  ]
+  "data": []
 }
-Error Response
-{
-  "success": false,
-  "message": "No payment history found."
-}
-7.4 Stripe Webhook
+```
 
-Endpoint: POST /api/payments/webhook
-Authorization: Stripe
+### 7.4 Stripe Webhook
 
-Request
+**Endpoint:** `POST /api/payments/webhook`
+**Authorization:** Stripe
 
-Stripe sends payment event automatically.
+**Request:** Stripe payment event.
 
-Success Response (200 OK)
+**Success Response**
+
+```json
 {
   "received": true
 }
-7.5 Get Payment Details
+```
 
-Endpoint: GET /api/payments/{paymentId}
-Authorization: User
+### 7.5 Get Payment Details
 
-Request
+**Endpoint:** `GET /api/payments/{paymentId}`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Payment details retrieved successfully.",
@@ -1921,95 +1436,74 @@ Success Response (200 OK)
     "purchasedAt": "2026-08-06T12:30:00Z"
   }
 }
-Error Response
-{
-  "success": false,
-  "message": "Payment not found."
-}
-7.6 Cancel Pending Payment
+```
 
-Endpoint: POST /api/payments/{paymentId}/cancel
-Authorization: User
+### 7.6 Cancel Pending Payment
 
-Request
+**Endpoint:** `POST /api/payments/{paymentId}/cancel`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Payment cancelled successfully."
 }
-Error Responses
-{
-  "success": false,
-  "message": "Payment not found."
-}
-{
-  "success": false,
-  "message": "Only pending payments can be cancelled."
-}
-8. Feedback APIs
-8.1 Submit Feedback
+```
 
-Endpoint: POST /api/feedback
-Authorization: User
+---
 
-Request
+# 8. Feedback APIs
+
+### 8.1 Submit Feedback
+
+**Endpoint:** `POST /api/feedback`
+**Authorization:** User
+
+**Request**
+
+```json
 {
   "subject": "Great Experience",
   "message": "The AI generated high-quality blogs.",
   "rating": 5,
   "isPublic": true
 }
-Success Response (201 Created)
+```
+
+**Success Response — 201 Created**
+
+```json
 {
   "success": true,
   "message": "Feedback submitted successfully."
 }
-Error Response
-{
-  "success": false,
-  "message": "Invalid feedback details."
-}
-8.2 Get My Feedback
+```
 
-Endpoint: GET /api/feedback
-Authorization: User
+### 8.2 Get My Feedback
 
-Request
+**Endpoint:** `GET /api/feedback`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Feedback retrieved successfully.",
-  "data": [
-    {
-      "feedbackId": 1,
-      "subject": "Great Experience",
-      "rating": 5,
-      "status": "Resolved",
-      "createdAt": "2026-08-04T12:20:00Z"
-    }
-  ]
+  "data": []
 }
-Error Response
-{
-  "success": false,
-  "message": "No feedback found."
-}
-8.3 Get Feedback Details
+```
 
-Endpoint: GET /api/feedback/{feedbackId}
-Authorization: User
+### 8.3 Get Feedback Details
 
-Request
+**Endpoint:** `GET /api/feedback/{feedbackId}`
+**Authorization:** User
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Feedback details retrieved successfully.",
@@ -2023,21 +1517,16 @@ Success Response (200 OK)
     "createdAt": "2026-08-04T12:20:00Z"
   }
 }
-Error Response
-{
-  "success": false,
-  "message": "Feedback not found."
-}
-8.4 Get Public Feedback
+```
 
-Endpoint: GET /api/feedback/public
-Authorization: Public
+### 8.4 Get Public Feedback
 
-Request
+**Endpoint:** `GET /api/feedback/public`
+**Authorization:** Public
 
-None
+**Success Response**
 
-Success Response (200 OK)
+```json
 {
   "success": true,
   "message": "Public feedback retrieved successfully.",
@@ -2046,16 +1535,900 @@ Success Response (200 OK)
       "userName": "johnsmith",
       "rating": 5,
       "message": "Excellent application."
-    },
-    {
-      "userName": "alex",
-      "rating": 4,
-      "message": "Very useful platform."
     }
   ]
 }
-Error Response
+```
+
+---
+
+# 9. Issue / Support APIs
+
+### 9.1 Raise Support Issue
+
+**Endpoint:** `POST /api/issues`
+**Authorization:** User
+
+**Request**
+
+```json
+{
+  "subject": "Unable to generate blog",
+  "description": "The blog generation request fails even though I have credits."
+}
+```
+
+**Success Response — 201 Created**
+
+```json
+{
+  "success": true,
+  "message": "Issue raised successfully.",
+  "data": {
+    "issueId": 12,
+    "status": "Open",
+    "createdAt": "2026-08-06T12:30:00Z"
+  }
+}
+```
+
+---
+
+### 9.2 Get My Issues
+
+**Endpoint:** `GET /api/issues`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Issues retrieved successfully.",
+  "data": [
+    {
+      "issueId": 12,
+      "subject": "Unable to generate blog",
+      "status": "Open",
+      "createdAt": "2026-08-06T12:30:00Z"
+    }
+  ]
+}
+```
+
+---
+
+### 9.3 Get Issue Details
+
+**Endpoint:** `GET /api/issues/{id}`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Issue details retrieved successfully.",
+  "data": {
+    "issueId": 12,
+    "subject": "Unable to generate blog",
+    "description": "The blog generation request fails.",
+    "status": "InProgress",
+    "adminResponse": null,
+    "createdAt": "2026-08-06T12:30:00Z"
+  }
+}
+```
+
+---
+
+### 9.4 Update Issue
+
+**Endpoint:** `PUT /api/issues/{id}`
+**Authorization:** User
+
+**Request**
+
+```json
+{
+  "subject": "Unable to generate blog",
+  "description": "Updated description of the issue."
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Issue updated successfully."
+}
+```
+
+**Business Rule:** Users may update an issue only while it has not been resolved or closed.
+
+---
+
+### 9.5 Delete / Withdraw Issue
+
+**Endpoint:** `DELETE /api/issues/{id}`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Issue withdrawn successfully."
+}
+```
+
+---
+
+### 9.6 Get Issue Status
+
+**Endpoint:** `GET /api/issues/{id}/status`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Issue status retrieved successfully.",
+  "data": {
+    "issueId": 12,
+    "status": "InProgress"
+  }
+}
+```
+
+---
+
+# 10. Admin Dashboard APIs
+
+All Admin Dashboard APIs require **Admin authorization**.
+
+### 10.1 Get Dashboard Statistics
+
+**Endpoint:** `GET /api/admin/dashboard`
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Dashboard statistics retrieved successfully.",
+  "data": {
+    "totalUsers": 1250,
+    "activeUsers": 1080,
+    "totalBlogs": 5420,
+    "publishedBlogs": 4210,
+    "totalPayments": 325,
+    "totalRevenue": 45890.00,
+    "pendingReports": 12
+  }
+}
+```
+
+### 10.2 Get All Users
+
+**Endpoint:** `GET /api/admin/users`
+
+Returns all registered users with administrative information.
+
+### 10.3 Get User Details
+
+**Endpoint:** `GET /api/admin/users/{userId}`
+
+Returns detailed user information.
+
+### 10.4 Get All Blogs
+
+**Endpoint:** `GET /api/admin/blogs`
+
+Returns all blogs for administrative moderation.
+
+### 10.5 Get Blog Details
+
+**Endpoint:** `GET /api/admin/blogs/{blogId}`
+
+Returns detailed information about a specific blog.
+
+### 10.6 Get All Payments
+
+**Endpoint:** `GET /api/admin/payments`
+
+Returns payment records across the platform.
+
+### 10.7 Get Deleted Users
+
+**Endpoint:** `GET /api/admin/deleted-users`
+
+Returns accounts stored in the deleted-account archive.
+
+### 10.8 Get All Feedback
+
+**Endpoint:** `GET /api/admin/feedback`
+
+Returns all submitted feedback.
+
+### 10.9 Resolve Feedback
+
+**Endpoint:** `PUT /api/admin/feedback/{feedbackId}/resolve`
+
+**Request**
+
+```json
+{
+  "adminResponse": "Thank you for your feedback."
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Feedback resolved successfully."
+}
+```
+
+### 10.10 Get All Issues
+
+**Endpoint:** `GET /api/admin/issues`
+
+Returns all support issues.
+
+### 10.11 Resolve Issue
+
+**Endpoint:** `PUT /api/admin/issues/{issueId}/resolve`
+
+**Request**
+
+```json
+{
+  "adminResponse": "The issue has been resolved."
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Issue resolved successfully."
+}
+```
+
+### 10.12 Get User Payment History
+
+**Endpoint:** `GET /api/admin/users/{userId}/payments`
+
+Returns payment history for a specific user.
+
+### 10.13 Create Subscription Plan
+
+**Endpoint:** `POST /api/admin/plans`
+
+**Request**
+
+```json
+{
+  "name": "Premium",
+  "description": "Suitable for heavy AI usage.",
+  "price": 199,
+  "credits": 500
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Subscription plan created successfully.",
+  "data": {
+    "planId": 3
+  }
+}
+```
+
+### 10.14 Update Subscription Plan
+
+**Endpoint:** `PUT /api/admin/plans/{planId}`
+
+**Request**
+
+```json
+{
+  "name": "Premium",
+  "description": "Updated premium plan.",
+  "price": 199,
+  "credits": 500,
+  "isActive": true
+}
+```
+
+### 10.15 Delete Subscription Plan
+
+**Endpoint:** `DELETE /api/admin/plans/{planId}`
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Subscription plan deleted successfully."
+}
+```
+
+### 10.16 Block User
+
+**Endpoint:** `PUT /api/admin/users/{userId}/block`
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "User account blocked successfully."
+}
+```
+
+### 10.17 Unblock User
+
+**Endpoint:** `PUT /api/admin/users/{userId}/unblock`
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "User account unblocked successfully."
+}
+```
+
+### 10.18 Remove Blog
+
+**Endpoint:** `DELETE /api/admin/blogs/{blogId}`
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog removed successfully."
+}
+```
+
+### 10.19 Get Reported Blogs
+
+**Endpoint:** `GET /api/admin/reported-blogs`
+
+Returns reported blogs pending moderation.
+
+### 10.20 Resolve Blog Report
+
+**Endpoint:** `PUT /api/admin/reported-blogs/{reportId}/resolve`
+
+**Request**
+
+```json
+{
+  "reportStatus": "Resolved"
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog report resolved successfully."
+}
+```
+
+### 10.21 Get Platform Statistics
+
+**Endpoint:** `GET /api/admin/statistics`
+
+Returns detailed analytics including users, blogs, views, likes, comments, reposts, payments and revenue.
+
+---
+
+# 11. Public Feed APIs
+
+### 11.1 Get Public Feed
+
+**Endpoint:** `GET /api/feed`
+**Authorization:** Public
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Public feed retrieved successfully.",
+  "data": [
+    {
+      "blogId": 21,
+      "title": "Introduction to AI",
+      "excerpt": "Artificial Intelligence is changing the world...",
+      "author": {
+        "userId": 12,
+        "userName": "johnsmith"
+      },
+      "category": "Technology",
+      "coverImageUrl": "https://cdn.aiblog.com/blogs/21.jpg",
+      "publishedAt": "2026-08-06T10:30:00Z",
+      "views": 452,
+      "likes": 76,
+      "comments": 18
+    }
+  ]
+}
+```
+
+### 11.2 Get Trending Blogs
+
+**Endpoint:** `GET /api/feed/trending`
+**Authorization:** Public
+
+Returns published blogs ranked using engagement and recent activity.
+
+### 11.3 Get Following Feed
+
+**Endpoint:** `GET /api/feed/following`
+**Authorization:** User
+
+Returns published blogs from users followed by the logged-in user.
+
+### 11.4 Get Blogs by Category
+
+**Endpoint:** `GET /api/feed/category/{category}`
+**Authorization:** Public
+
+Returns published blogs belonging to the specified category.
+
+### 11.5 Search Published Blogs
+
+**Endpoint:** `GET /api/feed/search?query=artificial+intelligence`
+**Authorization:** Public
+
+Searches published blogs by title, tags and author.
+
+### 11.6 View Published Blog
+
+**Endpoint:** `GET /api/feed/{blogId}`
+**Authorization:** Public
+
+Returns the complete publicly visible blog.
+
+---
+
+# 12. Blog Interaction APIs
+
+### 12.1 Like Blog
+
+**Endpoint:** `POST /api/blogs/{blogId}/like`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog liked successfully."
+}
+```
+
+### 12.2 Unlike Blog
+
+**Endpoint:** `DELETE /api/blogs/{blogId}/like`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog unliked successfully."
+}
+```
+
+### 12.3 Get Blog Likes
+
+**Endpoint:** `GET /api/blogs/{blogId}/likes`
+**Authorization:** Public
+
+Returns users who liked the blog.
+
+### 12.4 Add Comment
+
+**Endpoint:** `POST /api/blogs/{blogId}/comments`
+**Authorization:** User
+
+**Request**
+
+```json
+{
+  "parentCommentId": null,
+  "content": "Great article!"
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Comment added successfully.",
+  "data": {
+    "commentId": 101
+  }
+}
+```
+
+### 12.5 Get Comments
+
+**Endpoint:** `GET /api/blogs/{blogId}/comments`
+**Authorization:** Public
+
+Returns comments and their replies.
+
+### 12.6 Edit Comment
+
+**Endpoint:** `PUT /api/comments/{commentId}`
+**Authorization:** User
+
+**Request**
+
+```json
+{
+  "content": "Updated comment."
+}
+```
+
+### 12.7 Delete Comment
+
+**Endpoint:** `DELETE /api/comments/{commentId}`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Comment deleted successfully."
+}
+```
+
+### 12.8 Save Blog
+
+**Endpoint:** `POST /api/blogs/{blogId}/save`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog saved successfully."
+}
+```
+
+### 12.9 Remove Saved Blog
+
+**Endpoint:** `DELETE /api/blogs/{blogId}/save`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog removed from saved blogs."
+}
+```
+
+### 12.10 Repost Blog
+
+**Endpoint:** `POST /api/blogs/{blogId}/repost`
+**Authorization:** User
+
+**Request**
+
+```json
+{
+  "caption": "Worth reading!"
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog reposted successfully."
+}
+```
+
+### 12.11 Remove Repost
+
+**Endpoint:** `DELETE /api/blogs/{blogId}/repost`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Repost removed successfully."
+}
+```
+
+### 12.12 Report Blog
+
+**Endpoint:** `POST /api/blogs/{blogId}/report`
+**Authorization:** User
+
+**Request**
+
+```json
+{
+  "reason": "InappropriateContent",
+  "description": "This blog contains inappropriate content."
+}
+```
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Blog reported successfully."
+}
+```
+
+### 12.13 Like Comment
+
+**Endpoint:** `POST /api/comments/{commentId}/like`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Comment liked successfully."
+}
+```
+
+### 12.14 Unlike Comment
+
+**Endpoint:** `DELETE /api/comments/{commentId}/like`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Comment unliked successfully."
+}
+```
+
+---
+
+# 13. Notification APIs
+
+### 13.1 Get Notifications
+
+**Endpoint:** `GET /api/notifications`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Notifications retrieved successfully.",
+  "data": [
+    {
+      "notificationId": 1,
+      "notificationType": "Like",
+      "message": "Alex liked your blog.",
+      "senderUserId": 5,
+      "blogId": 21,
+      "commentId": null,
+      "isRead": false,
+      "createdAt": "2026-08-06T14:30:00Z"
+    }
+  ]
+}
+```
+
+### 13.2 Mark Notification as Read
+
+**Endpoint:** `PUT /api/notifications/{notificationId}/read`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Notification marked as read."
+}
+```
+
+### 13.3 Mark All Notifications as Read
+
+**Endpoint:** `PUT /api/notifications/read-all`
+**Authorization:** User
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "All notifications marked as read."
+}
+```
+
+---
+
+# 14. Categories APIs
+
+### 14.1 Get Categories
+
+**Endpoint:** `GET /api/categories`
+**Authorization:** Public
+
+**Success Response**
+
+```json
+{
+  "success": true,
+  "message": "Categories retrieved successfully.",
+  "data": [
+    {
+      "categoryId": 1,
+      "name": "Technology",
+      "description": "Technology and software related blogs.",
+      "icon": "https://cdn.aiblog.com/categories/technology.png"
+    },
+    {
+      "categoryId": 2,
+      "name": "Education",
+      "description": "Educational and learning content.",
+      "icon": "https://cdn.aiblog.com/categories/education.png"
+    }
+  ]
+}
+```
+
+---
+
+# 15. Standard Error Responses
+
+The API uses a consistent error response structure.
+
+### 400 Bad Request
+
+```json
 {
   "success": false,
-  "message": "No public feedback available."
+  "message": "Invalid request.",
+  "errors": {}
 }
+```
+
+### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "message": "Unauthorized."
+}
+```
+
+### 403 Forbidden
+
+```json
+{
+  "success": false,
+  "message": "You do not have permission to perform this action."
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "success": false,
+  "message": "Resource not found."
+}
+```
+
+### 409 Conflict
+
+```json
+{
+  "success": false,
+  "message": "Resource already exists."
+}
+```
+
+### 402 Payment Required
+
+```json
+{
+  "success": false,
+  "message": "Insufficient credits."
+}
+```
+
+### 500 Internal Server Error
+
+```json
+{
+  "success": false,
+  "message": "An unexpected error occurred."
+}
+```
+
+---
+
+# 16. Authorization Levels
+
+| Authorization | Description                                                |
+| ------------- | ---------------------------------------------------------- |
+| Public        | Endpoint can be accessed without authentication            |
+| User          | Endpoint requires a valid JWT access token                 |
+| Admin         | Endpoint requires a valid JWT access token with Admin role |
+| Stripe        | Endpoint is accessed by Stripe webhook events              |
+
+---
+
+# 17. API Summary
+
+| Module             | Number of APIs |
+| ------------------ | -------------: |
+| Authentication     |              4 |
+| User Profile       |             21 |
+| AI Blog            |             11 |
+| Blog Management    |             12 |
+| Credits            |              2 |
+| Subscription Plans |              1 |
+| Payments           |              6 |
+| Feedback           |              4 |
+| Issues             |              6 |
+| Admin Dashboard    |             21 |
+| Public Feed        |              6 |
+| Blog Interaction   |             14 |
+| Notifications      |              3 |
+| Categories         |              1 |
+| **Total**          |   **112 APIs** |
+
+---
+
+# 18. API Design Notes
+
+* All authenticated endpoints use JWT Bearer authentication.
+* Refresh tokens are stored and can be revoked during logout.
+* Users receive **100 free credits** upon registration.
+* AI operations deduct credits according to the configured credit pricing.
+* A user's available credits cannot become negative.
+* AI operations are blocked when the user has insufficient credits.
+* Users can manage only their own blogs, comments, bookmarks, likes, reposts and profile information.
+* Public users can view published blogs and public profiles.
+* Only published blogs are available through the public feed.
+* Only administrators can access administrative endpoints.
+* Blog reports are reviewed and resolved by administrators.
+* Stripe webhooks are used to receive payment events and update payment status.
+* Deleted user accounts are retained in the `DeletedAccounts` archive without a foreign-key relationship to `Users`.
+* Copying blog content is handled by the frontend/browser and therefore does not require a backend API.
+* AI-generated operations create corresponding blog versions where applicable.
+* Notifications are generated for relevant social interactions such as likes, comments, follows and reposts.
