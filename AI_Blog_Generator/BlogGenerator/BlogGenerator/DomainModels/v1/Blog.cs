@@ -1,3 +1,5 @@
+using BlogGenerator.Enums;
+
 namespace BlogGenerator.DomainModels.v1;
 
 public class Blog
@@ -53,13 +55,13 @@ public class Blog
     public ICollection<BlogVersion> BlogVersions { get; set; } = new List<BlogVersion>();
 
     public ICollection<BlogImage> BlogImages { get; set; } = new List<BlogImage>();
-    public ICollection<Like> Likes { get; set; } = new List<Like>();
+    public ICollection<Likes> Likes { get; set; } = new List<Likes>();
 
     public ICollection<Comments> Comments { get; set; } = new List<Comments>();
 
-    public ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>();
+    public ICollection<Bookmarks> Bookmarks { get; set; } = new List<Bookmarks>();
 
-    public ICollection<Repost> Reposts { get; set; } = new List<Repost>();
+    public ICollection<Reposts> Reposts { get; set; } = new List<Reposts>();
 
-    public ICollection<BlogReport> BlogReports { get; set; } = new List<BlogReport>();
+    public ICollection<BlogReports> BlogReports { get; set; } = new List<BlogReports>();
 }

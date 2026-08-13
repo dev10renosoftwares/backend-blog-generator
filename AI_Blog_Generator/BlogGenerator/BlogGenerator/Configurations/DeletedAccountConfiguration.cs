@@ -12,6 +12,13 @@ public class DeletedAccountConfiguration : IEntityTypeConfiguration<DeletedAccou
 
         builder.HasKey(x => x.DeletedId);
 
+        builder.Property(x => x.UserId)
+            .IsRequired();
+
+        builder.Property(x => x.UserName)
+            .IsRequired()
+            .HasMaxLength(100);
+
         builder.Property(x => x.Email)
             .IsRequired()
             .HasMaxLength(255);

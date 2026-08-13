@@ -30,7 +30,7 @@ public class BlogService : IBlogService
             {
                 BlogId = x.BlogId,
                 Title = x.Title,
-                Category = x.Category,
+                //Category = x.Category,
                 WordCount = x.WordCount,
                 CreatedAt = x.CreatedAt,
                 UpdatedAt = x.UpdatedAt ?? x.CreatedAt
@@ -77,7 +77,7 @@ public class BlogService : IBlogService
             Content = blog.Content,
             Tone = blog.Tone,
             Audience = blog.Audience,
-            Category = blog.Category,
+           // Category = blog.Category,
             WordCount = blog.WordCount,
             CreditsUsed = blog.CreditsUsed,
             CreatedAt = blog.CreatedAt,

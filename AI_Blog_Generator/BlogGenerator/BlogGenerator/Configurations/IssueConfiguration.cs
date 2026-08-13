@@ -12,6 +12,9 @@ public class IssueConfiguration : IEntityTypeConfiguration<Issue>
 
         builder.HasKey(x => x.IssueId);
 
+        builder.Property(x => x.UserId)
+            .IsRequired();
+
         builder.Property(x => x.Subject)
             .IsRequired()
             .HasMaxLength(255);
@@ -24,7 +27,17 @@ public class IssueConfiguration : IEntityTypeConfiguration<Issue>
 
         builder.Property(x => x.AdminResponse);
 
+        builder.Property(x => x.ResolvedAt);
+
         builder.Property(x => x.CreatedAt)
             .IsRequired();
+
+        builder.Property(x => x.UpdatedAt);
+
+        // User → Issues
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.Issues)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -46,7 +46,7 @@ namespace BlogGenerator.DAL
 
         public DbSet<BlogReports> BlogReports => Set<BlogReports>();
 
-        public DbSet<UserBadge> UserBadges => Set<UserBadge>();
+        public DbSet<UserBadges> UserBadges => Set<UserBadges>();
         public DbSet<Category> Categories => Set<Category>();
 
         public DbSet<Tags> Tags => Set<Tags>();

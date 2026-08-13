@@ -20,12 +20,14 @@ public class PlanConfiguration : IEntityTypeConfiguration<Plan>
             .HasMaxLength(500);
 
         builder.Property(x => x.Price)
+            .IsRequired()
             .HasColumnType("decimal(18,2)");
 
         builder.Property(x => x.Credits)
             .IsRequired();
 
         builder.Property(x => x.IsActive)
+            .IsRequired()
             .HasDefaultValue(true);
 
         builder.Property(x => x.CreatedAt)

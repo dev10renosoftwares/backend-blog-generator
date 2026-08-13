@@ -1,6 +1,6 @@
 ﻿namespace BlogGenerator.Enums
 {
-    public enum Language
+    public enum BlogLanguage
     {
         English,
         Urdu,

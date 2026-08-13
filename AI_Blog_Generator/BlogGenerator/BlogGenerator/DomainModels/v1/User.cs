@@ -39,16 +39,16 @@ public class User
     public ICollection<Feedback> Feedbacks { get; set; } = new List<Feedback>();
 
     public ICollection<Issue> Issues { get; set; } = new List<Issue>();
-    public ICollection<Like> Likes { get; set; } = new List<Like>();
+    public ICollection<Likes> Likes { get; set; } = new List<Likes>();
     public ICollection<Comments> Comments { get; set; } = new List<Comments>();
-    public ICollection<Bookmark> Bookmarks { get; set; } = new List<Bookmark>(); 
-    public ICollection<Repost> Reposts { get; set; } = new List<Repost>(); 
+    public ICollection<Bookmarks> Bookmarks { get; set; } = new List<Bookmarks>(); 
+    public ICollection<Reposts> Reposts { get; set; } = new List<Reposts>(); 
     public ICollection<Follow> Followers { get; set; } = new List<Follow>(); 
     public ICollection<Follow> Following { get; set; } = new List<Follow>();
-    public ICollection<Notification> ReceivedNotifications { get; set; } = new List<Notification>();
-    public ICollection<Notification> SentNotifications { get; set; } = new List<Notification>();
-    public ICollection<BlogReport> BlogReports { get; set; } = new List<BlogReport>();
-    public ICollection<UserBadge> UserBadges { get; set; } = new List<UserBadge>();
+    public ICollection<Notifications> ReceivedNotifications { get; set; } = new List<Notifications>();
+    public ICollection<Notifications> SentNotifications { get; set; } = new List<Notifications>();
+    public ICollection<BlogReports> BlogReports { get; set; } = new List<BlogReports>();
+    public ICollection<UserBadges> UserBadges { get; set; } = new List<UserBadges>();
 
 
     public DeletedAccount? DeletedAccount { get; set; }

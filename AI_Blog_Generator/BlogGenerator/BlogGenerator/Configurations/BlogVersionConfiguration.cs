@@ -12,6 +12,9 @@ public class BlogVersionConfiguration : IEntityTypeConfiguration<BlogVersion>
 
         builder.HasKey(x => x.VersionId);
 
+        builder.Property(x => x.BlogId)
+            .IsRequired();
+
         builder.Property(x => x.Title)
             .IsRequired()
             .HasMaxLength(255);
@@ -27,5 +30,11 @@ public class BlogVersionConfiguration : IEntityTypeConfiguration<BlogVersion>
 
         builder.Property(x => x.CreatedAt)
             .IsRequired();
+
+        // Blog → BlogVersions
+        builder.HasOne(x => x.Blog)
+            .WithMany(x => x.BlogVersions)
+            .HasForeignKey(x => x.BlogId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

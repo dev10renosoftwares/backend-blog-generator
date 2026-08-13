@@ -1,6 +1,6 @@
 ﻿namespace BlogGenerator.DomainModels.v1;
 
-public class UserBadge
+public class UserBadges
 {
     public int UserBadgeId { get; set; }
 

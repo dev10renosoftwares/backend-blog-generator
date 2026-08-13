@@ -12,6 +12,9 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 
         builder.HasKey(x => x.TokenId);
 
+        builder.Property(x => x.UserId)
+            .IsRequired();
+
         builder.Property(x => x.Token)
             .IsRequired();
 
@@ -19,9 +22,15 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
             .IsRequired();
 
         builder.Property(x => x.IsRevoked)
+            .IsRequired()
             .HasDefaultValue(false);
 
         builder.Property(x => x.CreatedAt)
             .IsRequired();
+
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.RefreshTokens)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

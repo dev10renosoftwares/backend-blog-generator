@@ -12,6 +12,9 @@ public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
 
         builder.HasKey(x => x.FeedbackId);
 
+        builder.Property(x => x.UserId)
+            .IsRequired();
+
         builder.Property(x => x.Subject)
             .IsRequired()
             .HasMaxLength(255);
@@ -23,6 +26,7 @@ public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
             .IsRequired();
 
         builder.Property(x => x.IsPublic)
+            .IsRequired()
             .HasDefaultValue(false);
 
         builder.Property(x => x.Status)
@@ -32,5 +36,13 @@ public class FeedbackConfiguration : IEntityTypeConfiguration<Feedback>
 
         builder.Property(x => x.CreatedAt)
             .IsRequired();
+
+        builder.Property(x => x.UpdatedAt);
+
+        // User → Feedbacks
+        builder.HasOne(x => x.User)
+            .WithMany(x => x.Feedbacks)
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
