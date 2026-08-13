@@ -13,4 +13,6 @@ public interface IProfileService
     Task DeleteProfilePictureAsync(int userId);
 
     Task DeleteAccountAsync(int userId, DeleteAccountRequestDto request);
+    Task ChangePasswordAsync(int userId, ChangePasswordRequestDto request);
+
 }

@@ -221,4 +221,28 @@ public class ProfileService : IProfileService
             "User {UserId} deleted the account.",
             userId);
     }
+
+    public async Task ChangePasswordAsync(
+    int userId,
+    ChangePasswordRequestDto request)
+    {
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.UserId == userId);
+
+        if (user == null)
+            throw new KeyNotFoundException("User not found.");
+
+        if (!BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.PasswordHash))
+            throw new UnauthorizedAccessException("Current password is incorrect.");
+
+        if (request.NewPassword != request.ConfirmNewPassword)
+            throw new ArgumentException("New password and confirm password do not match.");
+
+        if (BCrypt.Net.BCrypt.Verify(request.NewPassword, user.PasswordHash))
+            throw new ArgumentException("New password must be different from the current password.");
+
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+
+        await _context.SaveChangesAsync();
+    }
 }

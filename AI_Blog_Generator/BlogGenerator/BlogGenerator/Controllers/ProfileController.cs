@@ -93,4 +93,15 @@ public class ProfileController : ControllerBase
             Message = "Account deleted successfully."
         });
     }
+
+    [HttpPut("change-password")]
+    public async Task<IActionResult> ChangePassword(
+    [FromBody] ChangePasswordRequestDto request)
+    {
+        var userId = UserId;
+
+        await _profileService.ChangePasswordAsync(userId, request);
+
+        return Ok(new { message = "Password changed successfully." });
+    }
 }
