@@ -104,4 +104,99 @@ public class ProfileController : ControllerBase
 
         return Ok(new { message = "Password changed successfully." });
     }
+
+    [HttpGet("{userId}")]
+    [Authorize]
+    public async Task<IActionResult> GetPublicProfile(int userId)
+    {
+        var currentUserId = int.Parse(
+            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _profileService
+            .GetPublicProfileAsync(userId, currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{userId}/blogs")]
+    [Authorize]
+    public async Task<IActionResult> GetUserBlogs(int userId)
+    {
+        var result = await _profileService
+            .GetUserBlogsAsync(userId);
+
+        return Ok(result);
+    }
+
+    [HttpPost("{userId}/follow")]
+    [Authorize]
+    public async Task<IActionResult> FollowUser(int userId)
+    {
+        var currentUserId = int.Parse(
+            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _profileService
+            .FollowUserAsync(currentUserId, userId);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{userId}/follow")]
+    [Authorize]
+    public async Task<IActionResult> UnfollowUser(int userId)
+    {
+        var currentUserId = int.Parse(
+            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _profileService
+            .UnfollowUserAsync(currentUserId, userId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("followers")]
+    [Authorize]
+    public async Task<IActionResult> GetFollowers()
+    {
+        var currentUserId = int.Parse(
+            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _profileService
+            .GetFollowersAsync(currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("following")]
+    [Authorize]
+    public async Task<IActionResult> GetFollowing()
+    {
+        var currentUserId = int.Parse(
+            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _profileService
+            .GetFollowingAsync(currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{userId}/followers")]
+    [Authorize]
+    public async Task<IActionResult> GetUserFollowers(int userId)
+    {
+        var result = await _profileService
+            .GetUserFollowersAsync(userId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{userId}/following")]
+    [Authorize]
+    public async Task<IActionResult> GetUserFollowing(int userId)
+    {
+        var result = await _profileService
+            .GetUserFollowingAsync(userId);
+
+        return Ok(result);
+    }
 }

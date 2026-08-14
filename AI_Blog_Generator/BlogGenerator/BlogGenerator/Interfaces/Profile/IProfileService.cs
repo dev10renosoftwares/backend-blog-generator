@@ -15,4 +15,35 @@ public interface IProfileService
     Task DeleteAccountAsync(int userId, DeleteAccountRequestDto request);
     Task ChangePasswordAsync(int userId, ChangePasswordRequestDto request);
 
+    // Public profile
+    Task<PublicUserProfileDto> GetPublicProfileAsync(
+        int userId,
+        int currentUserId);
+
+    Task<List<PublicUserBlogDto>> GetUserBlogsAsync(
+        int userId);
+
+    // Follow / Unfollow
+    Task<FollowActionResponseDto> FollowUserAsync(
+        int currentUserId,
+        int userId);
+
+    Task<FollowActionResponseDto> UnfollowUserAsync(
+        int currentUserId,
+        int userId);
+
+    // Current user's followers / following
+    Task<List<FollowUserDto>> GetFollowersAsync(
+        int currentUserId);
+
+    Task<List<FollowUserDto>> GetFollowingAsync(
+        int currentUserId);
+
+    // Another user's followers / following
+    Task<List<FollowUserDto>> GetUserFollowersAsync(
+        int userId);
+
+    Task<List<FollowUserDto>> GetUserFollowingAsync(
+        int userId);
+
 }
