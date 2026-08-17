@@ -6,7 +6,7 @@
 
 **AI Blog Generator** is a social blogging platform that allows users to generate, manage, publish, and interact with AI-powered blog content. The platform combines **AI-assisted content generation** with social blogging features such as likes, comments, bookmarks, reposts, follows, profiles, and a public blog feed.
 
-The system is designed as a modern full-stack application with an **ASP.NET Core Web API backend**, **React + TypeScript frontend**, and **SQL Server database**.
+The system is designed as a modern full-stack application with an **ASP.NET Core Web API backend**, **Angular + TypeScript frontend**, and **SQL Server database**.
 
 ## Features
 
