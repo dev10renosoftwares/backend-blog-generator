@@ -580,7 +580,7 @@ Core backend modules, authentication, profile management, blog management, socia
 
 **Laveezah**
 
-Backend Developer Intern
+Backend Developer Intern ,
 Reno Softwares
 
 **Primary focus:** ASP.NET Core, C#, Entity Framework Core, SQL Server, REST APIs, and Angular/TypeScript.
