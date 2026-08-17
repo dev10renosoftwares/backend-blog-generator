@@ -508,4 +508,239 @@ public class ProfileService : IProfileService
             })
             .ToListAsync();
     }
+
+    public async Task<List<SavedBlogDto>> GetSavedBlogsAsync(int userId)
+    {
+        return await _context.Bookmarks
+            .Where(x => x.UserId == userId)
+            .Join(
+                _context.Blogs,
+                bookmark => bookmark.BlogId,
+                blog => blog.BlogId,
+                (bookmark, blog) => new SavedBlogDto
+                {
+                    BlogId = blog.BlogId,
+                    Title = blog.Title,
+                    Content = blog.Content,
+                    PublishedAt = bookmark.CreatedAt
+                })
+            .OrderByDescending(x => x.PublishedAt)
+            .ToListAsync();
+    }
+
+    public async Task<List<LikedBlogDto>> GetLikedBlogsAsync(int userId)
+    {
+        return await _context.Likes
+            .Where(x => x.UserId == userId)
+            .Join(
+                _context.Blogs,
+                like => like.BlogId,
+                blog => blog.BlogId,
+                (like, blog) => new LikedBlogDto
+                {
+                    BlogId = blog.BlogId,
+                    Title = blog.Title,
+                    Content = blog.Content,
+                    PublishedAt = like.CreatedAt
+                })
+            .OrderByDescending(x => x.PublishedAt)
+            .ToListAsync();
+    }
+
+    public async Task<UserStatsDto> GetUserStatsAsync(int userId)
+    {
+        var userExists = await _context.Users
+            .AnyAsync(x =>
+                x.UserId == userId &&
+                !x.IsDeleted);
+
+        if (!userExists)
+        {
+            throw new NotFoundException("User not found.");
+        }
+
+        var blogs = await _context.Blogs
+            .Where(x => x.UserId == userId)
+            .ToListAsync();
+
+        var followersCount = await _context.Follows
+            .CountAsync(x =>
+                x.FollowingUserId == userId);
+
+        var followingCount = await _context.Follows
+            .CountAsync(x =>
+                x.FollowerUserId == userId);
+
+        return new UserStatsDto
+        {
+            UserId = userId,
+            BlogsCount = blogs.Count,
+            PublishedBlogsCount = blogs.Count(
+                x => x.Status == BlogStatus.Published),
+            ViewsCount = blogs.Sum(x => x.ViewsCount),
+            LikesCount = blogs.Sum(x => x.LikesCount),
+            CommentsCount = blogs.Sum(x => x.CommentsCount),
+            BookmarksCount = blogs.Sum(x => x.BookmarksCount),
+            RepostsCount = blogs.Sum(x => x.RepostsCount),
+            FollowersCount = followersCount,
+            FollowingCount = followingCount
+        };
+    }
+
+    public async Task<List<UserActivityDto>> GetActivityAsync(int userId)
+    {
+        var activities = new List<UserActivityDto>();
+
+        var publishedBlogs = await _context.Blogs
+            .Where(x =>
+                x.UserId == userId &&
+                x.Status == BlogStatus.Published &&
+                x.PublishedAt.HasValue)
+            .Select(x => new UserActivityDto
+            {
+                ActivityType = "Published",
+                BlogId = x.BlogId,
+                BlogTitle = x.Title,
+                ActivityDate = x.PublishedAt.Value
+            })
+            .ToListAsync();
+
+        activities.AddRange(publishedBlogs);
+
+        var likedBlogs = await _context.Likes
+            .Where(x => x.UserId == userId)
+            .Join(
+                _context.Blogs,
+                like => like.BlogId,
+                blog => blog.BlogId,
+                (like, blog) => new UserActivityDto
+                {
+                    ActivityType = "Liked",
+                    BlogId = blog.BlogId,
+                    BlogTitle = blog.Title,
+                    ActivityDate = like.CreatedAt
+                })
+            .ToListAsync();
+
+        activities.AddRange(likedBlogs);
+
+        var commentedBlogs = await _context.Comments
+            .Where(x => x.UserId == userId)
+            .Join(
+                _context.Blogs,
+                comment => comment.BlogId,
+                blog => blog.BlogId,
+                (comment, blog) => new UserActivityDto
+                {
+                    ActivityType = "Commented",
+                    BlogId = blog.BlogId,
+                    BlogTitle = blog.Title,
+                    ActivityDate = comment.CreatedAt
+                })
+            .ToListAsync();
+
+        activities.AddRange(commentedBlogs);
+
+        var repostedBlogs = await _context.Reposts
+            .Where(x => x.UserId == userId)
+            .Join(
+                _context.Blogs,
+                repost => repost.BlogId,
+                blog => blog.BlogId,
+                (repost, blog) => new UserActivityDto
+                {
+                    ActivityType = "Reposted",
+                    BlogId = blog.BlogId,
+                    BlogTitle = blog.Title,
+                    ActivityDate = repost.CreatedAt
+                })
+            .ToListAsync();
+
+        activities.AddRange(repostedBlogs);
+
+        return activities
+            .OrderByDescending(x => x.ActivityDate)
+            .ToList();
+    }
+
+    public async Task<List<UserSearchDto>> SearchUsersAsync(
+    string searchTerm,
+    int currentUserId)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            return new List<UserSearchDto>();
+        }
+
+        searchTerm = searchTerm.Trim();
+
+        return await _context.Users
+            .Where(x =>
+                !x.IsDeleted &&
+                x.UserId != currentUserId &&
+                x.UserName.Contains(searchTerm))
+            .OrderBy(x => x.UserName)
+            .Select(x => new UserSearchDto
+            {
+                UserId = x.UserId,
+                UserName = x.UserName,
+                ProfilePictureUrl = x.ProfilePictureUrl
+            })
+            .ToListAsync();
+    }
+
+    public async Task<List<UserSuggestionDto>> GetUserSuggestionsAsync(
+    int currentUserId)
+    {
+        var followingUserIds = await _context.Follows
+            .Where(x =>
+                x.FollowerUserId == currentUserId)
+            .Select(x =>
+                x.FollowingUserId)
+            .ToListAsync();
+
+        return await _context.Users
+            .Where(x =>
+                !x.IsDeleted &&
+                x.UserId != currentUserId &&
+                !followingUserIds.Contains(x.UserId))
+            .OrderBy(x => x.UserName)
+            .Take(10)
+            .Select(x => new UserSuggestionDto
+            {
+                UserId = x.UserId,
+                UserName = x.UserName,
+                ProfilePictureUrl = x.ProfilePictureUrl
+            })
+            .ToListAsync();
+    }
+
+    public async Task<List<UserBadgeDto>> GetUserBadgesAsync(int userId)
+    {
+        var userExists = await _context.Users
+            .AnyAsync(x =>
+                x.UserId == userId &&
+                !x.IsDeleted);
+
+        if (!userExists)
+        {
+            throw new NotFoundException("User not found.");
+        }
+
+        return await _context.UserBadges
+            .Where(x => x.UserId == userId)
+            .Join(
+                _context.Badges,
+                userBadge => userBadge.BadgeId,
+                badge => badge.BadgeId,
+                (userBadge, badge) => new UserBadgeDto
+                {
+                    BadgeId = badge.BadgeId,
+                    BadgeName = badge.Name,
+                    Description = badge.Description,
+                    EarnedAt = userBadge.EarnedAt
+                })
+            .OrderByDescending(x => x.EarnedAt)
+            .ToListAsync();
+    }
 }

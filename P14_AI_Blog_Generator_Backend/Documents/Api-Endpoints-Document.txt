@@ -14,7 +14,7 @@ POST	     /api/auth/logout				Logout user and revoke refresh token
 Method	     Endpoint					Description
 GET	     /api/profile				Get logged-in user's profile
 PUT	     /api/profile				Update profile details
-PUT          /api/profile/change-password               Can change his password
+PUT          /api/profile/change-password               Can change his password--
 POST	     /api/profile/upload-picture		Upload profile picture
 DELETE	     /api/profile				Delete user account
 DELETE       /api/profile/picture			Delete profile picture

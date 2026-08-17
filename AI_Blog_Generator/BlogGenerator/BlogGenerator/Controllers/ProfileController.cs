@@ -106,11 +106,9 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("{userId}")]
-    [Authorize]
     public async Task<IActionResult> GetPublicProfile(int userId)
     {
-        var currentUserId = int.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var currentUserId = UserId;
 
         var result = await _profileService
             .GetPublicProfileAsync(userId, currentUserId);
@@ -119,7 +117,6 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("{userId}/blogs")]
-    [Authorize]
     public async Task<IActionResult> GetUserBlogs(int userId)
     {
         var result = await _profileService
@@ -129,11 +126,9 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPost("{userId}/follow")]
-    [Authorize]
     public async Task<IActionResult> FollowUser(int userId)
     {
-        var currentUserId = int.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var currentUserId = UserId;
 
         var result = await _profileService
             .FollowUserAsync(currentUserId, userId);
@@ -142,7 +137,6 @@ public class ProfileController : ControllerBase
     }
 
     [HttpDelete("{userId}/follow")]
-    [Authorize]
     public async Task<IActionResult> UnfollowUser(int userId)
     {
         var currentUserId = int.Parse(
@@ -155,11 +149,9 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("followers")]
-    [Authorize]
     public async Task<IActionResult> GetFollowers()
     {
-        var currentUserId = int.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var currentUserId = UserId;
 
         var result = await _profileService
             .GetFollowersAsync(currentUserId);
@@ -168,11 +160,9 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("following")]
-    [Authorize]
     public async Task<IActionResult> GetFollowing()
     {
-        var currentUserId = int.Parse(
-            User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var currentUserId = UserId;
 
         var result = await _profileService
             .GetFollowingAsync(currentUserId);
@@ -181,7 +171,6 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("{userId}/followers")]
-    [Authorize]
     public async Task<IActionResult> GetUserFollowers(int userId)
     {
         var result = await _profileService
@@ -191,11 +180,84 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("{userId}/following")]
-    [Authorize]
     public async Task<IActionResult> GetUserFollowing(int userId)
     {
         var result = await _profileService
             .GetUserFollowingAsync(userId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("saved-blogs")]
+    public async Task<IActionResult> GetSavedBlogs()
+    {
+        var currentUserId = UserId;
+
+        var result = await _profileService
+            .GetSavedBlogsAsync(currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("liked-blogs")]
+    public async Task<IActionResult> GetLikedBlogs()
+    {
+        var currentUserId = UserId;
+
+        var result = await _profileService
+            .GetLikedBlogsAsync(currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{userId}/stats")]
+    public async Task<IActionResult> GetUserStats(int userId)
+    {
+        var result = await _profileService
+            .GetUserStatsAsync(userId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("activity")]
+    public async Task<IActionResult> GetActivity()
+    {
+        var currentUserId = UserId;
+
+        var result = await _profileService
+            .GetActivityAsync(currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchUsers(
+        [FromQuery] string searchTerm)
+    {
+        var currentUserId = UserId;
+
+        var result = await _profileService
+            .SearchUsersAsync(searchTerm, currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("suggestions")]
+    public async Task<IActionResult> GetUserSuggestions()
+    {
+        var currentUserId = UserId;
+
+        var result = await _profileService
+            .GetUserSuggestionsAsync(currentUserId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{userId}/badges")]
+    public async Task<IActionResult> GetUserBadges(int userId)
+    {
+        var result = await _profileService
+            .GetUserBadgesAsync(userId);
 
         return Ok(result);
     }
