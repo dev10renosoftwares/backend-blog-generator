@@ -30,4 +30,23 @@ public interface IBlogService
     Task DeleteImageAsync(
         int userId,
         int imageId);
+
+    Task<BlogResponseDto> PublishBlogAsync(
+        int blogId,
+        int userId);
+
+    Task<BlogResponseDto> UnpublishBlogAsync(
+        int blogId,
+        int userId);
+
+    Task<BlogResponseDto> UpdateBlogAsync(
+        int blogId,
+        int userId,
+        UpdateBlogRequestDto request);
+
+    Task<List<BlogResponseDto>> GetDraftBlogsAsync(
+        int userId);
+
+    Task<List<BlogResponseDto>> GetPublishedBlogsAsync(
+        int userId);
 }

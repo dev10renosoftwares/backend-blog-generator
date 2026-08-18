@@ -77,7 +77,6 @@ GET	    /api/blogs/published	                Get all published blogs of the logg
 Note: Copy Blog does not require a backend API because copying text is handled by the frontend/browser.
 
 
-
 5. Credit APIs:
 
 Method	    Endpoint					Description

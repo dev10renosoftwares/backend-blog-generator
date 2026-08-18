@@ -3,7 +3,9 @@ using BlogGenerator.Foundation.Exceptions;
 using BlogGenerator.Interfaces.Blog;
 using BlogGenerator.ServiceModels.v1.Blog;
 using Microsoft.EntityFrameworkCore;
+using BlogEntity = BlogGenerator.DomainModels.v1.Blog;
 using QuestPDF.Fluent;
+using BlogGenerator.Enums;
 
 namespace BlogGenerator.BAL.Blog;
 
@@ -20,7 +22,23 @@ public class BlogService : IBlogService
         _context = context;
         _logger = logger;
     }
-
+    private static BlogResponseDto MapBlogToDto(BlogEntity blog)
+    {
+        return new BlogResponseDto
+        {
+            BlogId = blog.BlogId,
+            Title = blog.Title,
+            Content = blog.Content,
+            Excerpt = blog.Excerpt,
+            Tone = blog.Tone,
+            Audience = blog.Audience,
+            WordCount = blog.WordCount,
+            Status = blog.Status.ToString(),
+            PublishedAt = blog.PublishedAt,
+            CreatedAt = blog.CreatedAt,
+            UpdatedAt = blog.UpdatedAt
+        };
+    }
     public async Task<List<BlogListDto>> GetBlogsAsync(int userId)
     {
         var blogs = await _context.Blogs
@@ -286,5 +304,157 @@ public class BlogService : IBlogService
         _logger.LogInformation(
             "Image {ImageId} deleted successfully.",
             imageId);
+    }
+
+    public async Task<BlogResponseDto> PublishBlogAsync(
+    int blogId,
+    int userId)
+    {
+        var blog = await _context.Blogs
+            .FirstOrDefaultAsync(x =>
+                x.BlogId == blogId &&
+                x.UserId == userId);
+
+        if (blog == null)
+        {
+            throw new NotFoundException("Blog not found.");
+        }
+
+        if (blog.Status == BlogStatus.Published)
+        {
+            throw new BadRequestException(
+                "Blog is already published.");
+        }
+
+        blog.Status = BlogStatus.Published;
+        blog.PublishedAt = DateTime.UtcNow;
+        blog.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        _logger.LogInformation(
+            "Blog {BlogId} published by User {UserId}.",
+            blogId,
+            userId);
+
+        return MapBlogToDto(blog);
+    }
+
+    public async Task<BlogResponseDto> UnpublishBlogAsync(
+    int blogId,
+    int userId)
+    {
+        var blog = await _context.Blogs
+            .FirstOrDefaultAsync(x =>
+                x.BlogId == blogId &&
+                x.UserId == userId);
+
+        if (blog == null)
+        {
+            throw new NotFoundException("Blog not found.");
+        }
+
+        if (blog.Status != BlogStatus.Published)
+        {
+            throw new BadRequestException(
+                "Blog is not currently published.");
+        }
+
+        blog.Status = BlogStatus.Draft;
+        blog.PublishedAt = null;
+        blog.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        _logger.LogInformation(
+            "Blog {BlogId} unpublished by User {UserId}.",
+            blogId,
+            userId);
+
+        return MapBlogToDto(blog);
+    }
+
+    public async Task<BlogResponseDto> UpdateBlogAsync(
+    int blogId,
+    int userId,
+    UpdateBlogRequestDto request)
+    {
+        var blog = await _context.Blogs
+            .FirstOrDefaultAsync(x =>
+                x.BlogId == blogId &&
+                x.UserId == userId);
+
+        if (blog == null)
+        {
+            throw new NotFoundException("Blog not found.");
+        }
+
+        blog.Title = request.Title;
+        blog.Content = request.Content;
+        blog.Excerpt = request.Excerpt;
+        blog.Tone = request.Tone;
+        blog.Audience = request.Audience;
+        blog.WordCount = request.WordCount;
+        blog.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        _logger.LogInformation(
+            "Blog {BlogId} updated by User {UserId}.",
+            blogId,
+            userId);
+
+        return MapBlogToDto(blog);
+    }
+
+    public async Task<List<BlogResponseDto>> GetDraftBlogsAsync(
+    int userId)
+    {
+        return await _context.Blogs
+            .Where(x =>
+                x.UserId == userId &&
+                x.Status == BlogStatus.Draft)
+            .OrderByDescending(x => x.UpdatedAt ?? x.CreatedAt)
+            .Select(x => new BlogResponseDto
+            {
+                BlogId = x.BlogId,
+                Title = x.Title,
+                Content = x.Content,
+                Excerpt = x.Excerpt,
+                Tone = x.Tone,
+                Audience = x.Audience,
+                WordCount = x.WordCount,
+                Status = x.Status.ToString(),
+                PublishedAt = x.PublishedAt,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt
+            })
+            .ToListAsync();
+    }
+
+    public async Task<List<BlogResponseDto>> GetPublishedBlogsAsync(
+    int userId)
+    {
+        return await _context.Blogs
+            .Where(x =>
+                x.UserId == userId &&
+                x.Status == BlogStatus.Published &&
+                x.PublishedAt.HasValue)
+            .OrderByDescending(x => x.PublishedAt)
+            .Select(x => new BlogResponseDto
+            {
+                BlogId = x.BlogId,
+                Title = x.Title,
+                Content = x.Content,
+                Excerpt = x.Excerpt,
+                Tone = x.Tone,
+                Audience = x.Audience,
+                WordCount = x.WordCount,
+                Status = x.Status.ToString(),
+                PublishedAt = x.PublishedAt,
+                CreatedAt = x.CreatedAt,
+                UpdatedAt = x.UpdatedAt
+            })
+            .ToListAsync();
     }
 }
