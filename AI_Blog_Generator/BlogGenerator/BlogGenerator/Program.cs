@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using BlogGenerator.DAL;
+using BlogGenerator.BAL;
 using BlogGenerator.Foundation.Middlewares;
 using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,7 +15,7 @@ using BlogGenerator.BAL.Profile;
 using BlogGenerator.BAL.Blog;
 using BlogGenerator.Interfaces.Blog;
 using BlogGenerator.Services;
-using BlogGenerator.BAL;
+using BlogGenerator.BAL.Category;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,6 +73,10 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 
 builder.Services.AddScoped<ICreditService, CreditService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IAIBlogService, AIBlogService>();
+builder.Services.AddScoped<IAIProviderService, AIProviderService>();
 
 var app = builder.Build();
 
