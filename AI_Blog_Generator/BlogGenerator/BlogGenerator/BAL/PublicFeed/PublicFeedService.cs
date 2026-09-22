@@ -29,9 +29,9 @@ public class PublicFeedService : IPublicFeedService
         return await _context.Blogs
             .AsNoTracking()
             .Where(x =>
-                x.Status == BlogStatus.Published &&
-                x.Visibility == BlogVisibility.Public)
-            .OrderByDescending(x => x.PublishedAt)
+                x.Status == BlogStatus.Published )
+                //x.Visibility == BlogVisibility.Public)
+            //.OrderByDescending(x => x.PublishedAt)
             .Select(x => new FeedBlogDto
             {
                 BlogId = x.BlogId,
@@ -61,7 +61,35 @@ public class PublicFeedService : IPublicFeedService
             })
             .ToListAsync();
     }
+    //public async Task<List<FeedBlogDto>> GetFeedAsync()
+    //{
+    //    var blogs = await _context.Blogs
+    //.AsNoTracking()
+    //.Where(x => x.Status == BlogStatus.Published)
+    //.Select(x => new FeedBlogDto
+    //{
+    //    BlogId = x.BlogId,
+    //    Title = x.Title,
+    //    Slug = x.Slug,
+    //    Excerpt = x.Excerpt,
+    //    PublishedAt = x.PublishedAt,
+    //    UserId = x.UserId,
+    //    WordCount = x.WordCount,
+    //    ViewCount = x.ViewsCount,
+    //    LikeCount = x.LikesCount,
+    //    CommentCount = x.CommentsCount,
+    //    AuthorName = x.User.UserName,
+    //    CategoryId = x.CategoryId,
+    //    CategoryName = x.Category.Name,
+    //    CoverImageUrl = x.BlogImages
+    //.OrderBy(i => i.DisplayOrder)
+    //.Select(i => i.ImageUrl)
+    //.FirstOrDefault(),
+    //})
+    //.ToListAsync();
 
+    //    return blogs;
+    //}
     // =========================================================
     // 2. GET TRENDING
     // GET /api/feed/trending
@@ -277,8 +305,7 @@ public class PublicFeedService : IPublicFeedService
             .AsNoTracking()
             .Where(x =>
                 x.BlogId == blogId &&
-                x.Status == BlogStatus.Published &&
-                x.Visibility == BlogVisibility.Public)
+                x.Status == BlogStatus.Published )
             .Select(x => new FeedBlogDetailsDto
             {
                 BlogId = x.BlogId,

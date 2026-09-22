@@ -152,6 +152,20 @@ GET	    /api/admin/statistics	                  Get detailed platform analytics 
 
 POST        /api/admin/categories                             Add Category
 
+| Method | Endpoint                                           | Description                                                     |
+| ------ | -------------------------------------------------- | --------------------------------------------------------------- |
+| GET    | `/api/admin/blogs/pending-approval`                | Get all blogs submitted by users and waiting for admin approval |
+| GET    | `/api/admin/blogs/{blogId}/approval`               | View details of a specific blog submitted for approval          |
+| PUT    | `/api/admin/blogs/{blogId}/approve`                | Approve a blog and publish it                                   |
+| PUT    | `/api/admin/blogs/{blogId}/reject`                 | Reject a blog submitted for approval                            |
+| GET    | `/api/admin/users/{userId}/blogs/pending-approval` | View blogs of a specific user that are waiting for approval     |
+
+| Method | Endpoint                            | Description                                              |
+| ------ | ----------------------------------- | -------------------------------------------------------- |
+| GET    | `/api/admin/blogs/initial-approval` | Get users' first three blogs that require admin approval |
+| PUT    | `/api/admin/blogs/{blogId}/reject`  | Reject the blog and return it to rejected status         |
+
+
 
 11. Public Feed APIs:
 

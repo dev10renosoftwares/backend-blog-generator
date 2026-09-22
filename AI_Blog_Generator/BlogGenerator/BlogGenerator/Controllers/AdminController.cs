@@ -248,4 +248,86 @@ public class AdminController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("blogs/pending-approval")]
+    public async Task<IActionResult> GetPendingApprovalBlogs()
+    {
+        var result =
+            await _adminService.GetPendingApprovalBlogsAsync();
+
+        return Ok(result);
+    }
+
+    [HttpGet("blogs/{blogId}/approval")]
+    public async Task<IActionResult> GetBlogForApproval(int blogId)
+    {
+        var result =
+            await _adminService.GetBlogForApprovalAsync(blogId);
+
+        if (!result.Success)
+            return NotFound(result);
+
+        return Ok(result);
+    }
+
+    [HttpPut("blogs/{blogId}/approve")]
+    public async Task<IActionResult> ApproveBlog(int blogId)
+    {
+        var adminUserId = GetUserId();
+
+        var result =
+            await _adminService.ApproveBlogAsync(
+                blogId,
+                adminUserId);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    [HttpPut("blogs/{blogId}/reject")]
+    public async Task<IActionResult> RejectBlog(int blogId)
+    {
+        var adminUserId = GetUserId();
+
+        var result =
+            await _adminService.RejectBlogAsync(
+                blogId,
+                adminUserId);
+
+        if (!result.Success)
+            return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    [HttpGet("users/{userId}/blogs/pending-approval")]
+    public async Task<IActionResult>
+        GetUserPendingApprovalBlogs(int userId)
+    {
+        var result =
+            await _adminService
+                .GetUserPendingApprovalBlogsAsync(userId);
+
+        return Ok(result);
+    }
+
+    [HttpGet("blogs/initial-approval")]
+    public async Task<IActionResult> GetInitialApprovalBlogs()
+    {
+        var result =
+            await _adminService
+                .GetInitialApprovalBlogsAsync();
+
+        return Ok(result);
+    }
+
+    private int GetUserId()
+    {
+        return int.Parse(
+            User.FindFirst("UserId")?.Value
+            ?? throw new UnauthorizedAccessException(
+                "User ID not found."));
+    }
 }

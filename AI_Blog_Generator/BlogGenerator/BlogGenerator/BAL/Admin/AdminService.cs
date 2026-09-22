@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using BlogGenerator.DAL;
 using CategoryEntity = BlogGenerator.DomainModels.v1.Category;
 using BlogGenerator.ServiceModels.v1.Category;
+using BlogGenerator.ServiceModels.v1.Foundation;
 
 namespace BlogGenerator.BAL;
 
@@ -637,4 +638,235 @@ public class AdminService : IAdminService
             CreatedAt = category.CreatedAt
         };
     }
+
+    public async Task<ApiResponse<List<AdminBlogApprovalDto>>>
+            GetPendingApprovalBlogsAsync()
+    {
+        var blogs = await _context.Blogs
+            .AsNoTracking()
+            .Where(x => x.Status == BlogStatus.PendingApproval)
+            .OrderBy(x => x.CreatedAt)
+            .Select(x => new AdminBlogApprovalDto
+            {
+                BlogId = x.BlogId,
+                UserId = x.UserId,
+                Username = x.User.UserName,
+                Title = x.Title,
+                Slug = x.Slug,
+                Excerpt = x.Excerpt,
+                Content = x.Content,
+                CategoryId = x.CategoryId,
+                CategoryName = x.Category.Name,
+                Status = x.Status,
+                CreatedAt = x.CreatedAt,
+                PublishedAt = x.PublishedAt
+            })
+            .ToListAsync();
+
+        return new ApiResponse<List<AdminBlogApprovalDto>>
+        {
+            Success = true,
+            Message = "Pending approval blogs retrieved successfully.",
+            Data = blogs
+        };
+    }
+
+    public async Task<ApiResponse<AdminBlogApprovalDto>>
+    GetBlogForApprovalAsync(int blogId)
+    {
+        var blog = await _context.Blogs
+            .AsNoTracking()
+            .Where(x =>
+                x.BlogId == blogId &&
+                x.Status == BlogStatus.PendingApproval)
+            .Select(x => new AdminBlogApprovalDto
+            {
+                BlogId = x.BlogId,
+                UserId = x.UserId,
+                Username = x.User.UserName,
+                Title = x.Title,
+                Slug = x.Slug,
+                Excerpt = x.Excerpt,
+                Content = x.Content,
+                CategoryId = x.CategoryId,
+                CategoryName = x.Category.Name,
+                Status = x.Status,
+                CreatedAt = x.CreatedAt,
+                PublishedAt = x.PublishedAt
+            })
+            .FirstOrDefaultAsync();
+
+        if (blog == null)
+        {
+            return new ApiResponse<AdminBlogApprovalDto>
+            {
+                Success = false,
+                Message = "Blog not found or is not pending approval.",
+                Data = null
+            };
+        }
+
+        return new ApiResponse<AdminBlogApprovalDto>
+        {
+            Success = true,
+            Message = "Blog retrieved successfully.",
+            Data = blog
+        };
+    }
+
+    public async Task<ApiResponse<BlogApprovalResponseDto>>
+    ApproveBlogAsync(int blogId, int adminUserId)
+    {
+        var blog = await _context.Blogs
+            .FirstOrDefaultAsync(x => x.BlogId == blogId);
+
+        if (blog == null)
+        {
+            return new ApiResponse<BlogApprovalResponseDto>
+            {
+                Success = false,
+                Message = "Blog not found."
+            };
+        }
+
+        if (blog.Status != BlogStatus.PendingApproval)
+        {
+            return new ApiResponse<BlogApprovalResponseDto>
+            {
+                Success = false,
+                Message = "Only blogs pending approval can be approved."
+            };
+        }
+
+        blog.Status = BlogStatus.Published;
+        blog.PublishedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<BlogApprovalResponseDto>
+        {
+            Success = true,
+            Message = "Blog approved and published successfully.",
+            Data = new BlogApprovalResponseDto
+            {
+                BlogId = blog.BlogId,
+                Status = blog.Status.ToString(),
+                Message = "Blog approved and published successfully."
+            }
+        };
+    }
+
+    public async Task<ApiResponse<BlogApprovalResponseDto>>
+    RejectBlogAsync(int blogId, int adminUserId)
+    {
+        var blog = await _context.Blogs
+            .FirstOrDefaultAsync(x => x.BlogId == blogId);
+
+        if (blog == null)
+        {
+            return new ApiResponse<BlogApprovalResponseDto>
+            {
+                Success = false,
+                Message = "Blog not found."
+            };
+        }
+
+        if (blog.Status != BlogStatus.PendingApproval)
+        {
+            return new ApiResponse<BlogApprovalResponseDto>
+            {
+                Success = false,
+                Message = "Only blogs pending approval can be rejected."
+            };
+        }
+
+        blog.Status = BlogStatus.Rejected;
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<BlogApprovalResponseDto>
+        {
+            Success = true,
+            Message = "Blog rejected successfully.",
+            Data = new BlogApprovalResponseDto
+            {
+                BlogId = blog.BlogId,
+                Status = blog.Status.ToString(),
+                Message = "Blog rejected successfully."
+            }
+        };
+    }
+
+    public async Task<ApiResponse<List<AdminBlogApprovalDto>>>
+    GetUserPendingApprovalBlogsAsync(int userId)
+    {
+        var blogs = await _context.Blogs
+            .AsNoTracking()
+            .Where(x =>
+                x.UserId == userId &&
+                x.Status == BlogStatus.PendingApproval)
+            .OrderBy(x => x.CreatedAt)
+            .Select(x => new AdminBlogApprovalDto
+            {
+                BlogId = x.BlogId,
+                UserId = x.UserId,
+                Username = x.User.UserName,
+                Title = x.Title,
+                Slug = x.Slug,
+                Excerpt = x.Excerpt,
+                Content = x.Content,
+                CategoryId = x.CategoryId,
+                CategoryName = x.Category.Name,
+                Status = x.Status,
+                CreatedAt = x.CreatedAt,
+                PublishedAt = x.PublishedAt
+            })
+            .ToListAsync();
+
+        return new ApiResponse<List<AdminBlogApprovalDto>>
+        {
+            Success = true,
+            Message = "User pending approval blogs retrieved successfully.",
+            Data = blogs
+        };
+    }
+
+    public async Task<ApiResponse<List<AdminBlogApprovalDto>>>
+    GetInitialApprovalBlogsAsync()
+    {
+        var blogs = await _context.Blogs
+            .AsNoTracking()
+            .Where(blog =>
+                blog.Status == BlogStatus.PendingApproval &&
+                _context.Blogs.Count(previousBlog =>
+                    previousBlog.UserId == blog.UserId &&
+                    previousBlog.BlogId != blog.BlogId &&
+                    previousBlog.Status == BlogStatus.Published) < 3)
+            .OrderBy(x => x.UserId)
+            .ThenBy(x => x.CreatedAt)
+            .Select(x => new AdminBlogApprovalDto
+            {
+                BlogId = x.BlogId,
+                UserId = x.UserId,
+                Username = x.User.UserName,
+                Title = x.Title,
+                Slug = x.Slug,
+                Excerpt = x.Excerpt,
+                Content = x.Content,
+                CategoryId = x.CategoryId,
+                CategoryName = x.Category.Name,
+                Status = x.Status,
+                CreatedAt = x.CreatedAt,
+                PublishedAt = x.PublishedAt
+            })
+            .ToListAsync();
+
+        return new ApiResponse<List<AdminBlogApprovalDto>>
+        {
+            Success = true,
+            Message = "Initial approval blogs retrieved successfully.",
+            Data = blogs
+        };
+    }
+
 }

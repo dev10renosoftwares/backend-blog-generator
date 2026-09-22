@@ -1,5 +1,6 @@
 using BlogGenerator.ServiceModels.v1;
 using BlogGenerator.ServiceModels.v1.Category;
+using BlogGenerator.ServiceModels.v1.Foundation;
 
 namespace BlogGenerator.Interfaces;
 
@@ -51,4 +52,21 @@ public interface IAdminService
 
     Task<CategoryResponseDto> AddCategoryAsync(
         CategoryRequestDto request);
+
+    Task<ApiResponse<List<AdminBlogApprovalDto>>> GetPendingApprovalBlogsAsync();
+
+    Task<ApiResponse<AdminBlogApprovalDto>> GetBlogForApprovalAsync(int blogId);
+
+    Task<ApiResponse<BlogApprovalResponseDto>> ApproveBlogAsync(
+        int blogId,
+        int adminUserId);
+
+    Task<ApiResponse<BlogApprovalResponseDto>> RejectBlogAsync(
+        int blogId,
+        int adminUserId);
+
+    Task<ApiResponse<List<AdminBlogApprovalDto>>> GetUserPendingApprovalBlogsAsync(
+        int userId);
+
+    Task<ApiResponse<List<AdminBlogApprovalDto>>> GetInitialApprovalBlogsAsync();
 }
