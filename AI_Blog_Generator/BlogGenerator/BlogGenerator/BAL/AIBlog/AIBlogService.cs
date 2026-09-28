@@ -5,6 +5,7 @@ using BlogGenerator.ServiceModels.v1.AIBlog;
 using BlogGenerator.DomainModels.v1;
 using Microsoft.EntityFrameworkCore;
 using BlogGenerator.Interfaces;
+using BlogGenerator.DomainModels.v1;
 
 using BlogEntity = BlogGenerator.DomainModels.v1.Blog;
 
@@ -56,7 +57,7 @@ public class AIBlogService : IAIBlogService
         if (!categoryExists)
             throw new KeyNotFoundException("Category not found.");
 
-        const int creditsRequired = 5;
+        const int creditsRequired = 10;
 
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(
@@ -146,7 +147,7 @@ public class AIBlogService : IAIBlogService
     {
         var blog = await GetUserBlogAsync(userId, blogId);
 
-        const int creditsRequired = 5;
+        const int creditsRequired = 6;
 
         var user = await GetUserAsync(userId);
 
@@ -205,7 +206,7 @@ public class AIBlogService : IAIBlogService
         var blog = await GetUserBlogAsync(userId, blogId);
         var user = await GetUserAsync(userId);
 
-        const int creditsRequired = 2;
+        const int creditsRequired = 5;
 
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(
@@ -256,7 +257,7 @@ public class AIBlogService : IAIBlogService
         var blog = await GetUserBlogAsync(userId, blogId);
         var user = await GetUserAsync(userId);
 
-        const int creditsRequired = 2;
+        const int creditsRequired = 3;
 
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(
@@ -307,7 +308,7 @@ public class AIBlogService : IAIBlogService
         var blog = await GetUserBlogAsync(userId, blogId);
         var user = await GetUserAsync(userId);
 
-        const int creditsRequired = 10;
+        const int creditsRequired = 12;
 
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(
@@ -403,7 +404,7 @@ public class AIBlogService : IAIBlogService
         var blog = await GetUserBlogAsync(userId, blogId);
         var user = await GetUserAsync(userId);
 
-        const int creditsRequired = 5;
+        const int creditsRequired = 8;
 
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(
@@ -598,7 +599,7 @@ public class AIBlogService : IAIBlogService
         var blog = await GetUserBlogAsync(userId, blogId);
         var user = await GetUserAsync(userId);
 
-        const int creditsRequired = 2;
+        const int creditsRequired = 4;
 
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(

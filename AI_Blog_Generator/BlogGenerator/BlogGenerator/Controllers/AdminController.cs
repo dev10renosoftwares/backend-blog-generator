@@ -3,6 +3,7 @@ using BlogGenerator.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BlogGenerator.ServiceModels.v1.Category;
+using System.Security.Claims;
 
 namespace BlogGenerator.Controllers;
 
@@ -326,7 +327,7 @@ public class AdminController : ControllerBase
     private int GetUserId()
     {
         return int.Parse(
-            User.FindFirst("UserId")?.Value
+            User.FindFirst(ClaimTypes.NameIdentifier)?.Value
             ?? throw new UnauthorizedAccessException(
                 "User ID not found."));
     }

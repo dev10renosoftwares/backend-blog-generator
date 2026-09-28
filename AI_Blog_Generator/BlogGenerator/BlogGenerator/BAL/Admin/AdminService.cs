@@ -715,7 +715,7 @@ public class AdminService : IAdminService
     }
 
     public async Task<ApiResponse<BlogApprovalResponseDto>>
-    ApproveBlogAsync(int blogId, int adminUserId)
+     ApproveBlogAsync(int blogId, int adminUserId)
     {
         var blog = await _context.Blogs
             .FirstOrDefaultAsync(x => x.BlogId == blogId);
@@ -734,12 +734,54 @@ public class AdminService : IAdminService
             return new ApiResponse<BlogApprovalResponseDto>
             {
                 Success = false,
-                Message = "Only blogs pending approval can be approved."
+                Message = "Only blogs with pending approval can be approved."
             };
         }
 
+        // ---------------------------------------------
+        // Approve the blog
+        // ---------------------------------------------
+
         blog.Status = BlogStatus.Published;
+        blog.Visibility = BlogVisibility.Public;
         blog.PublishedAt = DateTime.UtcNow;
+        blog.UpdatedAt = DateTime.UtcNow;
+
+        // ---------------------------------------------
+        // Count user's published blogs
+        // ---------------------------------------------
+
+        var publishedBlogCount = await _context.Blogs
+            .CountAsync(x =>
+                x.UserId == blog.UserId &&
+                x.Status == BlogStatus.Published);
+
+        // ---------------------------------------------
+        // Assign Trusted badge after 3rd approval
+        // ---------------------------------------------
+
+        if (publishedBlogCount >= 3)
+        {
+            var trustedBadge = await _context.Badges
+                .FirstOrDefaultAsync(x => x.Name == "Trusted");
+
+            if (trustedBadge != null)
+            {
+                var alreadyTrusted = await _context.UserBadges
+                    .AnyAsync(x =>
+                        x.UserId == blog.UserId &&
+                        x.BadgeId == trustedBadge.BadgeId);
+
+                if (!alreadyTrusted)
+                {
+                    _context.UserBadges.Add(new UserBadges
+                    {
+                        UserId = blog.UserId,
+                        BadgeId = trustedBadge.BadgeId
+                    });
+                }
+            }
+        }
 
         await _context.SaveChangesAsync();
 
@@ -776,7 +818,7 @@ public class AdminService : IAdminService
             return new ApiResponse<BlogApprovalResponseDto>
             {
                 Success = false,
-                Message = "Only blogs pending approval can be rejected."
+                Message = "Only blogs with pending approval can be rejected."
             };
         }
 

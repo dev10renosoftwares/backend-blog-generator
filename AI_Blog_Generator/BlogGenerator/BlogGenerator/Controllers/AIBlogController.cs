@@ -172,4 +172,17 @@ public class AIBlogController : ControllerBase
             Message = "Blog published successfully."
         });
     }
+
+    [HttpPost("{blogId}/translate")]
+    public async Task<IActionResult> TranslateBlog(
+       int blogId,
+       [FromBody] TranslateBlogRequestDto request)
+    {
+        var userId = GetUserId();
+
+        var result = await _aiBlogService
+            .TranslateBlogAsync(userId, blogId, request);
+
+        return Ok(result);
+    }
 }
