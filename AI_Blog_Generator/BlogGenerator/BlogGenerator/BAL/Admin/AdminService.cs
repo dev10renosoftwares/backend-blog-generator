@@ -374,6 +374,18 @@ public class AdminService : IAdminService
         feedback.Status = FeedbackStatus.Resolved;
         feedback.UpdatedAt = DateTime.UtcNow;
 
+        // Create notification
+        var notification = new Notification
+        {
+            UserId = feedback.UserId,
+            Title = "Feedback Resolved",
+            Message = $"Your feedback #{feedback.FeedbackId} has been resolved.",
+            IsRead = false,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _context.Notifications.AddAsync(notification);
+
         await _context.SaveChangesAsync();
 
         return true;
@@ -416,6 +428,18 @@ public class AdminService : IAdminService
         issue.Status = IssueStatus.Resolved;
         issue.ResolvedAt = DateTime.UtcNow;
         issue.UpdatedAt = DateTime.UtcNow;
+
+        // Create notification
+        var notification = new Notification
+        {
+            UserId = issue.UserId,
+            Title = "Issue Resolved",
+            Message = $"Your issue #{issue.IssueId} has been resolved.",
+            IsRead = false,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _context.Notifications.AddAsync(notification);
 
         await _context.SaveChangesAsync();
 

@@ -6,6 +6,8 @@ using BlogGenerator.DomainModels.v1;
 using Microsoft.EntityFrameworkCore;
 using BlogGenerator.Interfaces;
 using BlogGenerator.DomainModels.v1;
+using BlogGenerator.ServiceModels.v1.Blog;
+using BlogGenerator.Foundation.Exceptions;
 
 using BlogEntity = BlogGenerator.DomainModels.v1.Blog;
 
@@ -654,52 +656,31 @@ public class AIBlogService : IAIBlogService
     // 12. PUBLISH BLOG
     // =========================================================
 
-    public async Task<bool> PublishBlogAsync(
-      int userId,
-      int blogId)
+    public async Task<BlogResponseDto> PublishBlogAsync(
+    int userId,
+    int blogId)
     {
         var blog = await GetUserBlogAsync(userId, blogId);
 
         // Already published
         if (blog.Status == BlogStatus.Published)
+        {
             throw new InvalidOperationException(
                 "Blog is already published.");
+        }
 
         // Already waiting for admin
         if (blog.Status == BlogStatus.PendingApproval)
+        {
             throw new InvalidOperationException(
                 "Blog is already pending admin approval.");
+        }
 
         // Rejected blogs cannot be published again
         if (blog.Status == BlogStatus.Rejected)
+        {
             throw new InvalidOperationException(
                 "This blog was rejected and cannot be published.");
-
-        // ---------------------------------------------------------
-        // Check Trusted badge
-        // ---------------------------------------------------------
-
-        var isTrusted = await _context.UserBadges
-            .AnyAsync(x =>
-                x.UserId == userId &&
-                x.Badge.Name == "Trusted");
-
-        if (isTrusted)
-        {
-            // Trusted users can publish directly.
-            blog.Status = BlogStatus.Published;
-            blog.Visibility = BlogVisibility.Public;
-            blog.PublishedAt = DateTime.UtcNow;
-            blog.UpdatedAt = DateTime.UtcNow;
-
-            await _context.SaveChangesAsync();
-
-            _logger.LogInformation(
-                "Trusted user {UserId} published blog {BlogId}.",
-                userId,
-                blogId);
-
-            return true;
         }
 
         // ---------------------------------------------------------
@@ -712,16 +693,13 @@ public class AIBlogService : IAIBlogService
                 x.Status == BlogStatus.Published);
 
         // ---------------------------------------------------------
-        // First 3 blogs require admin approval
+        // First 3 blogs ALWAYS require admin approval
         // ---------------------------------------------------------
 
         if (approvedBlogCount < 3)
         {
             blog.Status = BlogStatus.PendingApproval;
-
-            // It must not appear publicly while waiting.
             blog.Visibility = BlogVisibility.Private;
-
             blog.PublishedAt = null;
             blog.UpdatedAt = DateTime.UtcNow;
 
@@ -734,24 +712,81 @@ public class AIBlogService : IAIBlogService
                 userId,
                 approvedBlogCount);
 
-            return true;
+            return MapBlogToDto(blog);
         }
 
-        /*
-         * IMPORTANT:
-         *
-         * At this point the user has 3 approved blogs,
-         * but if the Trusted badge has not yet been awarded,
-         * this should normally be handled by the admin approval
-         * process of the third blog.
-         *
-         * We do NOT award the badge here.
-         */
+        // ---------------------------------------------------------
+        // User has completed first 3 approved blogs
+        // ---------------------------------------------------------
+
+        var isTrusted = await _context.UserBadges
+            .AnyAsync(x =>
+                x.UserId == userId &&
+                x.Badge.Name == "Trusted");
+
+        // ---------------------------------------------------------
+        // Trusted users can publish directly
+        // ---------------------------------------------------------
+
+        if (isTrusted)
+        {
+            blog.Status = BlogStatus.Published;
+            blog.Visibility = BlogVisibility.Public;
+            blog.PublishedAt = DateTime.UtcNow;
+            blog.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Trusted user {UserId} published blog {BlogId}.",
+                userId,
+                blogId);
+
+            return MapBlogToDto(blog);
+        }
+
+        // ---------------------------------------------------------
+        // 3 approved blogs but Trusted badge is missing
+        // ---------------------------------------------------------
 
         throw new InvalidOperationException(
             "Your account is eligible for Trusted status, " +
             "but the Trusted badge has not yet been assigned. " +
             "Please contact an administrator.");
+    }
+
+    public async Task<BlogResponseDto> UnpublishBlogAsync(
+  int blogId,
+  int userId)
+    {
+        var blog = await _context.Blogs
+            .FirstOrDefaultAsync(x =>
+                x.BlogId == blogId &&
+                x.UserId == userId);
+
+        if (blog == null)
+        {
+            throw new NotFoundException("Blog not found.");
+        }
+
+        if (blog.Status != BlogStatus.Published)
+        {
+            throw new BadRequestException(
+                "Blog is not currently published.");
+        }
+
+        blog.Status = BlogStatus.Draft;
+        blog.PublishedAt = null;
+        blog.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        _logger.LogInformation(
+            "Blog {BlogId} unpublished by User {UserId}.",
+            blogId,
+            userId);
+
+        return MapBlogToDto(blog);
     }
 
     // =========================================================
@@ -858,5 +893,22 @@ public class AIBlogService : IAIBlogService
                     StringSplitOptions.RemoveEmptyEntries));
     }
 
+    private static BlogResponseDto MapBlogToDto(BlogEntity blog)
+    {
+        return new BlogResponseDto
+        {
+            BlogId = blog.BlogId,
+            Title = blog.Title,
+            Content = blog.Content,
+            Excerpt = blog.Excerpt,
+            Tone = blog.Tone,
+            Audience = blog.Audience,
+            WordCount = blog.WordCount,
+            Status = blog.Status.ToString(),
+            PublishedAt = blog.PublishedAt,
+            CreatedAt = blog.CreatedAt,
+            UpdatedAt = blog.UpdatedAt
+        };
+    }
 
 }

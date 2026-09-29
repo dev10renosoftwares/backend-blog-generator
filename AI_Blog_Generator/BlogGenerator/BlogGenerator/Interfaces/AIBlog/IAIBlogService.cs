@@ -1,4 +1,5 @@
 using BlogGenerator.ServiceModels.v1.AIBlog;
+using BlogGenerator.ServiceModels.v1.Blog;
 
 namespace BlogGenerator.Interfaces;
 
@@ -52,7 +53,12 @@ public interface IAIBlogService
     Task<List<TagDto>> GetTagsAsync(
         int userId,
         int blogId);
-    Task<bool> PublishBlogAsync(
-        int userId,
-        int blogId);
+
+    Task<BlogResponseDto> PublishBlogAsync(
+        int blogId,
+        int userId);
+
+    Task<BlogResponseDto> UnpublishBlogAsync(
+        int blogId,
+        int userId);
 }

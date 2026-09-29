@@ -155,22 +155,26 @@ public class AIBlogController : ControllerBase
     // POST /api/blogs/{blogId}/publish
     // =========================================================
 
-    [HttpPost("{blogId:int}/publish")]
-    [Authorize]
-    public async Task<IActionResult> PublishBlog(
-        int blogId)
+    [HttpPost("{blogId}/publish")]
+    public async Task<IActionResult> PublishBlog(int blogId)
     {
         var userId = GetUserId();
 
-        var result = await _aiBlogService.PublishBlogAsync(
-            userId,
-            blogId);
+        var result = await _aiBlogService
+            .PublishBlogAsync(blogId, userId);
 
-        return Ok(new
-        {
-            Success = result,
-            Message = "Blog published successfully."
-        });
+        return Ok(result);
+    }
+
+    [HttpPost("{blogId}/unpublish")]
+    public async Task<IActionResult> UnpublishBlog(int blogId)
+    {
+        var userId = GetUserId();
+
+        var result = await _aiBlogService
+            .UnpublishBlogAsync(blogId, userId);
+
+        return Ok(result);
     }
 
     [HttpPost("{blogId}/translate")]

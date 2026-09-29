@@ -107,38 +107,6 @@ public class BlogsController : ControllerBase
         });
     }
 
-    [HttpPost("{blogId}/publish")]
-    public async Task<IActionResult> PublishBlog(int blogId)
-    {
-        var userId = UserId;
-
-        var result = await _blogService
-            .PublishBlogAsync(blogId, userId);
-
-        return Ok(new ApiResponse<BlogResponseDto>
-        {
-            Success = true,
-            Message = "Blog published successfully.",
-            Data = result
-        });
-    }
-
-    [HttpPost("{blogId}/unpublish")]
-    public async Task<IActionResult> UnpublishBlog(int blogId)
-    {
-        var userId = UserId;
-
-        var result = await _blogService
-            .UnpublishBlogAsync(blogId, userId);
-
-        return Ok(new ApiResponse<BlogResponseDto>
-        {
-            Success = true,
-            Message = "Blog unpublished successfully.",
-            Data = result
-        });
-    }
-
     [HttpPut("{blogId}")]
     public async Task<IActionResult> UpdateBlog(
     int blogId,

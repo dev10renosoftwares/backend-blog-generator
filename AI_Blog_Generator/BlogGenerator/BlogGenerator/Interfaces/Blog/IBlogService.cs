@@ -31,14 +31,6 @@ public interface IBlogService
         int userId,
         int imageId);
 
-    Task<BlogResponseDto> PublishBlogAsync(
-        int blogId,
-        int userId);
-
-    Task<BlogResponseDto> UnpublishBlogAsync(
-        int blogId,
-        int userId);
-
     Task<BlogResponseDto> UpdateBlogAsync(
         int blogId,
         int userId,
