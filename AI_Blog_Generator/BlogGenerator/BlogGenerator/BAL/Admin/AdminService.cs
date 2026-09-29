@@ -375,10 +375,10 @@ public class AdminService : IAdminService
         feedback.UpdatedAt = DateTime.UtcNow;
 
         // Create notification
-        var notification = new Notification
+        var notification = new BlogGenerator.DomainModels.v1.Notifications
         {
-            UserId = feedback.UserId,
-            Title = "Feedback Resolved",
+            ReceiverUserId = feedback.UserId,
+            NotificationType = NotificationType.FeedbackResolved,
             Message = $"Your feedback #{feedback.FeedbackId} has been resolved.",
             IsRead = false,
             CreatedAt = DateTime.UtcNow
@@ -430,10 +430,10 @@ public class AdminService : IAdminService
         issue.UpdatedAt = DateTime.UtcNow;
 
         // Create notification
-        var notification = new Notification
+        var notification = new BlogGenerator.DomainModels.v1.Notifications
         {
-            UserId = issue.UserId,
-            Title = "Issue Resolved",
+            ReceiverUserId = issue.UserId,
+            NotificationType = NotificationType.IssueResolved,
             Message = $"Your issue #{issue.IssueId} has been resolved.",
             IsRead = false,
             CreatedAt = DateTime.UtcNow

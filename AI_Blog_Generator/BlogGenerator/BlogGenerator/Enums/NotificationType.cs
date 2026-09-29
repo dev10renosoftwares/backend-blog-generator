@@ -9,6 +9,8 @@
         Repost,
         BlogPublished,
         PaymentSuccess,
-        ReportResolved
+        ReportResolved,
+        IssueResolved,
+        FeedbackResolved
     }
 }
