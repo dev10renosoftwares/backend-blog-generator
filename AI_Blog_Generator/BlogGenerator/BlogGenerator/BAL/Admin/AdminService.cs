@@ -7,16 +7,21 @@ using BlogGenerator.DAL;
 using CategoryEntity = BlogGenerator.DomainModels.v1.Category;
 using BlogGenerator.ServiceModels.v1.Category;
 using BlogGenerator.ServiceModels.v1.Foundation;
+using BlogGenerator.Interfaces.ContentModeration;
 
 namespace BlogGenerator.BAL;
 
 public class AdminService : IAdminService
 {
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<AIBlogService> _logger;
+    private readonly IContentModerationService _contentModerationService;
 
-    public AdminService(ApplicationDbContext context)
+    public AdminService(ApplicationDbContext context, ILogger<AIBlogService> logger, IContentModerationService contentModeration)
     {
         _context = context;
+        _logger = logger;
+        _contentModerationService = contentModeration;
     }
 
     // ============================================================
@@ -739,7 +744,7 @@ public class AdminService : IAdminService
     }
 
     public async Task<ApiResponse<BlogApprovalResponseDto>>
-     ApproveBlogAsync(int blogId, int adminUserId)
+    ApproveBlogAsync(int blogId, int adminUserId)
     {
         var blog = await _context.Blogs
             .FirstOrDefaultAsync(x => x.BlogId == blogId);
@@ -763,6 +768,30 @@ public class AdminService : IAdminService
         }
 
         // ---------------------------------------------
+        // AI content moderation
+        // ---------------------------------------------
+
+        var moderationResult =
+            await _contentModerationService.ScanBlogContentAsync(
+                blog.Title,
+                blog.Content);
+
+        if (!moderationResult.IsSafe)
+        {
+            _logger.LogWarning(
+                "Blog {BlogId} failed AI content moderation during admin approval. Reason: {Reason}",
+                blogId,
+                moderationResult.Reason);
+
+            return new ApiResponse<BlogApprovalResponseDto>
+            {
+                Success = false,
+                Message = moderationResult.Reason ??
+                          "Blog content failed AI moderation and cannot be published."
+            };
+        }
+
+        // ---------------------------------------------
         // Approve the blog
         // ---------------------------------------------
 
@@ -772,7 +801,7 @@ public class AdminService : IAdminService
         blog.UpdatedAt = DateTime.UtcNow;
 
         // ---------------------------------------------
-        // Count user's published blogs
+        // Count user's already published blogs
         // ---------------------------------------------
 
         var publishedBlogCount = await _context.Blogs
@@ -784,7 +813,7 @@ public class AdminService : IAdminService
         // Assign Trusted badge after 3rd approval
         // ---------------------------------------------
 
-        if (publishedBlogCount >= 3)
+        if (publishedBlogCount + 1 >= 3)
         {
             var trustedBadge = await _context.Badges
                 .FirstOrDefaultAsync(x => x.Name == "Trusted");
@@ -801,13 +830,18 @@ public class AdminService : IAdminService
                     _context.UserBadges.Add(new UserBadges
                     {
                         UserId = blog.UserId,
-                        BadgeId = trustedBadge.BadgeId
+                        BadgeId = trustedBadge.BadgeId,
+                        EarnedAt = DateTime.UtcNow
                     });
                 }
             }
         }
 
         await _context.SaveChangesAsync();
+
+        // ---------------------------------------------
+        // Return success response
+        // ---------------------------------------------
 
         return new ApiResponse<BlogApprovalResponseDto>
         {
@@ -821,6 +855,7 @@ public class AdminService : IAdminService
             }
         };
     }
+
 
     public async Task<ApiResponse<BlogApprovalResponseDto>>
     RejectBlogAsync(int blogId, int adminUserId)

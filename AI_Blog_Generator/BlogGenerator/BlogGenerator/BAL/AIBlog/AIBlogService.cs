@@ -4,10 +4,11 @@ using BlogGenerator.Interfaces;
 using BlogGenerator.ServiceModels.v1.AIBlog;
 using BlogGenerator.DomainModels.v1;
 using Microsoft.EntityFrameworkCore;
-using BlogGenerator.Interfaces;
+using BlogGenerator.Interfaces.ContentModeration;
 using BlogGenerator.DomainModels.v1;
 using BlogGenerator.ServiceModels.v1.Blog;
 using BlogGenerator.Foundation.Exceptions;
+using BlogGenerator.Interfaces.KeywordRestriction;
 
 using BlogEntity = BlogGenerator.DomainModels.v1.Blog;
 
@@ -19,18 +20,24 @@ public class AIBlogService : IAIBlogService
     private readonly IAIProviderService _aiProvider;
     private readonly ILogger<AIBlogService> _logger;
     private readonly IImageStorageService _imageStorageService;
+    private readonly IContentModerationService _contentModerationService;
+    private readonly IKeywordRestrictionService _keywordRestrictionService;
 
     public AIBlogService(
         ApplicationDbContext context,
         IAIProviderService aiProvider,
         IImageStorageService imageStorageService,
-        ILogger<AIBlogService> logger
+        ILogger<AIBlogService> logger,
+        IContentModerationService contentModerationService,
+        IKeywordRestrictionService keywordRestrictionService
         )
     {
         _context = context;
         _aiProvider = aiProvider;
         _imageStorageService = imageStorageService;
         _logger = logger;
+        _contentModerationService = contentModerationService;
+        _keywordRestrictionService = keywordRestrictionService;
     }
 
     // =========================================================
@@ -66,6 +73,15 @@ public class AIBlogService : IAIBlogService
                 "Insufficient credits.");
 
         var prompt = BuildGenerationPrompt(request);
+
+        var keywordCheck =
+    _keywordRestrictionService.CheckText(prompt);
+
+        if (!keywordCheck.IsAllowed)
+        {
+            throw new InvalidOperationException(
+                keywordCheck.Message);
+        }
 
         var content = await _aiProvider.GenerateBlogAsync(prompt);
 
@@ -162,7 +178,14 @@ public class AIBlogService : IAIBlogService
             $"Maintain the original topic and general purpose.\n\n" +
             $"Title: {blog.Title}\n\n" +
             $"Original Content:\n{blog.Content}";
+        var keywordCheck =
+    _keywordRestrictionService.CheckText(blog.Content);
 
+        if (!keywordCheck.IsAllowed)
+        {
+            throw new InvalidOperationException(
+                keywordCheck.Message);
+        }
         var content = await _aiProvider.GenerateBlogAsync(prompt);
 
         if (string.IsNullOrWhiteSpace(content))
@@ -214,6 +237,14 @@ public class AIBlogService : IAIBlogService
             throw new InvalidOperationException(
                 "Insufficient credits.");
 
+        var keywordCheck =
+    _keywordRestrictionService.CheckText(request?.Instructions);
+
+        if (!keywordCheck.IsAllowed)
+        {
+            throw new InvalidOperationException(
+                keywordCheck.Message);
+        }
         var content = await _aiProvider.ExpandBlogAsync(
             blog.Content,
             request?.Instructions);
@@ -265,6 +296,15 @@ public class AIBlogService : IAIBlogService
             throw new InvalidOperationException(
                 "Insufficient credits.");
 
+        var keywordCheck =
+    _keywordRestrictionService.CheckText(request?.Instructions);
+
+        if (!keywordCheck.IsAllowed)
+        {
+            throw new InvalidOperationException(
+                keywordCheck.Message);
+        }
+
         var content = await _aiProvider.ShortenBlogAsync(
             blog.Content,
             request?.Instructions);
@@ -315,7 +355,14 @@ public class AIBlogService : IAIBlogService
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(
                 "Insufficient credits.");
+        var keywordCheck =
+    _keywordRestrictionService.CheckText(request?.Prompt);
 
+        if (!keywordCheck.IsAllowed)
+        {
+            throw new InvalidOperationException(
+                keywordCheck.Message);
+        }
         var prompt = string.IsNullOrWhiteSpace(request?.Prompt)
             ? $"Create a professional blog cover image for: {blog.Title}"
             : request.Prompt;
@@ -411,7 +458,14 @@ public class AIBlogService : IAIBlogService
         if (user.AvailableCredits < creditsRequired)
             throw new InvalidOperationException(
                 "Insufficient credits.");
+        var keywordCheck =
+    _keywordRestrictionService.CheckText(request.Instructions);
 
+        if (!keywordCheck.IsAllowed)
+        {
+            throw new InvalidOperationException(
+                keywordCheck.Message);
+        }
         var content = await _aiProvider.RewriteBlogAsync(
             blog.Content,
             request.Instructions);
@@ -682,7 +736,27 @@ public class AIBlogService : IAIBlogService
             throw new InvalidOperationException(
                 "This blog was rejected and cannot be published.");
         }
+        // ---------------------------------------------------------
+        // AI content moderation
+        // ---------------------------------------------------------
 
+        var moderationResult =
+            await _contentModerationService.ScanBlogContentAsync(
+                blog.Title,
+                blog.Content);
+
+        if (!moderationResult.IsSafe)
+        {
+            _logger.LogWarning(
+                "Blog {BlogId} failed AI content moderation for user {UserId}. Reason: {Reason}",
+                blogId,
+                userId,
+                moderationResult.Reason);
+
+            throw new InvalidOperationException(
+                moderationResult.Reason ??
+                "Blog content failed AI moderation and cannot be published.");
+        }
         // ---------------------------------------------------------
         // Count user's approved/published blogs
         // ---------------------------------------------------------

@@ -21,6 +21,12 @@ using QuestPDF.Infrastructure;
 using Serilog;
 using System.Text;
 using System.Text.Json.Serialization;
+using BlogGenerator.BAL;
+using BlogGenerator.BAL.ContentModeration;
+using BlogGenerator.Interfaces;
+using BlogGenerator.Interfaces.ContentModeration;
+using BlogGenerator.Interfaces.KeywordRestriction;
+using BlogGenerator.BAL.KeywordRestriction;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -138,6 +144,10 @@ builder.Services.AddScoped<IIssueService, IssueService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddScoped<IAdminService, AdminService>();
+
+builder.Services.AddScoped<IContentModerationService,ContentModerationService>();
+
+builder.Services.AddScoped<IKeywordRestrictionService,KeywordRestrictionService>();
 
 var app = builder.Build();
 

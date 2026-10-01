@@ -161,7 +161,7 @@ public class AIBlogController : ControllerBase
         var userId = GetUserId();
 
         var result = await _aiBlogService
-            .PublishBlogAsync(blogId, userId);
+            .PublishBlogAsync(userId, blogId);
 
         return Ok(result);
     }
